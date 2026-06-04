@@ -23,19 +23,22 @@ There is nothing to build, lint, or test. Changes are verified by reloading the 
 
 ## Asset version (cache busting)
 
-**Current version: `26`**
+The single source of truth is **`version.js`** at the repo root:
 
-All JS/CSS references carry a `?v=<version>` query string so browsers fetch fresh copies after an update instead of serving a stale cached file. The token lives here in CLAUDE.md as the source of truth.
+```js
+window.ASSET_V = "26";
+```
 
-**When you ship a change to any of `app.js`, `data.js`, `config.js`, `styles.css`, `slides.js`, or `slides.css`, bump the version:**
-1. Increment the number above (`1` → `2`).
-2. Replace every `?v=<old>` with `?v=<new>` across `index.html` and `slides/*.html`. One command does it (run from repo root, substituting the numbers):
-   ```sh
-   sed -i '' 's|?v=1|?v=2|g' index.html slides/*.html
-   ```
-3. Sanity-check: `grep -rc '?v=2' index.html slides/*.html` should show `4` for `index.html` and `3` for each slide.
+All JS/CSS references carry a `?v=<version>` query string so browsers fetch fresh copies after an update instead of serving a stale cached file. But the HTML no longer hardcodes the number. Each page loads `version.js` first (it sets `window.ASSET_V`), then a tiny inline loader uses `document.write` to emit the real `<script>`/`<link>` tags with `?v=<ASSET_V>` appended. `document.write` runs synchronously during parse, so script **load order is preserved** (important — see below) and `app.js` still registers its `DOMContentLoaded` listener in time.
 
-The version is global — one token covers every asset. Bump it for any meaningful change; there's no need for per-file versions.
+**When you ship a change to any of `app.js`, `data.js`, `config.js`, `styles.css`, `slides.js`, `slides.css`, `auth.js`, `drive-sync.js`, or `progress-store.js`, bump the version — edit one line:**
+
+1. Increment the number in `version.js` (`"26"` → `"27"`).
+2. That's it. No `sed`, no touching `index.html` or `slides/*.html`. They read the new value at runtime.
+
+**Why this is safe on GitHub Pages:** `version.js` itself carries no `?v=`, so it rides GitHub Pages' ~10-minute cache TTL — the same TTL the HTML already had. After you push, browsers pick up the new `ASSET_V` within ≤10 min and every asset URL rebusts in lockstep. (Plain GitHub Pages can't set custom `Cache-Control` headers, which is why a query-string scheme is still the mechanism — we've just collapsed it to one file.)
+
+The version is global — one token covers every asset. Bump it for any meaningful change; there's no need for per-file versions. **Do not reintroduce hardcoded `?v=` strings in the HTML** (`grep -rn '?v=' index.html slides/*.html` should return nothing).
 
 ## Architecture
 

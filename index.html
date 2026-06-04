@@ -13,7 +13,8 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="styles.css?v=26" />
+  <script src="version.js"></script>
+  <script>document.write('<link rel="stylesheet" href="styles.css?v=' + ASSET_V + '">');</script>
 
   <link
     rel="icon"
@@ -29,12 +30,13 @@
   <!-- Google Identity Services (async — never blocks offline rendering) -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-  <script src="config.js?v=26"></script>
-  <script src="data.js?v=26"></script>
-  <script src="auth.js?v=26"></script>
-  <script src="drive-sync.js?v=26"></script>
-  <script src="progress-store.js?v=26"></script>
-  <script src="app.js?v=26"></script>
+  <script>
+    // Single source of truth for the asset version is version.js (window.ASSET_V),
+    // loaded in <head>. document.write keeps these synchronous + in-order during
+    // parse, so app.js still registers its DOMContentLoaded listener in time.
+    ['config.js','data.js','auth.js','drive-sync.js','progress-store.js','app.js']
+      .forEach(s => document.write('<script src="' + s + '?v=' + ASSET_V + '"><\/script>'));
+  </script>
 
   <script>
     // Intercept in-app links so the hashchange handler runs cleanly.

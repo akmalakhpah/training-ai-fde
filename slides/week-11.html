@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="slides.css?v=26" />
+  <script src="../version.js"></script>
+  <script>document.write('<link rel="stylesheet" href="slides.css?v=' + ASSET_V + '">');</script>
 </head>
 <body data-week-num="11" data-deck-title="Week 11 · Slides">
   <div class="deck">
@@ -256,7 +257,11 @@
     </section>
 
   </div>
-  <script src="../config.js?v=26"></script>
-  <script src="slides.js?v=26"></script>
+  <script>
+    // Asset version comes from ../version.js (window.ASSET_V), loaded in <head>.
+    ['../config.js','slides.js'].forEach(function (s) {
+      document.write('<script src="' + s + '?v=' + ASSET_V + '"><\/script>');
+    });
+  </script>
 </body>
 </html>
