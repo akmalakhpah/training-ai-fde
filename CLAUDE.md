@@ -23,7 +23,7 @@ There is nothing to build, lint, or test. Changes are verified by reloading the 
 
 ## Asset version (cache busting)
 
-**Current version: `19`**
+**Current version: `20`**
 
 All JS/CSS references carry a `?v=<version>` query string so browsers fetch fresh copies after an update instead of serving a stale cached file. The token lives here in CLAUDE.md as the source of truth.
 

@@ -446,7 +446,7 @@ h1.page-title {
   font-size: 1.125rem;
   color: var(--color-text-muted);
   margin: 0;
-  max-width: 720px;
+  max-width: 90%;
 }
 
 /* =========================================================
