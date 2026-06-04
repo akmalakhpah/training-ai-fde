@@ -48,6 +48,8 @@ The version is global — one token covers every asset. Bump it for any meaningf
 
 1. **`config.js`** → sets `window.programConfig` (the program `startDate`) and `window.programSchedule` (unlock-date math + instructor mode).
 2. **`data.js`** → sets the `courseData` object: the **single source of truth** for everything the app renders (meta, philosophy, phases, all 12 weeks, landscape, assessment, glossary).
+
+   **Glossary edits:** before adding a new term to `courseData.glossary`, grep for it first (`grep -n '"<Term>"' data.js`) to confirm it isn't already defined — the list is long and grouped into sections, so duplicates are easy to introduce. If it exists, update that entry instead of adding a second one.
 3. **`app.js`** → the SPA itself: state, routing, rendering.
 
 ### The app (`app.js`)
