@@ -509,6 +509,12 @@ function renderHome() {
       <p class="page-subtitle">${esc(courseData.meta.subtitle)}</p>
     </header>
 
+    <div class="glass-card lg content-block" style="margin-bottom: var(--space-xl);">
+      <h2 class="section-title">Course overview</h2>
+      ${courseData.philosophy.body.map((p) => `<p>${esc(p)}</p>`).join("")}
+      <p style="margin-bottom: 0;">Over <strong>${esc(courseData.meta.duration)}</strong> across four phases, you'll move from production engineering foundations, through building reliable AI applications, into the FDE craft of scoping and customer communication, and finish with a real embedded capstone deployment. Every week ends in a shippable deliverable. <a href="#/philosophy" data-link>Read the full philosophy →</a></p>
+    </div>
+
     <div class="bento">
       <div class="glass-card bento-item">
         <p class="bento-eyebrow">Duration</p>
