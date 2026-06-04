@@ -4,22 +4,22 @@
 **Class owner:** AI Engineer
 **Time budget:** Taught class 90 min, self-learn 6 to 8 hrs, project 6 to 8 hrs, assessment 2 to 3 hrs (total ~16 to 20 hrs)
 
-> Heaviest week of Phase 1. The intern picks one path, AWS or Cloudflare, not both. The other is shown in class but not required for the build.
+> Heaviest week of Phase 1. You pick one path, AWS or Cloudflare, not both. You'll see the other in class, but it's not required for your build.
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Take a service from local to live on AWS or Cloudflare.
 - Expose a working API endpoint and keep config and secrets out of the code.
 - Know when a service is broken and why, using logs and metrics.
-- Diagnose and recover from a failure they caused on purpose.
+- Diagnose and recover from a failure you caused on purpose.
 
 ---
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: show how a service goes live, how you know when it breaks, and how you recover, ending with a live incident the class diagnoses together. This outline is the brief for the slide deck.
+> Purpose: show you how a service goes live, how you know when it breaks, and how you recover, ending with a live incident you'll diagnose together with the class. This outline is the brief for the slide deck.
 
 ### Slide-by-slide outline
 
@@ -30,47 +30,47 @@ By the end of the week the intern can:
 **Block 2: What "live" actually means (8 min)**
 - Local vs a real environment: who can reach it, what can change underneath it.
 - The pieces: a build artifact, an environment, configuration, secrets, a public endpoint.
-- Talking point: the demo runs on your laptop. Production runs where you are not watching.
+- The key point: the demo runs on your laptop. Production runs where you are not watching.
 
 **Block 3: Containers and environments (10 min)**
 - Why containers: the same thing runs the same way everywhere.
 - Environments and why you separate them: dev, staging, prod.
-- Live: show a small service and its container definition.
+- In class you'll see a small service and its container definition.
 
 **Block 4: Configuration and secrets (10 min)**
 - The rule: nothing secret in the code, nothing environment-specific hardcoded.
 - Environment variables and secret stores.
-- Live: move one hardcoded value into an environment variable and redeploy.
-- Talking point: a secret in git history is a secret forever. Treat it as already leaked.
+- You'll watch a hardcoded value get moved into an environment variable and redeployed.
+- The key point: a secret in git history is a secret forever. Treat it as already leaked.
 
 **Block 5: Two paths to live (14 min)**
 - Path A, AWS: a small service on managed compute (for example a container service or a serverless function).
 - Path B, Cloudflare: a Worker on the edge with Wrangler.
 - When the edge is the right choice: low latency, light compute, global reach. When it is not: heavy compute, long-running jobs.
-- Live: deploy a hello-world on both, hit the public URL.
+- You'll see a hello-world deployed on both, with the public URL hit live.
 
 **Block 6: Observability (12 min)**
 - Logs, metrics, and the difference. Logs tell you what happened; metrics tell you how often and how bad.
 - What to log and what not to (never log secrets or personal data).
-- Live: open the logs of the deployed service and read a real request.
+- You'll see the logs of the deployed service opened and a real request read.
 
 **Block 7: The live incident (14 min)**
-- Live: break the service on purpose (a bad config, a missing env var, a thrown error).
-- The class diagnoses it together using only the logs and metrics, not the source.
-- Walk the recovery: form a hypothesis, check the logs, fix, redeploy, confirm.
-- Talking point: stay calm and read. The logs almost always told you already.
+- The service gets broken on purpose (a bad config, a missing env var, a thrown error).
+- You'll diagnose it together with the class using only the logs and metrics, not the source.
+- You'll walk the recovery: form a hypothesis, check the logs, fix, redeploy, confirm.
+- The key point: stay calm and read. The logs almost always told you already.
 
 **Block 8: API design in one slide (5 min)**
 - A clean endpoint: clear inputs, clear outputs, sensible status codes.
 - This is what your project's service will expose.
 
 **Block 9: Project and wrap (4 min)**
-- Walk the project brief and assessment. Q&A.
+- You'll walk through the project brief and assessment. Q&A.
 
-### Live demo checklist for the instructor
-- A small service deployable to both AWS and Cloudflare.
-- The ability to break it live (toggle a bad env var or config).
-- Access to the logs and metrics dashboards for both paths.
+### What you'll see demonstrated live
+- A small service deployed to both AWS and Cloudflare.
+- That service broken live — a toggled bad env var or config.
+- The logs and metrics dashboards for both paths.
 
 ---
 

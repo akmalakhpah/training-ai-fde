@@ -2,29 +2,29 @@
 
 **Phase:** 0, Setup
 **Class owner:** You + AI Engineer
-**Time budget:** Setup ~3 to 4 hrs, diagnostic ~1 hr (ungraded). Runs before the cohort officially starts.
+**Time budget:** Setup ~3 to 4 hrs, diagnostic ~1 hr (ungraded). You do this before the course officially starts.
 
 ## Purpose
 
-Get every tool installed and authenticated so nobody loses Week 1 to a broken environment, stand up the one place every assessment is submitted (a public GitHub repository), and take a light, ungraded reading of where the cohort actually starts. This week is deliberately light: only the tools the early weeks need are set up now. Conductor, the MCP SDK, the vector store, and N8N are provisioned later, just before the weeks that use them.
+Get every tool installed and authenticated so you don't lose Week 1 to a broken environment, stand up the one place you submit every assessment (a public GitHub repository), and take a light, ungraded reading of where you actually start. This week is deliberately light: you only set up the tools the early weeks need. Conductor, the MCP SDK, the vector store, and N8N are provisioned later, just before the weeks that use them.
 
 ## Learning objectives
 
-By the end of Week 0 the intern can:
+By the end of Week 0 you can:
 
 - Open VS Code, use its integrated terminal, and run commands.
 - Use **VS Code as the hub** that pulls in the rest of the toolchain — Git, Python 3.12+, Node.js LTS — through its extensions and built-in prompts, instead of hunting down five separate installers.
 - Use GitHub from inside VS Code (sign in, clone, commit, push) — and from the command line when needed.
-- Create and use a public `training-ai-fde` repository as their submission home.
+- Create and use a public `training-ai-fde` repository as your submission home.
 - Run Claude in **both** surfaces — the Claude Desktop app and the Claude Code extension in VS Code — signed in with the program-provided Claude Pro account, against a real folder.
-- Create their own free accounts and confirm access to Python, Node, Google + Gemini, and free-tier AWS and Cloudflare.
+- Create your own free accounts and confirm access to Python, Node, Google + Gemini, and free-tier AWS and Cloudflare.
 - Keep secrets (any API key you create) out of version control.
 
 ---
 
 ## 1. The Submission Repository (do this first)
 
-Every weekly assessment in this course is submitted on the intern's own GitHub. Each intern creates **one public repository named exactly `training-ai-fde`**, and it becomes the home for all twelve weeks. This mirrors how an FDE actually works: output lives in version control, in the open, where a reviewer can read it without the author in the room.
+You submit every weekly assessment in this course on your own GitHub. You create **one public repository named exactly `training-ai-fde`**, and it becomes the home for all twelve weeks. This mirrors how an FDE actually works: output lives in version control, in the open, where a reviewer can read it without you in the room.
 
 ### Steps
 
@@ -122,7 +122,7 @@ You download **two apps by hand — VS Code and Claude Desktop.** Everything els
 
 ## 4. Diagnostic (about 1 hour, ungraded)
 
-A short coding warm-up plus two or three questions on GitHub, the command line, and reading an unfamiliar function. **Calibration, not a gate** — it tells the teaching team where the cohort actually starts so the early weeks can flex.
+A short coding warm-up plus two or three questions on GitHub, the command line, and reading an unfamiliar function. **Calibration, not a gate** — it tells the teaching team where you actually start so the early weeks can flex.
 
 ### Tasks
 - A small coding warm-up (a function and a couple of test cases) in your language of choice.

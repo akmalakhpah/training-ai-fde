@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Automate a real workflow end to end with N8N.
 - Trigger work on events and schedules, not manual clicks.
@@ -17,44 +17,44 @@ By the end of the week the intern can:
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: turn a manual task into an automation that runs itself, then break a step and show it failing safely. This outline is the brief for the slide deck.
+> Purpose: turn a manual task into an automation that runs itself, then break a step and watch it fail safely. This outline is the brief for the slide deck.
 
-### Slide-by-slide outline
+### What you'll cover
 
-**Block 1: Title and framing (3 min)**
-- Slide: "Automation with N8N."
-- One line: an FDE removes manual work. The customer remembers the toil you deleted, not the model you called.
+**Title and framing**
+- "Automation with N8N."
+- The one line to hold onto: an FDE removes manual work. The customer remembers the toil you deleted, not the model you called.
 
-**Block 2: What N8N is (8 min)**
+**What N8N is**
 - A visual workflow tool: nodes connected into a flow, data passed between them.
 - Nodes, triggers, actions, and the data that moves through.
-- Talking point: it is glue and orchestration, not a place to hide real logic.
+- The takeaway: it is glue and orchestration, not a place to hide real logic.
 
-**Block 3: Triggers (10 min)**
+**Triggers**
 - Manual, schedule (cron), and webhook triggers.
-- Live: a webhook node that generates a URL and fires the flow when called.
-- Talking point: the trigger is the difference between a script you run and a system that runs itself.
+- You'll see a webhook node that generates a URL and fires the flow when called.
+- The takeaway: the trigger is the difference between a script you run and a system that runs itself.
 
-**Block 4: A first real flow (12 min)**
-- Live: build a flow where an incoming webhook posts a message to Slack or writes a row to a Google Sheet.
+**A first real flow**
+- You'll see a flow built where an incoming webhook posts a message to Slack or writes a row to a Google Sheet.
 - Reading the data between nodes; mapping fields.
 
-**Block 5: Adding an AI call (12 min)**
-- Live: add a Claude API node that processes the incoming data and returns structured output, then route the result onward.
+**Adding an AI call**
+- You'll see a Claude API node added that processes the incoming data and returns structured output, then routes the result onward.
 
-**Block 6: Wiring in the Week 6 MCP agent (12 min)**
-- Live: trigger the MCP server built in Week 6 from an N8N event instead of running it by hand.
+**Wiring in the Week 6 MCP agent**
+- You'll see the MCP server you built in Week 6 triggered from an N8N event instead of run by hand.
 - This is the moment the two weeks join into one pipeline: event, agent, action.
 
-**Block 7: Failure handling (16 min)**
+**Failure handling**
 - Why it matters: an automation that fails silently is worse than no automation, because no one notices.
-- Live: break a step on purpose, then add a retry, an error branch, and an alert.
-- Talking point: design the unhappy path on purpose. It is the part that pages you at 2am.
+- You'll see a step broken on purpose, then a retry, an error branch, and an alert added.
+- The takeaway: design the unhappy path on purpose. It is the part that pages you at 2am.
 
-**Block 8: Project and wrap (7 min)**
-- Walk the project brief and assessment, including the reliability check. Q&A.
+**Project and wrap**
+- You'll walk through the project brief and assessment, including the reliability check.
 
-### Live demo checklist for the instructor
+### What you'll need to follow along
 - An N8N instance ready, with Slack and Google Sheets connected.
 - The Week 6 MCP server reachable from N8N.
 - A step that can be broken on purpose to demonstrate the error branch.
@@ -140,4 +140,4 @@ A real event fires your workflow, it calls AI and delivers a useful result, and 
 
 ## End of Phase 2: mid-course checkpoint
 
-After this week, before Phase 3, sit the mid-course checkpoint: a half-day review of all seven deliverables for trend. Any intern shaky on a Phase 2 foundation (LLM patterns, RAG, MCP, or automation) gets a short remediation task before Week 8.
+After this week, before Phase 3, you sit the mid-course checkpoint: a half-day review of all seven of your deliverables for trend. If you are shaky on a Phase 2 foundation (LLM patterns, RAG, MCP, or automation), you get a short remediation task before Week 8.

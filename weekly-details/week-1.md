@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Explain what separates a student repo from a production system.
 - Work inside a large codebase written by other people without freezing.
@@ -18,64 +18,64 @@ By the end of the week the intern can:
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: a guided tour of every move the intern will make alone this week, so nothing in the project is first seen solo. This outline is the brief for the slide deck. Each numbered block is roughly one to three slides.
+> Purpose: a guided tour of every move you'll make alone this week, so nothing in the project is first seen solo. This outline is the brief for the slide deck. Each numbered block is roughly one to three slides.
 
 ### Slide-by-slide outline
 
-**Block 1: Title and why this week (3 min)**
-- Slide: "From Coursework to Production."
+**Block 1: Title and why this week**
+- "From Coursework to Production."
 - One line: most software does not fail in development, it fails in deployment. This week is about the habits that survive contact with a real system.
-- The three muscles: ship real work, stay functional in broken systems, translate between humans and machines.
+- The three muscles you're building: ship real work, stay functional in broken systems, translate between humans and machines.
 
-**Block 2: Coursework vs production (8 min)**
+**Block 2: Coursework vs production**
 - A side-by-side table. Student repo: one author, runs once, no tests, no review, throwaway. Production repo: many authors, runs for years, tests required, every change reviewed, history matters.
 - What "done" means in production: merged, tested, reviewed, observable, and not breaking anyone else.
-- Talking point: your degree optimized for getting it working once. The field optimizes for it staying working while others change it.
+- Your degree optimized for getting it working once. The field optimizes for it staying working while others change it.
 
-**Block 3: Anatomy of a production repo (10 min)**
-- Live: open a real internal Pandai service in VS Code.
+**Block 3: Anatomy of a production repo**
+- You'll see a real internal Pandai service opened in VS Code.
 - Walk the top-level structure: where config lives, where source lives, where tests live, the README, the CI config.
-- Point out the signals of a healthy repo: a CLAUDE.md or README, a tests folder, a CI workflow file, a clear module boundary.
+- The signals of a healthy repo to look for: a CLAUDE.md or README, a tests folder, a CI workflow file, a clear module boundary.
 
-**Block 4: Reading an unfamiliar codebase (12 min)**
+**Block 4: Reading an unfamiliar codebase**
 - The method: find the entry point, follow one request through to the data and back, ignore error handling and edge cases on the first pass.
-- Live: pick one user-facing action and trace it. Use "jump to definition" to drill down the call stack.
-- The three questions every intern must answer about the project repo this week: where does a request enter, where does it hit the database, where does the response leave.
-- Talking point: you understand a codebase by changing it, not just reading it. Reading gets you to your first change faster.
+- You'll watch one user-facing action get traced. Use "jump to definition" to drill down the call stack.
+- The three questions you must answer about the project repo this week: where does a request enter, where does it hit the database, where does the response leave.
+- You understand a codebase by changing it, not just reading it. Reading gets you to your first change faster.
 
-**Block 5: GitHub for real (12 min)**
+**Block 5: GitHub for real**
 - Beyond commit and push: branching model, feature branches, keeping history clean.
 - Rebase vs merge, in one diagram. When to rebase (clean up your own branch) and when not to (shared history).
-- Live: create a branch, make two commits, create a conflict on purpose, resolve it.
+- You'll see a branch created, two commits made, a conflict created on purpose, and resolved.
 
-**Block 6: The pull request lifecycle (12 min)**
+**Block 6: The pull request lifecycle**
 - Branch, open a PR, request review, respond to comments, get approval, merge.
 - What a good PR looks like: small, one concern, a clear description, tests included.
-- Live: open a real PR and walk the description, the diff, and the review thread.
+- You'll see a real PR opened, walking the description, the diff, and the review thread.
 
-**Block 7: CI/CD with GitHub Actions (8 min)**
+**Block 7: CI/CD with GitHub Actions**
 - What CI is and why it exists: the robot that checks your work before a human does.
-- Live: a GitHub Actions pipeline that fails (a broken test), then push a fix, then it passes.
-- Talking point: green CI is the floor, not the ceiling.
+- You'll watch a GitHub Actions pipeline fail (a broken test), then a fix get pushed, then it passes.
+- Green CI is the floor, not the ceiling.
 
-**Block 8: Testing code you did not write (8 min)**
+**Block 8: Testing code you did not write**
 - Why tests matter more in shared code: they are how you change things without fear.
-- Live: write one test for an existing function nobody on the call wrote, a happy path and an edge case.
+- You'll see one test written for an existing function nobody on the call wrote, a happy path and an edge case.
 
-**Block 9: Driving one Claude Code agent (12 min)**
-- Live: open Claude Code in VS Code. Brief it with context, scope a task narrowly, and review the diff before accepting.
-- Show it being confidently wrong on purpose, and how to catch it: read the diff, run the test, ask it to justify a change.
-- Talking point: the agent is fast, not trustworthy. Your job is supervision.
+**Block 9: Driving one Claude Code agent**
+- You'll watch Claude Code open in VS Code, get briefed with context, scoped to a task narrowly, and its diff reviewed before accepting.
+- You'll see it being confidently wrong on purpose, and how to catch it: read the diff, run the test, ask it to justify a change.
+- The agent is fast, not trustworthy. Your job is supervision.
 
-**Block 10: The "no agent" rep and the project (5 min)**
-- Why the first bug this week is fixed by hand: you cannot supervise an agent if you have never debugged without one.
-- Walk the project brief and the assessment. Q&A.
+**Block 10: The "no agent" rep and the project**
+- Why you fix the first bug this week by hand: you cannot supervise an agent if you have never debugged without one.
+- You'll walk through the project brief and the assessment, with time for your questions.
 
-### Live demo checklist for the instructor
+### What you'll see demonstrated live
 - A real repo cloned and ready.
 - A pre-made branch with a deliberate merge conflict.
 - A PR already open with review comments.
-- A CI pipeline that can be made to fail and pass on demand.
+- A CI pipeline made to fail and pass on demand.
 - Claude Code authenticated inside VS Code.
 
 ---

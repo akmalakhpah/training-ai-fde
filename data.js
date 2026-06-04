@@ -842,6 +842,7 @@ const courseData = {
     { term: "Reliability check", def: "A one-line statement, required on every Phase 2 deliverable, naming one failure mode and what catches it — so systems are built expecting failure." },
     { term: "Capstone", def: "The final exam (Weeks 11–12): a real, scoped internal Pandai deployment with a real owner and a real deadline." },
     { term: "Mentor", def: "An experienced FDE paired one-to-one with each intern for the program — there to unblock, not to rescue." },
+    { term: "Cohort", def: "The group of interns who go through the 12-week program together, moving week by week on the same schedule — your peers for reviews, pairing, and shared deadlines." },
 
     // --- AI / LLM concepts ---
     { term: "LLM", def: "Large Language Model. The text-generation model at the foundation of everything built in the course." },

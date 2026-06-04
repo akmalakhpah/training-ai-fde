@@ -4,11 +4,11 @@
 **Class owner:** AI Engineer
 **Time budget:** Taught class 90 min, self-learn 6 to 8 hrs, project 6 to 8 hrs, assessment 2 to 3 hrs (total ~16 to 20 hrs)
 
-> Heavy week. The vector store is provisioned just before this week so setup does not eat into the build.
+> Heavy week. The vector store is provisioned just before this week so setup does not eat into your build.
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Explain why models need grounding and how RAG works end to end.
 - Build a RAG pipeline: chunk, embed, retrieve, assemble a grounded answer.
@@ -30,7 +30,7 @@ By the end of the week the intern can:
 **Block 2: Why grounding (8 min)**
 - The failure without it: confident, fluent, wrong (hallucination).
 - Grounding: answer from retrieved source text, not from memory.
-- Talking point: an FDE ships systems that can cite where the answer came from.
+- The key point: an FDE ships systems that can cite where the answer came from.
 
 **Block 3: The RAG pipeline end to end (12 min)**
 - Two phases. Indexing: chunk, embed, store. Query: embed the question, retrieve nearest chunks, assemble a grounded prompt, generate.
@@ -40,35 +40,35 @@ By the end of the week the intern can:
 - Why chunk at all: documents are too big for one prompt and too coarse for good retrieval.
 - Strategies: fixed size, by paragraph, by heading, with overlap.
 - A working default: 256 to 512 tokens with slight overlap.
-- Live: chunk the same document three ways and show what changes.
+- You'll see the same document chunked three ways and what changes.
 
 **Block 5: Embeddings and similarity (12 min)**
 - An embedding is a vector that captures meaning; similar meaning, nearby vectors.
 - Vector stores and nearest-neighbour search.
-- Live: embed ten documents, run one query, read the similarity scores out loud.
+- You'll see ten documents embedded, one query run, and the similarity scores read out loud.
 
 **Block 6: Assembling the grounded answer (10 min)**
 - Stuffing retrieved chunks into the prompt with the question.
 - Asking the model to answer only from the provided context and to say when it cannot.
-- Live: a working RAG answer over a real curriculum-style corpus.
+- You'll see a working RAG answer over a real curriculum-style corpus.
 
 **Block 7: When RAG retrieves the wrong thing (14 min)**
-- Live: show the same system confidently retrieving the wrong chunk, and explain why (bad chunk boundary, ambiguous query, semantic-but-irrelevant match).
+- You'll see the same system confidently retrieving the wrong chunk, and why (bad chunk boundary, ambiguous query, semantic-but-irrelevant match).
 - Failure modes: missing context, distracting context, the right answer split across chunks.
-- Talking point: the scary failure is not "no answer", it is a confident wrong answer.
+- The key point: the scary failure is not "no answer", it is a confident wrong answer.
 
 **Block 8: When not to use RAG (6 min)**
 - When a plain prompt, a database lookup, or a simple rule wins.
-- Talking point: reaching for RAG by reflex is a common FDE mistake.
+- The key point: reaching for RAG by reflex is a common FDE mistake.
 
 **Block 9: Measuring retrieval and the project (8 min)**
 - Quick intro to measuring retrieval quality (did the right source come back).
-- Walk the project brief and assessment, including the reliability check. Q&A.
+- You'll walk through the project brief and assessment, including the reliability check. Q&A.
 
-### Live demo checklist for the instructor
+### What you'll see demonstrated live
 - A small RAG pipeline over a real curriculum-style corpus.
 - A query that retrieves well and a query that retrieves the wrong chunk on purpose.
-- The vector store and embedding calls visible to the class.
+- The vector store and embedding calls, visible as they happen.
 
 ---
 

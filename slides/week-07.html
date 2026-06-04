@@ -13,7 +13,7 @@
 <body data-week-num="7" data-deck-title="Week 07 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to Week 7 — the last taught class before the mid-course checkpoint. This week the theme shifts from 'building AI capabilities' to 'making them run without you'. An FDE is judged by the toil they delete, not the models they invoke. Set the tone: by end of class the cohort will have watched a workflow trigger itself, call AI, and recover from failure — all without anyone clicking a button.">
+    <section class="slide title" data-notes="Welcome to Week 7 — the last taught class before the mid-course checkpoint. This week the theme shifts from 'building AI capabilities' to 'making them run without you'. An FDE is judged by the toil they delete, not the models they invoke. By the end of this week you will have watched a workflow trigger itself, call AI, and recover from failure — all without anyone clicking a button.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 07 · Phase 2 — AI Application Engineering</span>
         <h1>Automation with N8N</h1>
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="slide quote" data-notes="Drop this hard and let it sit. When a customer remembers a product, they remember the friction that was removed — the report that used to take an hour and now just appears, the alert that used to require a dashboard check and now pings Slack. The model is invisible; the time savings are not. That is what automation delivers, and that is what an FDE is paid to produce.">
+    <section class="slide quote" data-notes="Let this one sit. When a customer remembers a product, they remember the friction that was removed — the report that used to take an hour and now just appears, the alert that used to require a dashboard check and now pings Slack. The model is invisible; the time savings are not. That is what automation delivers, and that is what an FDE is paid to produce.">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The FDE promise</span>
         <p class="pull-quote">The customer remembers the toil you deleted, not the model you called.</p>
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="State the four objectives clearly. These are the things trainees should be able to do by Friday — not 'have heard about'. Anchor everything in the class against one of these four. Objective 4 is the most important: an automation that fails silently is actively dangerous, and building failure handling is what separates a real production system from a prototype.">
+    <section class="slide" data-notes="These are the four things you should be able to do by Friday — not 'have heard about'. Everything this week anchors to one of these four. Objective 4 is the most important: an automation that fails silently is actively dangerous, and building failure handling is what separates a real production system from a prototype.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk through the agenda. Total class is 90 minutes. Blocks 3 through 7 all include live work in N8N. Save the last 7 minutes for the project walk and Q&A. Remind trainees that everything built in the live demo is the skeleton of their weekly project — they should follow along in their own N8N instance if they can.">
+    <section class="slide" data-notes="Here is where you are headed today. Most of this week includes live work in N8N, ending with the project walk. Everything built in the live demo is the skeleton of your weekly project — follow along in your own N8N instance if you can.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda</h2>
@@ -85,7 +85,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The trigger is the most important node — it is what makes the difference between a script you remember to run and a system that runs itself. Walk through the three trigger types: manual (development only), schedule (cron syntax, runs on a timer), and webhook (HTTP POST fires the flow immediately). Emphasise: in production you almost never use manual. The webhook trigger generates a unique URL — anything that can make an HTTP call can start your flow. The schedule trigger means you can combine event-driven and time-driven coverage in one system.">
+    <section class="slide" data-notes="The trigger is the most important node — it is what makes the difference between a script you remember to run and a system that runs itself. There are three trigger types: manual (development only), schedule (cron syntax, runs on a timer), and webhook (HTTP POST fires the flow immediately). In production you almost never use manual. The webhook trigger generates a unique URL — anything that can make an HTTP call can start your flow. The schedule trigger means you can combine event-driven and time-driven coverage in one system.">
       <div class="slide-content">
         <span class="eyebrow">Block 3 · Triggers</span>
         <h2>Events and schedules, not manual clicks</h2>
@@ -111,7 +111,7 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — Part 1. Open N8N. Add a Webhook trigger node and copy the generated URL. Use curl or Postman to fire a POST with a JSON body. Show the incoming data appearing in the execution log — this is the moment the concept clicks for most trainees. Then wire a Slack or Google Sheets node and map one field from the incoming JSON to the destination. The point is not Slack or Sheets specifically; the point is that data flowed from an external caller through N8N to a destination without anyone clicking anything.">
+    <section class="slide demo" data-notes="Open N8N. Add a Webhook trigger node and copy the generated URL. Use curl or Postman to fire a POST with a JSON body. Watch the incoming data appear in the execution log — this is the moment the concept clicks. Then wire a Slack or Google Sheets node and map one field from the incoming JSON to the destination. The point is not Slack or Sheets specifically; the point is that data flowed from an external caller through N8N to a destination without anyone clicking anything.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>A first real flow: webhook to result</h2>
@@ -127,7 +127,7 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — Part 2. Extend the same flow: after the webhook trigger, add an HTTP Request node that calls the Claude API with the incoming message as the user turn. Set the Authorization header and JSON body shape correctly. Show the response coming back as JSON. Then extract the text content and wire it to a Google Sheet row or Slack message. Key point: the Claude API node is just an HTTP call with the right headers — there is nothing magic about it. Any AI API works the same way in N8N.">
+    <section class="slide demo" data-notes="Extend the same flow: after the webhook trigger, add an HTTP Request node that calls the Claude API with the incoming message as the user turn. Set the Authorization header and JSON body shape correctly. Watch the response come back as JSON. Then extract the text content and wire it to a Google Sheet row or Slack message. Key point: the Claude API node is just an HTTP call with the right headers — there is nothing magic about it. Any AI API works the same way in N8N.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Adding an AI call: Claude API inside the flow</h2>
@@ -143,7 +143,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="This slide is the conceptual bridge between Week 6 and Week 7. In Week 6 trainees built an MCP server that can execute a multi-step task using tools. This week they learn to trigger that server from an N8N event instead of running it manually from a terminal. The pipeline becomes: external event fires N8N, N8N calls the MCP server via HTTP, the MCP server runs its tools and returns a result, N8N routes that result to a destination. The two weeks compound — one without the other is useful, but together they form a real production pattern worth having in any portfolio.">
+    <section class="slide" data-notes="This is the conceptual bridge between Week 6 and Week 7. In Week 6 you built an MCP server that can execute a multi-step task using tools. This week you learn to trigger that server from an N8N event instead of running it manually from a terminal. The pipeline becomes: external event fires N8N, N8N calls the MCP server via HTTP, the MCP server runs its tools and returns a result, N8N routes that result to a destination. The two weeks compound — one without the other is useful, but together they form a real production pattern worth having in any portfolio.">
       <div class="slide-content">
         <span class="eyebrow">The two-week pipeline</span>
         <h2>Week 6 + Week 7 = one production system</h2>
@@ -170,7 +170,7 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — Part 3, and the most important part of the class. Show the MCP server from Week 6 running and reachable over HTTP via a webhook endpoint or small wrapper. In N8N add an HTTP Request node that calls it. Fire the full flow: external POST to N8N, N8N calls MCP agent, result delivered to destination. Then — and this contrast is the lesson — break a step on purpose: shut down the MCP server or point to a bad URL. Show what happens with no error handling: silent failure, no alert, the flow shows red and no one is notified. Then add a retry, an error branch, and a Slack alert. The before-and-after is what trainees will remember.">
+    <section class="slide demo" data-notes="This is the most important part of the week. Get the MCP server from Week 6 running and reachable over HTTP via a webhook endpoint or small wrapper. In N8N add an HTTP Request node that calls it. Fire the full flow: external POST to N8N, N8N calls MCP agent, result delivered to destination. Then — and this contrast is the lesson — break a step on purpose: shut down the MCP server or point to a bad URL. Watch what happens with no error handling: silent failure, no alert, the flow shows red and no one is notified. Then add a retry, an error branch, and a Slack alert. The before-and-after is what you will remember.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Wire the Week 6 MCP agent in — then break it on purpose</h2>
@@ -186,7 +186,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="This is the most important conceptual slide in the deck — spend time on it. An automation that fails silently is actively worse than no automation, because no one notices the work is not getting done. Walk through all three layers: retries handle transient errors like a briefly-down API; error branches handle permanent failures by routing to a fallback path or alert node; alerts make failure visible immediately rather than at the next manual check. Design the unhappy path on purpose — it is the part that will page you at 2am if you skip it today.">
+    <section class="slide" data-notes="This is the most important conceptual idea in the deck. An automation that fails silently is actively worse than no automation, because no one notices the work is not getting done. There are three layers: retries handle transient errors like a briefly-down API; error branches handle permanent failures by routing to a fallback path or alert node; alerts make failure visible immediately rather than at the next manual check. Design the unhappy path on purpose — it is the part that will page you at 2am if you skip it today.">
       <div class="slide-content">
         <span class="eyebrow">Block 7 · Failure handling</span>
         <h2>Design the unhappy path on purpose</h2>
@@ -212,7 +212,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The reliability check is a required part of the project submission and it forces trainees to think adversarially about their own system before they ship it. The question is deceptively simple but the thinking is not: which single node is most likely to fail, and what does the flow do when it does? Acceptable answers include: the MCP server goes down and the error branch sends a Slack alert; the Claude API returns a 429 and the retry waits 10 seconds before trying again; the Google Sheets API times out and the row is written to a fallback CSV. The only unacceptable answer is 'it will not fail' — every external call can fail.">
+    <section class="slide" data-notes="The reliability check is a required part of the project submission and it forces you to think adversarially about your own system before you ship it. The question is deceptively simple but the thinking is not: which single node is most likely to fail, and what does the flow do when it does? Acceptable answers include: the MCP server goes down and the error branch sends a Slack alert; the Claude API returns a 429 and the retry waits 10 seconds before trying again; the Google Sheets API times out and the row is written to a fallback CSV. The only unacceptable answer is 'it will not fail' — every external call can fail.">
       <div class="slide-content">
         <span class="eyebrow">Required submission component</span>
         <h2>Reliability check</h2>
@@ -228,7 +228,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk the project brief carefully — every requirement maps directly to a learning objective. 'External trigger' means a webhook, a new row appearing, or an incoming message — not a manual Execute click. The AI step must be genuine: your Week 6 MCP agent or a real Claude API call that does something useful with the incoming data. The delivery destination must be somewhere real: a Sheet, a Slack channel, or a database. The failure path is non-negotiable — a project without it is incomplete. The stretch goal of adding a schedule trigger turns the system into one that covers both event-driven and time-driven automation.">
+    <section class="slide" data-notes="Read the project brief carefully — every requirement maps directly to a learning objective. 'External trigger' means a webhook, a new row appearing, or an incoming message — not a manual Execute click. The AI step must be genuine: your Week 6 MCP agent or a real Claude API call that does something useful with the incoming data. The delivery destination must be somewhere real: a Sheet, a Slack channel, or a database. The failure path is non-negotiable — a project without it is incomplete. The stretch goal of adding a schedule trigger turns the system into one that covers both event-driven and time-driven automation.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
         <h2>Automate a real manual task end to end</h2>
@@ -255,7 +255,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four focused topics. Topic A covers N8N fundamentals — the official quickstart doc and the 2025 YouTube quick-start are the two best starting resources. Topic B is connecting an AI call inside a flow — the N8N 'Build an AI workflow' tutorial at docs.n8n.io is the right guide. Topic C is wiring the Week 6 MCP agent into N8N — use the AI prompt in the brief verbatim to explore the three connection options and their trade-offs. Topic D is failure handling — use the AI prompt to get a failure-mode checklist that should directly inform the reliability check submission. Encourage trainees to paste the prompts into Claude exactly as written.">
+    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four focused topics. Topic A covers N8N fundamentals — the official quickstart doc and the 2025 YouTube quick-start are the two best starting resources. Topic B is connecting an AI call inside a flow — the N8N 'Build an AI workflow' tutorial at docs.n8n.io is the right guide. Topic C is wiring your Week 6 MCP agent into N8N — use the AI prompt in the brief verbatim to explore the three connection options and their trade-offs. Topic D is failure handling — use the AI prompt to get a failure-mode checklist that should directly inform your reliability check submission. Paste the prompts into Claude exactly as written.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn · 6 to 8 hrs</span>
         <h2>Four topics this week</h2>
@@ -268,7 +268,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Common pitfalls from previous cohorts — go through these quickly but clearly. The first is hiding all logic in one giant Function node, which defeats the purpose of N8N as orchestration. The second is submitting a happy-path-only flow with no failure handling — it will be returned for revision. The third is using a Manual trigger in the final submission — external trigger is a hard requirement. The fourth is tightly coupling the MCP server address into the N8N flow so it breaks if the server moves. The fifth is rewriting prompt logic inside the flow when the MCP agent already handles it cleanly.">
+    <section class="slide" data-notes="These are the common pitfalls. The first is hiding all logic in one giant Function node, which defeats the purpose of N8N as orchestration. The second is submitting a happy-path-only flow with no failure handling — it will be returned for revision. The third is using a Manual trigger in the final submission — external trigger is a hard requirement. The fourth is tightly coupling the MCP server address into the N8N flow so it breaks if the server moves. The fifth is rewriting prompt logic inside the flow when the MCP agent already handles it cleanly.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -282,7 +282,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The mid-course checkpoint is not an exam — it is a trend review. Reviewers look at all seven Phase 1 and Phase 2 deliverables together and ask: is quality improving week over week, are the Phase 2 foundations solid? Anyone shaky on LLM patterns, RAG, MCP, or automation gets a short focused remediation task before Week 8 begins. This is not a punishment; it is the programme moving at the pace of understanding rather than the pace of the calendar. Encourage trainees to treat this week's automation project as their Phase 2 capstone — it is the most integrative project so far.">
+    <section class="slide" data-notes="The mid-course checkpoint is not an exam — it is a trend review. Reviewers look at all seven Phase 1 and Phase 2 deliverables together and ask: is quality improving week over week, are the Phase 2 foundations solid? If you are shaky on LLM patterns, RAG, MCP, or automation you get a short focused remediation task before Week 8 begins. This is not a punishment; it is the programme moving at the pace of understanding rather than the pace of the calendar. Treat this week's automation project as your Phase 2 capstone — it is the most integrative project so far.">
       <div class="slide-content">
         <span class="eyebrow">End of Phase 2</span>
         <h2>Mid-course checkpoint — right after this week</h2>
@@ -298,7 +298,7 @@
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Recap: three sentences, then the preview. The trigger is what turns a script into a system that runs itself. Failure handling is not optional — an automation that fails silently is worse than no automation. Week 6 and Week 7 compound into a real production pattern when wired together: event fires N8N, N8N calls the MCP agent, result is delivered, and when something breaks the flow alerts rather than dies quietly. Preview Week 8: after the mid-course checkpoint, the focus shifts from building to scoping — how to turn a vague business problem into a concrete, actionable plan.">
+    <section class="slide recap" data-notes="Three things to hold onto, then a look ahead. The trigger is what turns a script into a system that runs itself. Failure handling is not optional — an automation that fails silently is worse than no automation. Week 6 and Week 7 compound into a real production pattern when wired together: event fires N8N, N8N calls the MCP agent, result is delivered, and when something breaks the flow alerts rather than dies quietly. Then Week 8: after the mid-course checkpoint, the focus shifts from building to scoping — how to turn a vague business problem into a concrete, actionable plan.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>

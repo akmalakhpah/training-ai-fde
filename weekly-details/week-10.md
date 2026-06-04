@@ -8,18 +8,18 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Explain technical tradeoffs to non-technical people.
 - Build trust and manage expectations.
 - Deliver bad news clearly and early.
-- Scope their own capstone before the build weeks begin.
+- Scope your own capstone before the build weeks begin.
 
 ---
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: run a customer meeting well, frame a tradeoff for a mixed audience, and pair each intern with their capstone mentor to agree scope. This outline is the brief for the slide deck.
+> Purpose: you'll learn to run a customer meeting well, frame a tradeoff for a mixed audience, and pair with your capstone mentor to agree scope. This outline is the brief for the slide deck.
 
 ### Slide-by-slide outline
 
@@ -29,25 +29,25 @@ By the end of the week the intern can:
 
 **Block 2: Who is in the room (8 min)**
 - Executives care about ROI and risk; operators care about reliability; engineers care about how. The same fact, framed three ways.
-- Talking point: communicate in the terms the listener already cares about, not the terms you find interesting.
+- The takeaway: communicate in the terms the listener already cares about, not the terms you find interesting.
 
 **Block 3: Benefits over features (10 min)**
 - People are moved by what a thing does for them, not what it does.
-- Live: take a technical capability and restate it as a benefit for a non-technical decision-maker.
+- Live: you'll take a technical capability and restate it as a benefit for a non-technical decision-maker.
 
 **Block 4: Framing a tradeoff (12 min)**
 - Cost vs quality, speed vs safety: how to present a real tradeoff so a non-engineer can decide.
 - The structure: here are the options, here is what each costs and buys, here is my recommendation and why.
-- Live: frame one tradeoff on a single slide.
+- Live: you'll frame one tradeoff on a single slide.
 
 **Block 5: A good and a bad version (12 min)**
-- Live: the instructor runs the same recommendation badly (jargon, no recommendation, hedging) then well (clear, benefit-led, a recommendation with a reason).
-- The class names what changed.
+- Live: you'll watch the same recommendation run badly (jargon, no recommendation, hedging) then well (clear, benefit-led, a recommendation with a reason).
+- You'll name what changed.
 
 **Block 6: Managing expectations and delivering bad news (12 min)**
 - Set expectations before they become problems. Deliver bad news early, clearly, with a path forward.
 - Live: the message you send when a deadline is about to slip.
-- Talking point: bad news travels worse the longer you sit on it.
+- Remember: bad news travels worse the longer you sit on it.
 
 **Block 7: The deck and the glance test (10 min)**
 - A clean, honest slide a non-technical person can grasp in five seconds.
@@ -55,13 +55,13 @@ By the end of the week the intern can:
 - Local context: communicating across English, Bahasa Malaysia, and Mandarin business settings.
 
 **Block 8: Capstone scoping (18 min)**
-- Live: each intern pairs with their capstone mentor. Apply the Week 8 scoping template to the assigned capstone and agree scope: the problem, the plan, the assumptions, what you will not build.
-- The mentor cuts anything that will not fit in two weeks.
+- Live: you'll pair with your capstone mentor. Apply the Week 8 scoping template to your assigned capstone and agree scope: the problem, the plan, the assumptions, what you will not build.
+- The mentor cuts anything that will not fit in two weeks. You'll probably over-scope — almost everyone does. Cutting is a professional skill, not a failure.
 
 **Block 9: Wrap (5 min)**
-- Walk the two deliverables and the assessment. Q&A.
+- You'll walk through the two deliverables and the assessment. Q&A.
 
-### Live materials for the instructor
+### Live materials
 - A good and a bad version of the same customer conversation.
 - A single-slide tradeoff example.
 - The capstone assignments and mentors ready to pair.

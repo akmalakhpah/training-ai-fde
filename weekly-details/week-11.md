@@ -8,7 +8,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Own a real deployment end to end.
 - Apply every prior week under real conditions.
@@ -18,27 +18,27 @@ By the end of the week the intern can:
 
 ## 1. Capstone Kickoff (90 minutes)
 
-> Purpose: lock scope, deadline, and access, and name the one failure that would sink the capstone. This is a working session, not a lecture, but here is the outline for any kickoff slides.
+This kickoff locks your scope, deadline, and access, and names the one failure that would sink the capstone. It is a working session, not a lecture. Here is how the 90 minutes break down.
 
 ### Kickoff outline
 
 **Block 1: Capstone framing (10 min)**
-- Slide: "Build in Place."
-- One line: everything so far was practice. This is real, with a real owner and a real deadline.
-- The mentor's role: unblock, never rescue. Being rescued teaches nothing.
+- "Build in Place."
+- Everything so far was practice. This is real, with a real owner and a real deadline.
+- The mentor's role: unblock, never rescue. Being rescued teaches you nothing.
 
 **Block 2: Confirm scope (20 min)**
-- Re-read the Week 10 agreed scope: the problem, the plan, the assumptions, what you will not build.
+- Re-read the Week 10 scope you agreed: the problem, the plan, the assumptions, what you will not build.
 - The mentor pressure-tests it once more and cuts anything that will not fit in two weeks at about 20 hours per week.
 
 **Block 3: Lock the deadline and the failure condition (15 min)**
 - Set the deadline. Name the single thing that, if it slipped, would make this capstone a failure. Protect that thing first.
 
 **Block 4: Confirm access (15 min)**
-- Repos, environments, credentials, the real system or data, the stakeholders. Nothing should block the build on day two for want of access.
+- Repos, environments, credentials, the real system or data, the stakeholders. Nothing should block your build on day two for want of access.
 
 **Block 5: Plan the two weeks (20 min)**
-- A rough day-by-day: scope to build to integrate to deploy to evaluate. Where the mid-capstone review lands. What "done" looks like.
+- Rough out a day-by-day: scope to build to integrate to deploy to evaluate. Where the mid-capstone review lands. What "done" looks like.
 
 **Block 6: Q&A and go (10 min)**
 
@@ -97,11 +97,11 @@ A working deployment in a real environment, with reliability checks and a runboo
 
 ## 4. Assessment (carried into Week 12)
 
-The capstone is assessed on the full course rubric (technical execution, handling ambiguity and failure, communication, ownership), weighted most heavily, plus the three capstone questions answered in Week 12:
+Your capstone is assessed on the full course rubric (technical execution, handling ambiguity and failure, communication, ownership), weighted most heavily, plus the three capstone questions you answer in Week 12:
 
-- Did the deployment actually work in a real environment?
-- Was the postmortem honest about what went wrong?
-- Were the reusable patterns genuinely useful to the next person?
+- Did your deployment actually work in a real environment?
+- Was your postmortem honest about what went wrong?
+- Were your reusable patterns genuinely useful to the next person?
 
 ### Definition of done for Week 11
-A real system is deployed and working in a real environment, you held your scope, and you have a runbook and reliability checks ready to present and defend in Week 12.
+You have a real system deployed and working in a real environment, you held your scope, and you have a runbook and reliability checks ready to present and defend in Week 12.

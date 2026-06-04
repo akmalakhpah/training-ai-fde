@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Query, transform, and move real data with confidence.
 - Recognise dirty data and decide what to do about it.
@@ -21,49 +21,49 @@ By the end of the week the intern can:
 
 ### Slide-by-slide outline
 
-**Block 1: Title and framing (3 min)**
-- Slide: "Data Fluency, for people who will live inside customer databases."
+**Block 1: Title and framing**
+- "Data Fluency, for people who will live inside customer databases."
 - One line: an FDE spends more time in the customer's data than in their own code, and that data is always messier than the demo.
 
-**Block 2: SQL you actually need (12 min)**
+**Block 2: SQL you actually need**
 - Joins (inner, left, why the difference bites you), GROUP BY and aggregates.
 - CTEs: splitting a complex query into named, readable parts with WITH.
 - Subqueries: when a CTE is clearer.
-- Live: build one query that answers a real question about the dataset, starting simple and layering in a join and a CTE.
+- You'll see one query built that answers a real question about the dataset, starting simple and layering in a join and a CTE.
 
-**Block 3: Window functions (12 min)**
+**Block 3: Window functions**
 - The idea: calculate across a set of rows related to the current row without collapsing them.
 - The workhorses: ROW_NUMBER, RANK, LAG, LEAD, running totals with SUM OVER.
-- Live: use ROW_NUMBER to find duplicate keys, and LAG to compare a row to the one before it.
-- Talking point: window functions are how you find data-quality problems, not just analytics.
+- You'll watch ROW_NUMBER used to find duplicate keys, and LAG used to compare a row to the one before it.
+- Window functions are how you find data-quality problems, not just analytics.
 
-**Block 4: Spotting dirty data (12 min)**
+**Block 4: Spotting dirty data**
 - The usual suspects: nulls where there should not be, duplicate keys, wrong types, out-of-range values, inconsistent categories ("MY" vs "Malaysia"), broken rows.
-- Live: run a profiling pass on the dataset that counts nulls, duplicates, and out-of-range values per column.
-- Talking point: never trust an export. Profile it first.
+- You'll see a profiling pass run on the dataset that counts nulls, duplicates, and out-of-range values per column.
+- Never trust an export. Profile it first.
 
-**Block 5: Cleaning and loading (12 min)**
+**Block 5: Cleaning and loading**
 - Decide per problem: fix, drop, flag, or escalate. Each choice has a cost.
-- Live: fix the issues found in Block 4, then load the cleaned result into a fresh, queryable table.
-- Talking point: keep the raw data; never clean in place. You want to be able to redo it.
+- You'll watch the issues found in Block 4 get fixed, then the cleaned result loaded into a fresh, queryable table.
+- Keep the raw data; never clean in place. You want to be able to redo it.
 
-**Block 6: Indexing and a slow query (8 min)**
+**Block 6: Indexing and a slow query**
 - Why a query is slow, in one diagram (full scan vs index lookup).
-- Live: take one slow query, add an index, show the before and after time.
+- You'll see one slow query get an index added, with the before and after time.
 
-**Block 7: The non-technical view via Gemini and Sheets (8 min)**
-- Live: take the same analysis into a Google Sheet through Gemini, for a quick view a non-engineer can read.
-- Talking point: the customer often wants the answer in a sheet, not a database.
+**Block 7: The non-technical view via Gemini and Sheets**
+- You'll watch the same analysis taken into a Google Sheet through Gemini, for a quick view a non-engineer can read.
+- The customer often wants the answer in a sheet, not a database.
 
-**Block 8: Using AI for SQL, safely (8 min)**
-- Live: ask Claude or Gemini for a window-function query, run it, and check it by hand against a small sample.
-- Talking point: the model drafts, you verify. A wrong query that runs is more dangerous than one that errors.
+**Block 8: Using AI for SQL, safely**
+- You'll see Claude or Gemini asked for a window-function query, then run, then checked by hand against a small sample.
+- The model drafts, you verify. A wrong query that runs is more dangerous than one that errors.
 
-**Block 9: Project and wrap (5 min)**
-- Walk the project brief and assessment. Q&A.
+**Block 9: Project and wrap**
+- You'll walk through the project brief and assessment, with time for your questions.
 
-### Live demo checklist for the instructor
-- A real, slightly messy dataset loaded in a database the class can query.
+### What you'll see demonstrated live
+- A real, slightly messy dataset loaded in a database you can query.
 - A deliberately messy export for the cleaning demo.
 - A slow query that visibly speeds up with an index.
 - A Google Sheet with Gemini enabled.

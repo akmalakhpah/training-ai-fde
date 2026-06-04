@@ -13,7 +13,7 @@
 <body data-week-num="6" data-deck-title="Week 06 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to Week 6, the first week of Phase 2: AI Application Engineering. Up until now the intern has been a competent developer; this week they get their first real hands. A model that can only talk is a chatbot. A model that can call tools is a building block for real systems. Set the expectation: today is both conceptual and hands-on, and the project this week feeds directly into Week 7.">
+    <section class="slide title" data-notes="Welcome to Week 6, the first week of Phase 2: AI Application Engineering. Up until now you have been a competent developer; this week you get your first real hands. A model that can only talk is a chatbot. A model that can call tools is a building block for real systems. Expect this week to be both conceptual and hands-on, and the project feeds directly into Week 7.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 06 · Phase 2 — AI Application Engineering</span>
         <h1>MCP and Tool Calling</h1>
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="State the five objectives and anchor every section of class against one of them. The intern should be able to do all five by Friday, not just have heard about them. Pause briefly on objective five: Conductor arrives this week, not Week 1, because now there is actual parallel work worth orchestrating. The intern has enough tools and tasks to genuinely benefit from parallelism.">
+    <section class="slide" data-notes="Every section this week anchors to one of these five objectives. You should be able to do all five by Friday, not just have heard about them. Note objective five: Conductor arrives this week, not Week 1, because now there is actual parallel work worth orchestrating. You have enough tools and tasks to genuinely benefit from parallelism.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
@@ -35,7 +35,7 @@
       </div>
     </section>
 
-    <section class="slide quote" data-notes="The N-times-M integration problem is real and painful. Before a shared protocol, every team wired every tool into every app by hand. If you have ten models and twenty data sources, that is potentially two hundred custom integrations to maintain. MCP collapses that to N plus M: each tool speaks MCP once, each model speaks MCP once, and they all connect. Use the USB analogy: before USB there was a different plug for every peripheral; MCP is the USB for AI tools.">
+    <section class="slide quote" data-notes="The N-times-M integration problem is real and painful. Before a shared protocol, every team wired every tool into every app by hand. If you have ten models and twenty data sources, that is potentially two hundred custom integrations to maintain. MCP collapses that to N plus M: each tool speaks MCP once, each model speaks MCP once, and they all connect. Think of the USB analogy: before USB there was a different plug for every peripheral; MCP is the USB for AI tools.">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The problem</span>
         <p class="pull-quote">Before MCP: N models times M tools equals N times M custom integrations, all by hand.</p>
@@ -43,7 +43,7 @@
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="Spend time on what a shared protocol actually changes. The left column is the world before MCP, where every integration is a snowflake someone has to maintain. The right column is the MCP world, where a tool is written once and any compliant model can call it. Emphasise the three things an MCP server can expose: tools are functions the model can call, resources are data it can read, and prompts are reusable templates. Most of the class will focus on tools because that is what gives the model hands.">
+    <section class="slide two-col" data-notes="Sit with what a shared protocol actually changes. The left column is the world before MCP, where every integration is a snowflake someone has to maintain. The right column is the MCP world, where a tool is written once and any compliant model can call it. Note the three things an MCP server can expose: tools are functions the model can call, resources are data it can read, and prompts are reusable templates. You will focus mostly on tools because that is what gives the model hands.">
       <div class="slide-content">
         <span class="eyebrow">What MCP provides</span>
         <h2>Before and after a common protocol</h2>
@@ -85,7 +85,7 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — connecting to an existing MCP server. Use the filesystem server or a sample database server. The point is that you do not always build: the fastest integration is often a server that already exists. Walk through: installing the server, configuring it in Claude, running one real task end to end, then explaining what happened at the protocol level. Ask the room: what did the model actually send? Show the raw tool call in the logs if possible.">
+    <section class="slide demo" data-notes="You will connect to an existing MCP server — the filesystem server or a sample database server. The point is that you do not always build: the fastest integration is often a server that already exists. You will see the server installed, configured in Claude, one real task run end to end, then an explanation of what happened at the protocol level. Ask yourself: what did the model actually send? Look at the raw tool call in the logs.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Connecting to an existing MCP server</h2>
@@ -101,7 +101,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Now the intern builds their own server. Walk the structure before touching code: define the tool with a tight input schema, validate the input before doing anything else, do the actual work, return a clean structured result. A tight schema is not bureaucracy — it is the description the model reads to know what to send. If the schema is loose, the model guesses. If it guesses wrong, the tool breaks silently or does something unexpected.">
+    <section class="slide" data-notes="Now you build your own server. Understand the structure before touching code: define the tool with a tight input schema, validate the input before doing anything else, do the actual work, return a clean structured result. A tight schema is not bureaucracy — it is the description the model reads to know what to send. If the schema is loose, the model guesses. If it guesses wrong, the tool breaks silently or does something unexpected.">
       <div class="slide-content">
         <span class="eyebrow">Build it yourself</span>
         <h2>Structure of a custom MCP server</h2>
@@ -124,7 +124,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — building the custom MCP server. This is the core skill of the week. Start from the FastMCP scaffold, add one tool with a strict input schema, call it from Claude, and watch the round trip. Emphasise the description on the tool function: whatever you write there is a prompt the model reads. Show what happens when you give it a vague description versus a precise one — the model calls it differently. Leave the guardrail for the next demo slide.">
+    <section class="slide demo" data-notes="You will build the custom MCP server — this is the core skill of the week. Start from the FastMCP scaffold, add one tool with a strict input schema, call it from Claude, and watch the round trip. Pay attention to the description on the tool function: whatever you write there is a prompt the model reads. Watch what happens when you give it a vague description versus a precise one — the model calls it differently. The guardrail comes in the next demo.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~16 min</span>
         <h2>Building and calling a custom MCP server</h2>
@@ -178,7 +178,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide demo" data-notes="LIVE DEMO — guardrail firing. Add a guardrail to the custom server tool, then deliberately send the bad input and show it blocking. The intern needs to see the guardrail refuse and return a clean error — not a crash, a controlled rejection. Show Claude receiving the rejection and responding sensibly. Then try to prompt-engineer around the guardrail and confirm it still holds. This is the most memorable moment of class — make it dramatic by naming the bad action first and explaining exactly what damage it would have done.">
+    <section class="slide demo" data-notes="You will watch a guardrail fire. Add a guardrail to the custom server tool, then deliberately send the bad input and watch it block. You need to see the guardrail refuse and return a clean error — not a crash, a controlled rejection. Watch Claude receive the rejection and respond sensibly. Then try to prompt-engineer around the guardrail and confirm it still holds. This is the most memorable moment of the week — name the bad action first and understand exactly what damage it would have done.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Guardrail: add it, then provoke it</h2>
@@ -194,7 +194,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide" data-notes="Conductor arrives in Week 6, not Week 1, because now there is actual parallel work worth orchestrating. In Week 1 the intern had one task at a time. Now they have a multi-tool server, a build step, a test step, and a refinement step — these can run independently. Explain when parallelism genuinely helps: independent tasks with no shared state, or tasks where one agent can judge another's output. Explain when it adds confusion: tasks that depend on each other's output, or tasks that write to the same resource simultaneously.">
+    <section class="slide" data-notes="Conductor arrives in Week 6, not Week 1, because now there is actual parallel work worth orchestrating. In Week 1 you had one task at a time. Now you have a multi-tool server, a build step, a test step, and a refinement step — these can run independently. Parallelism genuinely helps when tasks are independent with no shared state, or when one agent can judge another's output. It adds confusion when tasks depend on each other's output, or when they write to the same resource simultaneously.">
       <div class="slide-content">
         <span class="eyebrow">More than one agent</span>
         <h2>Conductor and parallel agents — why now, not Week 1</h2>
@@ -213,7 +213,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week, split across four topics. Topic A grounds the theory: read the MCP overview and write three sentences that explain it to a colleague. Topic B is hands-on with an existing server — the fastest way to build intuition is to use something before you build it. Topic C is the core build: a custom FastMCP server with a real schema. Topic D ties it together: add a guardrail to your own tool and run two agents in Conductor. Point them to the specific URLs in the weekly detail document.">
+    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week, split across four topics. Topic A grounds the theory: read the MCP overview and write three sentences that explain it to a colleague. Topic B is hands-on with an existing server — the fastest way to build intuition is to use something before you build it. Topic C is the core build: a custom FastMCP server with a real schema. Topic D ties it together: add a guardrail to your own tool and run two agents in Conductor. The specific URLs are in the weekly detail document.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn this week</span>
         <h2>6 to 8 hours across four topics</h2>
@@ -226,7 +226,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk the project brief carefully. Two key constraints the intern must understand. First: at least two tools with strict schemas and at least one guardrail that actually holds when provoked. Second, and more important for motivation: this MCP server is what Week 7's automation will trigger. They are not building a throwaway exercise — they are building infrastructure that will be called by something other than themselves. Ask them to think now about what that automated caller will need from the server interface.">
+    <section class="slide" data-notes="Read the project brief carefully. Two key constraints to understand. First: at least two tools with strict schemas and at least one guardrail that actually holds when provoked. Second, and more important for motivation: this MCP server is what Week 7's automation will trigger. You are not building a throwaway exercise — you are building infrastructure that will be called by something other than yourself. Think now about what that automated caller will need from the server interface.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
         <h2>Build a custom MCP server for a real multi-step task</h2>
@@ -242,7 +242,7 @@ def classify_question(question: str) -> dict:
       </div>
     </section>
 
-    <section class="slide" data-notes="The reliability check is a required part of the submission, not a stretch goal. The intern must name one specific bad input or action their guardrail must block — concrete, not vague — and confirm it blocks it when deliberately provoked. This is not just a test: it is proof the intern understands what can go wrong with their own tool. During the demo they will be asked to provoke the guardrail live. If it does not hold, the submission is incomplete regardless of everything else working.">
+    <section class="slide" data-notes="The reliability check is a required part of the submission, not a stretch goal. You must name one specific bad input or action your guardrail must block — concrete, not vague — and confirm it blocks it when deliberately provoked. This is not just a test: it is proof you understand what can go wrong with your own tool. During the demo you will be asked to provoke the guardrail live. If it does not hold, the submission is incomplete regardless of everything else working.">
       <div class="slide-content">
         <span class="eyebrow">Reliability check</span>
         <h2>Name the bad input — then prove it is blocked</h2>
@@ -259,7 +259,7 @@ Confirmed: sending where_clause="" raises ValueError and zero rows are deleted.'
       </div>
     </section>
 
-    <section class="slide" data-notes="Common pitfalls based on what typically goes wrong when engineers first build MCP servers. The most frequent mistake is a vague tool description — the model misreads it and sends wrong arguments. Second most frequent: the guardrail lives in the system prompt rather than the tool code, meaning a clever prompt can bypass it. Third: the server only works when the engineer is watching it — hardcoded local paths, manual setup steps, environment variables that only exist on their laptop. That last mistake breaks Week 7 immediately.">
+    <section class="slide" data-notes="These are the common pitfalls when you first build MCP servers. The most frequent mistake is a vague tool description — the model misreads it and sends wrong arguments. Second most frequent: the guardrail lives in the system prompt rather than the tool code, meaning a clever prompt can bypass it. Third: the server only works when you are watching it — hardcoded local paths, manual setup steps, environment variables that only exist on your laptop. That last mistake breaks Week 7 immediately.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -273,7 +273,7 @@ Confirmed: sending where_clause="" raises ValueError and zero rows are deleted.'
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Recap the week in three points. Then preview Week 7 to give the intern momentum: their MCP server is about to become the backend of a real automation. If they built it to be callable by something other than themselves, Week 7 will be smooth. If they built a one-off, they will spend the first hour of Week 7 refactoring. Close by asking one person to name the bad input their guardrail blocks — reinforce that this is the culture: know exactly what can go wrong with what you ship.">
+    <section class="slide recap" data-notes="Here is the week in three points. Then look ahead to Week 7: your MCP server is about to become the backend of a real automation. If you built it to be callable by something other than yourself, Week 7 will be smooth. If you built a one-off, you will spend the first hour of Week 7 refactoring. Name the bad input your guardrail blocks — this is the culture: know exactly what can go wrong with what you ship.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>

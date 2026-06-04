@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Explain MCP as the standard protocol for connecting models to tools and data.
 - Use an existing MCP server, and build a custom one.
@@ -18,50 +18,50 @@ By the end of the week the intern can:
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: give a model hands the standard way. Show both sides the project needs, using an MCP server and building one. This outline is the brief for the slide deck.
+> Purpose: give a model hands the standard way. You'll see both sides the project needs — using an MCP server and building one. This outline is the brief for the slide deck.
 
-### Slide-by-slide outline
+### What you'll cover
 
-**Block 1: Title and framing (3 min)**
-- Slide: "MCP and Tool Calling."
-- One line: a model that can only talk is a chatbot. A model that can call tools is an FDE's building block.
+**Title and framing**
+- "MCP and Tool Calling."
+- The one line to hold onto: a model that can only talk is a chatbot. A model that can call tools is an FDE's building block.
 
-**Block 2: The problem MCP solves (10 min)**
+**The problem MCP solves**
 - Before MCP: every tool wired into every app by hand, N times M integrations.
 - MCP: a common protocol, so any model can talk to any tool or data source.
 - The three things an MCP server can expose: tools (functions the model can call), resources (data it can read), prompts (templates).
-- Talking point: MCP is to AI tools what USB was to peripherals, one standard plug.
+- The mental model: MCP is to AI tools what USB was to peripherals, one standard plug.
 
-**Block 3: Tool calling, the mechanics (12 min)**
+**Tool calling, the mechanics**
 - How a model calls a tool: it asks, your code runs the function, you return the result, it continues.
 - The tool definition: name, description, input schema. The description is a prompt; the model reads it.
-- Live: a single tool the model calls to complete a task.
+- You'll see a single tool the model calls to complete a task.
 
-**Block 4: Using an existing MCP server (12 min)**
-- Live: connect Claude to a ready-made MCP server (for example a filesystem or a sample database server) and complete one real task through it.
-- Talking point: you do not always build. Often the fastest integration is an MCP server that already exists.
+**Using an existing MCP server**
+- You'll see Claude connected to a ready-made MCP server (for example a filesystem or a sample database server) and one real task completed through it.
+- The takeaway: you do not always build. Often the fastest integration is an MCP server that already exists.
 
-**Block 5: Building a custom MCP server (16 min)**
-- Live: build a tiny MCP server that exposes one tool with a strict input schema, and call it from Claude.
-- Walk the structure: define the tool, validate the input, do the work, return a clean result.
-- Talking point: a good tool has a tight schema and a description the model cannot misread.
+**Building a custom MCP server**
+- You'll see a tiny MCP server built — one that exposes one tool with a strict input schema — and called from Claude.
+- Here's the structure: define the tool, validate the input, do the work, return a clean result.
+- The takeaway: a good tool has a tight schema and a description the model cannot misread.
 
-**Block 6: Multi-step agent loops (10 min)**
-- Live: a task that needs two or more tool calls in sequence; show the loop and the state between steps.
+**Multi-step agent loops**
+- You'll see a task that needs two or more tool calls in sequence, and how the loop and the state between steps work.
 
-**Block 7: Guardrails (12 min)**
-- Why: a model with hands can do real damage. A guardrail stops a clearly bad action before it runs.
-- Live: add a guardrail that blocks a clearly bad action, then provoke it and show it hold.
-- Talking point: design the guardrail for the action you would be fired for.
+**Guardrails**
+- Why this matters: a model with hands can do real damage. A guardrail stops a clearly bad action before it runs.
+- You'll see a guardrail added that blocks a clearly bad action, then provoked, and holding.
+- The takeaway: design the guardrail for the action you would be fired for.
 
-**Block 8: Conductor and parallel agents (10 min)**
-- Live: run two agents in parallel against the same tools, now that there is parallel work worth orchestrating.
+**Conductor and parallel agents**
+- You'll see two agents run in parallel against the same tools, now that there is parallel work worth orchestrating.
 - When parallelism helps and when it just adds confusion.
 
-**Block 9: Project and wrap (5 min)**
-- Walk the project brief and assessment, including the reliability check, and note this server is what Week 7 will automate. Q&A.
+**Project and wrap**
+- You'll walk through the project brief and assessment, including the reliability check. Note that this server is what Week 7 will automate.
 
-### Live demo checklist for the instructor
+### What you'll need to follow along
 - A ready-made MCP server to connect to.
 - A minimal custom MCP server scaffold.
 - A guardrail that can be provoked live.

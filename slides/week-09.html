@@ -13,7 +13,7 @@
 <body data-week-num="9" data-deck-title="Week 09 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to Week 9. We are in Phase 3 — The FDE Craft — and this is where things get genuinely hard. The AI Engineer leads the technical depth today; the Project Manager joins for the customer-reality framing in the second block. Set expectations now: every demo today has a workaround baked in, because that is what real integrations look like. Ask the room: has anyone had a clean integration that just worked first time? Count the hands — there should be very few.">
+    <section class="slide title" data-notes="Welcome to Week 9. You are in Phase 3 — The FDE Craft — and this is where things get genuinely hard. Set your expectations now: every demo this week has a workaround baked in, because that is what real integrations look like. Ask yourself: have you ever had a clean integration that just worked first time? For most people the honest answer is almost never.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 09 · Phase 3 — The FDE Craft</span>
         <h1>Integration and the Messy Real World</h1>
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="slide quote" data-notes="This is the core tension of the whole week. Tutorials assume clean APIs, sandbox environments, and cooperative vendors. Real customer sites have none of that. The FDE who thrives is not the one who finds perfect conditions — it is the one who builds something reliable out of whatever is actually available. Let this land before moving on; do not rush past it.">
+    <section class="slide quote" data-notes="This is the core tension of the whole week. Tutorials assume clean APIs, sandbox environments, and cooperative vendors. Real customer sites have none of that. The FDE who thrives is not the one who finds perfect conditions — it is the one who builds something reliable out of whatever is actually available. Let this land before you move on.">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The real world</span>
         <p class="pull-quote">You will rarely get the clean API the docs assume.</p>
@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk the agenda before diving in — trainees pay more attention when they know where they are in the 90 minutes. Block 4 (auth) and Block 5 (live integration) are the longest at 16 minutes each. Save at least 5 minutes at the end for the project brief so trainees leave knowing exactly what they are building this week. The Project Manager joins from Block 2 through Block 3.">
+    <section class="slide" data-notes="Here is the agenda so you know where you are in the 90 minutes. Block 4 (auth) and Block 5 (live integration) are the longest at 16 minutes each. The project brief at the end is where you find out exactly what you are building this week.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda</h2>
@@ -58,7 +58,7 @@
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="This is the mindset shift of the whole week. The left column is what the demo environment looks like. The right column is what a real customer site looks like after six years of accumulated decisions, vendor lock-in, and staff turnover. Ask the Project Manager to add one real example from a past customer engagement. The key teaching point: your job is not to fix their environment — it is to build something that works reliably inside it.">
+    <section class="slide two-col" data-notes="This is the mindset shift of the whole week. The left column is what the demo environment looks like. The right column is what a real customer site looks like after six years of accumulated decisions, vendor lock-in, and staff turnover. The key point: your job is not to fix their environment — it is to build something that works reliably inside it.">
       <div class="slide-content">
         <span class="eyebrow">Customer reality</span>
         <h2>Why customer environments are messy</h2>
@@ -89,7 +89,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The FDE stance is adapt, not fight. Forcing the customer to change their systems to fit your product is a project that will not close. This is the Project Manager framing: when the customer says 'we cannot change that system,' the FDE job is to find an integration path that works within that constraint — not to negotiate away the constraint. Write 'adapt to customer reality' on the board and leave it there for the rest of the class. This lesson is the most important framing of Phase 3.">
+    <section class="slide" data-notes="The FDE stance is adapt, not fight. Forcing the customer to change their systems to fit your product is a project that will not close. When the customer says 'we cannot change that system,' your job is to find an integration path that works within that constraint — not to negotiate away the constraint. Keep 'adapt to customer reality' in your head for the rest of the class. This is the most important framing of Phase 3.">
       <div class="slide-content">
         <span class="eyebrow">The FDE stance</span>
         <h2>Adapt to the customer's reality</h2>
@@ -102,7 +102,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Give trainees a decision tree they can actually use in the field. Start at the top: does a clean API exist? If yes, use it. If not, walk down. File drop and scheduled export are underrated — huge amounts of enterprise data still move this way. Scraping is genuinely a last resort: fragile, legally grey, and the first thing that breaks when the vendor updates their frontend. Ask the room: 'If the only access you had was a daily PDF emailed to an inbox, what would you do?' Let them sit with that.">
+    <section class="slide" data-notes="This is a decision tree you can actually use in the field. Start at the top: does a clean API exist? If yes, use it. If not, walk down. File drop and scheduled export are underrated — huge amounts of enterprise data still move this way. Scraping is genuinely a last resort: fragile, legally grey, and the first thing that breaks when the vendor updates their frontend. Ask yourself: if the only access you had was a daily PDF emailed to an inbox, what would you do? Sit with that.">
       <div class="slide-content">
         <span class="eyebrow">Decision tree</span>
         <h2>Integration patterns for messy access</h2>
@@ -117,7 +117,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Auth mistakes are the most common way an integration silently fails or quietly leaks data. Cover all four patterns because each one shows up in the field. API keys are simple but get committed to git constantly — stress secure storage in env vars or a secrets manager. OAuth is the right pattern for user-delegated access; the consent flow is not optional and cannot be faked. JWT tokens are self-contained but expiry logic is often wrong or missing entirely. Webhook HMAC signatures are almost always skipped by juniors — skip them and anyone can spoof your endpoint.">
+    <section class="slide" data-notes="Auth mistakes are the most common way an integration silently fails or quietly leaks data. Learn all four patterns because each one shows up in the field. API keys are simple but get committed to git constantly — store them securely in env vars or a secrets manager. OAuth is the right pattern for user-delegated access; the consent flow is not optional and cannot be faked. JWT tokens are self-contained but expiry logic is often wrong or missing entirely. Webhook HMAC signatures are the thing juniors skip most — skip them and anyone can spoof your endpoint.">
       <div class="slide-content">
         <span class="eyebrow">Security and access</span>
         <h2>Authentication patterns</h2>
@@ -130,7 +130,7 @@
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="This slide makes the auth comparison concrete with two directions: outbound (you call them) and inbound (they call you). The key teaching point: auth method follows from who is initiating the call. When your system calls out, you prove your identity with an API key or OAuth token. When an external system calls in via webhook, you verify their identity using an HMAC signature on the payload. Both patterns appear in today's live demo — stress this before the demo starts so trainees know what to watch for.">
+    <section class="slide two-col" data-notes="This makes the auth comparison concrete with two directions: outbound (you call them) and inbound (they call you). The key point: auth method follows from who is initiating the call. When your system calls out, you prove your identity with an API key or OAuth token. When an external system calls in via webhook, you verify their identity using an HMAC signature on the payload. Both patterns appear in today's live demo — keep this in mind so you know what to watch for.">
       <div class="slide-content">
         <span class="eyebrow">Auth in two directions</span>
         <h2>Outbound vs inbound authentication</h2>
@@ -176,7 +176,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Partial access is not a blocker — it is a constraint to design around. Read-only is the most common: you can still pull data and push it somewhere else you control. No sandbox is genuinely dangerous: make all test calls idempotent, use a test record, and always have a rollback plan. Defensive integration means assuming the other system will break, return garbage, or go silent at 3am — build your flow to detect and survive each of those scenarios. Ask the room: 'What happens to your N8N workflow if the external API returns a 503 at 3am with no one watching?'">
+    <section class="slide" data-notes="Partial access is not a blocker — it is a constraint to design around. Read-only is the most common: you can still pull data and push it somewhere else you control. No sandbox is genuinely dangerous: make all test calls idempotent, use a test record, and always have a rollback plan. Defensive integration means assuming the other system will break, return garbage, or go silent at 3am — build your flow to detect and survive each of those scenarios. Ask yourself: what happens to your N8N workflow if the external API returns a 503 at 3am with no one watching?">
       <div class="slide-content">
         <span class="eyebrow">Working within constraints</span>
         <h2>Legacy constraints and partial access</h2>
@@ -207,7 +207,7 @@ email = record.get('contact_email') or lookup_from_crm(record['id'])
       </div>
     </section>
 
-    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four topics. Topic A is about choosing the right integration pattern — trainees should pick two real services and sketch the data flow without assuming a direct API exists. Topic B covers all four auth patterns with real examples; the YouTube video on API auth is around 20 minutes and worth watching in full. Topic C is a defensive integration checklist for legacy systems — extremely practical for the project build. Topic D is short but high-value: practise the three-line workaround note before the project demands it under pressure.">
+    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four topics. Topic A is about choosing the right integration pattern — pick two real services and sketch the data flow without assuming a direct API exists. Topic B covers all four auth patterns with real examples; the YouTube video on API auth is around 20 minutes and worth watching in full. Topic C is a defensive integration checklist for legacy systems — extremely practical for your project build. Topic D is short but high-value: practise the three-line workaround note before the project demands it under pressure.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn · 6 to 8 hours</span>
         <h2>This week's independent study</h2>
@@ -220,7 +220,7 @@ email = record.get('contact_email') or lookup_from_crm(record['id'])
       </div>
     </section>
 
-    <section class="slide" data-notes="The project is a real integration, not a toy. Two systems that genuinely were not designed to talk, connected via N8N, a webhook, or custom code. Pushing an AI step result into a Google Sheet triggered by an external event is a good default for trainees who are stuck choosing systems. The most common failure mode is stopping at the happy path — make it explicit that hitting a snag and documenting the workaround is required, not optional. The deliverable is the working integration plus the workaround documentation; both are assessed.">
+    <section class="slide" data-notes="Your project is a real integration, not a toy. Two systems that genuinely were not designed to talk, connected via N8N, a webhook, or custom code. Pushing an AI step result into a Google Sheet triggered by an external event is a good default if you are stuck choosing systems. The most common failure mode is stopping at the happy path — hitting a snag and documenting the workaround is required, not optional. The deliverable is the working integration plus the workaround documentation; both are assessed.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
         <h2>Build and document a real integration</h2>
@@ -236,7 +236,7 @@ email = record.get('contact_email') or lookup_from_crm(record['id'])
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk the five steps so trainees leave with a clear build plan. Step 2 — deciding the integration pattern and auth method before writing code — is skipped most often and costs the most time to fix later. Step 3 must confirm the happy path works before layering workarounds on top; debugging both at once is a trap. Step 4 is the core of the assessment: hit the inevitable snag, build the workaround, and write the note immediately while the context is fresh. The stretch goal of detecting data shape changes is extremely practical and worth attempting for trainees who finish the core early.">
+    <section class="slide" data-notes="These five steps give you a clear build plan. Step 2 — deciding the integration pattern and auth method before writing code — is skipped most often and costs the most time to fix later. Step 3 must confirm the happy path works before you layer workarounds on top; debugging both at once is a trap. Step 4 is the core of the assessment: hit the inevitable snag, build the workaround, and write the note immediately while the context is fresh. The stretch goal of detecting data shape changes is extremely practical and worth attempting if you finish the core early.">
       <div class="slide-content">
         <span class="eyebrow">Project steps</span>
         <h2>How to approach the build</h2>
@@ -250,7 +250,7 @@ email = record.get('contact_email') or lookup_from_crm(record['id'])
       </div>
     </section>
 
-    <section class="slide" data-notes="Flag these pitfalls before trainees hit them — most of these are predictable and preventable. Skipping webhook signature verification is the most dangerous: an unverified endpoint is an open door to spoofed events. Undocumented workarounds compound over weeks into code nobody dares touch. Testing against production data without idempotent calls is a real risk when no sandbox exists. 'It works on the happy path' ignores the failure handling that makes an integration actually reliable at 3am. Stopping when the clean API does not exist is the most common reason field projects stall.">
+    <section class="slide" data-notes="Watch for these pitfalls before you hit them — most are predictable and preventable. Skipping webhook signature verification is the most dangerous: an unverified endpoint is an open door to spoofed events. Undocumented workarounds compound over weeks into code nobody dares touch. Testing against production data without idempotent calls is a real risk when no sandbox exists. 'It works on the happy path' ignores the failure handling that makes an integration actually reliable at 3am. Stopping when the clean API does not exist is the most common reason field projects stall.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -264,7 +264,7 @@ email = record.get('contact_email') or lookup_from_crm(record['id'])
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Recap the three takeaways and make them stick before the cohort leaves. 'Adapt' is the most important word of the week — the FDE who fights the customer's environment wastes everyone's time and rarely closes the project. Defensive integration is a professional habit, not extra work; it is the difference between an integration that survives and one that fails silently at the worst moment. The three-line workaround note is the highest-leverage documentation habit they will build in this course — simple, fast, and invaluable. Preview Week 10 with genuine enthusiasm: explaining technical trade-offs to non-technical people is one of the hardest and most impactful skills in the field.">
+    <section class="slide recap" data-notes="Here are the three takeaways — make them stick. 'Adapt' is the most important word of the week — the FDE who fights the customer's environment wastes everyone's time and rarely closes the project. Defensive integration is a professional habit, not extra work; it is the difference between an integration that survives and one that fails silently at the worst moment. The three-line workaround note is the highest-leverage documentation habit you will build in this course — simple, fast, and invaluable. Next up is Week 10: explaining technical trade-offs to non-technical people is one of the hardest and most impactful skills in the field.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>

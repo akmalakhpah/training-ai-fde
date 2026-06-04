@@ -8,7 +8,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Present and defend real work under questioning.
 - Reflect on failure honestly in a postmortem.
@@ -18,9 +18,9 @@ By the end of the week the intern can:
 
 ## 1. Final Session (90 minutes): Demos and Defence
 
-> Purpose: each intern presents their deployment, defends their decisions, and walks through one production failure and the recovery. This outline is the brief for each intern's presentation deck.
+You present your deployment, defend your decisions, and walk through one production failure and the recovery. This outline is the brief for your presentation deck.
 
-### Per-intern presentation outline (about 12 to 15 min each)
+### Your presentation outline (about 12 to 15 min)
 
 **Block 1: The problem and the scope (2 min)**
 - What the deployment is, who owns it, and the scope you agreed, including what you chose not to build.
@@ -38,13 +38,13 @@ By the end of the week the intern can:
 - One or two patterns you found that would help the next deployment.
 
 **Block 6: Defence (questioning from the panel)**
-- The panel probes the decisions, the failure, and the limits of the system.
+- The panel probes your decisions, the failure, and the limits of the system.
 
 ### What the panel is listening for
-- Did the deployment actually work in a real environment.
-- Is the candidate honest about what went wrong, or polishing it away.
-- Can they explain technical decisions to the non-technical people in the room.
-- Did they own it end to end, or get carried.
+- Did your deployment actually work in a real environment.
+- Are you honest about what went wrong, or polishing it away.
+- Can you explain technical decisions to the non-technical people in the room.
+- Did you own it end to end, or get carried.
 
 ---
 
@@ -90,12 +90,12 @@ By the end of the week the intern can:
 ### How it is judged (capstone, weighted most heavily)
 The full course rubric applies (technical execution 30, handling ambiguity and failure 30, communication 25, ownership 15), plus the three capstone questions:
 
-- Did the deployment actually work in a real environment?
-- Was the postmortem honest about what went wrong?
-- Were the reusable patterns genuinely useful to the next person?
+- Did your deployment actually work in a real environment?
+- Was your postmortem honest about what went wrong?
+- Were your reusable patterns genuinely useful to the next person?
 
 ### Graduation
-An intern graduates as a deployable AI FDE when they have shipped a working deliverable every week, behaved calmly and competently during at least one real failure, passed the capstone with a working deployment and an honest postmortem, and shown they can explain technical decisions to a non-technical audience. Strong technically but weak on ambiguity or communication does not graduate as field-ready; the intern gets a development plan and a path to retry.
+You graduate as a deployable AI FDE when you have shipped a working deliverable every week, behaved calmly and competently during at least one real failure, passed the capstone with a working deployment and an honest postmortem, and shown you can explain technical decisions to a non-technical audience. If you are strong technically but weak on ambiguity or communication, you do not graduate as field-ready; you get a development plan and a path to retry.
 
 ### Definition of done
 You stood in front of a panel, demonstrated a real working deployment, defended your decisions under questioning, told the truth about what broke, and left behind a postmortem and patterns the next person can actually use.

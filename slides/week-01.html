@@ -14,7 +14,7 @@
   <div class="deck">
 
     <!-- SLIDE 1: Title -->
-    <section class="slide title" data-notes="Welcome the cohort — this is day one of the entire programme. Set the tone immediately: we are not here to review theory, we are here to build production muscle. Spend 60 seconds on quick intros: name, one thing they have shipped before (anything counts), one thing they are nervous about this week. After intros, read the subtitle aloud and ask: how many of you have pushed code that someone else depended on? That number is your baseline. Goal for the week: everyone answers yes to that question by Friday.">
+    <section class="slide title" data-notes="Welcome — this is day one of the entire programme. The tone is set immediately: you are not here to review theory, you are here to build production muscle. Ask yourself: have you ever pushed code that someone else depended on? Your honest answer is your baseline. The goal for the week is that you can answer yes to that question by Friday.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 01 · Phase 1 — Production Foundations</span>
         <h1>From Coursework to Production</h1>
@@ -24,7 +24,7 @@
     </section>
 
     <!-- SLIDE 2: Hook / Quote -->
-    <section class="slide quote" data-notes="Drop this hard and let it sit for a beat. Most graduates assume the hard part is writing the code. It is not. The hard part is everything surrounding the code: the review, the deploy, the runtime surprise, the incident at 2 am caused by a change that looked fine in staging. Ask: who has experienced the moment something worked perfectly on their machine but broke somewhere else? Almost every hand goes up. That gap — between 'it runs' and 'it runs reliably for others' — is exactly what this entire course exists to close. Transition: so what are the three muscles we are building this week?">
+    <section class="slide quote" data-notes="Let this sit for a beat. You probably assume the hard part is writing the code. It is not. The hard part is everything surrounding the code: the review, the deploy, the runtime surprise, the incident at 2 am caused by a change that looked fine in staging. You have almost certainly hit the moment something worked perfectly on your machine but broke somewhere else. That gap — between 'it runs' and 'it runs reliably for others' — is exactly what this entire course exists to close. So what are the three muscles you are building this week?">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The gap</span>
         <p class="pull-quote">'It works on my machine.'</p>
@@ -33,7 +33,7 @@
     </section>
 
     <!-- SLIDE 2b: The three muscles -->
-    <section class="slide" data-notes="These three muscles are the spine of the entire programme, not just this week — name them now so trainees have a frame to hang everything on. Muscle one, ship real work: produce code other people depend on and that survives after you walk away. Muscle two, stay functional inside broken systems: the real world is ambiguous, half-documented, and on fire somewhere — the FDE stays calm and keeps moving. Muscle three, translate between humans and machines: turn a vague human problem into a concrete technical plan, and explain a technical tradeoff back to a non-technical person. This week leans hardest on muscle one, but every week touches all three. Say it plainly: a trainee strong on one but weak on two and three is not ready.">
+    <section class="slide" data-notes="These three muscles are the spine of the entire programme, not just this week — here is the frame to hang everything on. Muscle one, ship real work: produce code other people depend on and that survives after you walk away. Muscle two, stay functional inside broken systems: the real world is ambiguous, half-documented, and on fire somewhere — the FDE stays calm and keeps moving. Muscle three, translate between humans and machines: turn a vague human problem into a concrete technical plan, and explain a technical tradeoff back to a non-technical person. This week leans hardest on muscle one, but every week touches all three. Plainly: if you are strong on one but weak on two and three, you are not ready.">
       <div class="slide-content">
         <span class="eyebrow">Why this whole course exists</span>
         <h2>The three muscles</h2>
@@ -47,7 +47,7 @@
     </section>
 
     <!-- SLIDE 3: Learning Objectives -->
-    <section class="slide" data-notes="Read each objective slowly. These are not aspirations — they are the five specific things the trainee must be able to do by end of Friday, not just 'have heard about'. Anchor everything in the class against one of these. When you run a demo, say which objective it serves. At the end of the week, come back to this slide and run through each one: can you do it? Pause after reading objective 3 (driving Claude Code) and objective 4 (fixing a bug by hand with no agent) — those two are the unusual ones and deserve a sentence of preview each to set expectations.">
+    <section class="slide" data-notes="These are not aspirations — they are the five specific things you must be able to do by end of Friday, not just 'have heard about'. Everything this week ties back to one of these. At the end of the week, come back to this slide and run through each one: can you do it? Pay extra attention to objective 3 (driving Claude Code) and objective 4 (fixing a bug by hand with no agent) — those two are the unusual ones, so set your expectations accordingly.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
@@ -62,7 +62,7 @@
     </section>
 
     <!-- SLIDE 4: Agenda -->
-    <section class="slide" data-notes="Walk through the agenda. Total class is 90 minutes. The heaviest teaching is blocks 1–6; the two demos (GitHub live exercise and the Claude Code demo) are the most time-critical. If the room is engaged and asking questions, compress the GitHub theory slides rather than cutting the live demo — the demo is where the learning sticks. Flag now that there will be a live PR walkthrough and a live Claude Code session, so people should have VS Code open on their machines. Save at least 5 minutes at the end for questions about the weekly project deliverable.">
+    <section class="slide" data-notes="Here is the plan for the 90-minute class. The heaviest teaching is blocks 1–6; the two demos (the GitHub live exercise and the Claude Code demo) are where the learning sticks, so follow along closely. There is a live PR walkthrough and a live Claude Code session, so have VS Code open on your machine. The weekly project deliverable is covered at the end.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda — 90 minutes</h2>
@@ -81,7 +81,7 @@
     </section>
 
     <!-- SLIDE 5: Coursework vs Production (two-col) -->
-    <section class="slide two-col" data-notes="Make this concrete before showing the slide. Ask: in your last university project, how many people touched the code? One or two. How long did that code have to run? Until the deadline. Now contrast: a Pandai service has dozens of contributors across years and serves real students right now. Show the left column first and get nods — they recognise it. Then reveal the right column. Pause on 'done' means merged, tested, reviewed, observable, and not breaking anyone else. That definition of done is the whole course in one sentence. Ask: which of these columns sounds harder to work in? Then say: you are moving from the left column to the right column this week, and it is a bigger shift than it sounds.">
+    <section class="slide two-col" data-notes="Make this concrete. In your last university project, how many people touched the code? One or two. How long did that code have to run? Until the deadline. Now contrast: a Pandai service has dozens of contributors across years and serves real students right now. The left column is the world you recognise. The right column is where you are headed. Sit with this one: 'done' means merged, tested, reviewed, observable, and not breaking anyone else. That definition of done is the whole course in one sentence. The right column is harder to work in — and you are moving from the left to the right this week, which is a bigger shift than it sounds.">
       <div class="slide-content">
         <span class="eyebrow">Mental model shift</span>
         <h2>Two very different worlds</h2>
@@ -113,7 +113,7 @@
     </section>
 
     <!-- SLIDE 6: Anatomy of a Production Repo -->
-    <section class="slide" data-notes="Switch to VS Code now — this is the first live segment. Open a real internal Pandai service repo. Do not narrate the code itself; narrate the structure. Point to the top-level folders one by one: config, source, tests, README, the CI workflow file (.github/workflows). Call out the signals of a healthy repo: a CLAUDE.md or README that explains how to run the thing, a tests folder with meaningful coverage, a CI config that is not empty, clear module boundaries. Ask the room: what is the first file you would open if you joined this project tomorrow? Let a few answer. Then show them the README and the entry point. Close by saying: the goal of block 4 is to give you a method for any repo, not just this one.">
+    <section class="slide" data-notes="This is the first live segment, in a real internal Pandai service repo. Do not focus on the code itself; focus on the structure. Look at the top-level folders one by one: config, source, tests, README, the CI workflow file (.github/workflows). Notice the signals of a healthy repo: a CLAUDE.md or README that explains how to run the thing, a tests folder with meaningful coverage, a CI config that is not empty, clear module boundaries. Ask yourself: what is the first file you would open if you joined this project tomorrow? Usually it is the README and the entry point. The goal here is to give you a method for any repo, not just this one.">
       <div class="slide-content">
         <span class="eyebrow">Live tour</span>
         <h2>Anatomy of a production repo</h2>
@@ -129,7 +129,7 @@
     </section>
 
     <!-- SLIDE 7: Reading an Unfamiliar Codebase -->
-    <section class="slide" data-notes="The most common stuck point for new hires is opening a large repo and freezing. Teach the method explicitly. Entry point first — where does this thing actually run? For a web service it is usually app.py, server.js, main.go, or similar. Then follow one user-facing action all the way through: HTTP handler to business logic to database query to response. Use jump-to-definition in VS Code, not search. Ignore error handling and edge cases on the first pass — they are noise until you understand the happy path. End with the three diagnostic questions every intern must answer about the training repo this week: where does a request enter, where does it hit the database, where does the response leave. Write them on the board. These three questions are their orientation compass for the project.">
+    <section class="slide" data-notes="The most common stuck point for new hires is opening a large repo and freezing. Here is the method, explicitly. Entry point first — where does this thing actually run? For a web service it is usually app.py, server.js, main.go, or similar. Then follow one user-facing action all the way through: HTTP handler to business logic to database query to response. Use jump-to-definition in VS Code, not search. Ignore error handling and edge cases on the first pass — they are noise until you understand the happy path. This leaves you with the three diagnostic questions you must answer about the training repo this week: where does a request enter, where does it hit the database, where does the response leave. Write them down — they are your orientation compass for the project.">
       <div class="slide-content">
         <span class="eyebrow">Survival skill</span>
         <h2>Reading a codebase you did not write</h2>
@@ -149,7 +149,7 @@
     </section>
 
     <!-- SLIDE 8: GitHub for Real -->
-    <section class="slide" data-notes="Beyond commit and push. Ask: how many of you have resolved a merge conflict before? Some hands. How many felt confident doing it? Fewer. That is the gap this block closes. Walk the branching model: feature branch off main, one concern per branch, branch name describes the change. Then explain rebase in one sentence: rebase replays your commits on top of a moving target so history stays linear. Show the diagram mentally — rebase before opening a PR to clean up your own work; never rebase a branch others are working on. Live exercise: create a branch, make two commits, create a conflict on purpose, resolve it from the command line. Time budget: 12 minutes total, spend 6 on the live exercise. If anyone gets stuck, that is the lesson — stay calm, read what git is telling you.">
+    <section class="slide" data-notes="This goes beyond commit and push. You may have resolved a merge conflict before, but probably did not feel confident doing it. That is the gap this block closes. The branching model: feature branch off main, one concern per branch, branch name describes the change. Rebase in one sentence: rebase replays your commits on top of a moving target so history stays linear. Picture it — rebase before opening a PR to clean up your own work; never rebase a branch others are working on. Now do it: create a branch, make two commits, create a conflict on purpose, and resolve it from the command line. If you get stuck, that is the lesson — stay calm and read what git is telling you.">
       <div class="slide-content">
         <span class="eyebrow">GitHub for real</span>
         <h2>Beyond commit and push</h2>
@@ -167,7 +167,7 @@
     </section>
 
     <!-- SLIDE 9: The Pull Request Lifecycle -->
-    <section class="slide" data-notes="This is the loop everything else feeds into. Walk each step slowly. Emphasise: no one pushes straight to main in a real system — branching and review are not bureaucracy, they are how you protect the running system from your own mistakes. A good PR is small, focused on one concern, has a clear description (why this change, not just what), and includes tests. Show what a good PR description looks like vs a bad one. For the bad one: 'fix stuff' with no body. For the good one: one sentence on the problem, one on the solution, one on how to test it. Live: open a real PR and walk the description, the diff tab, and the review thread. Spend 3 minutes on a thread where the author responded well to feedback — show that responding to review is a professional skill, not personal.">
+    <section class="slide" data-notes="This is the loop everything else feeds into. Take each step in turn. No one pushes straight to main in a real system — branching and review are not bureaucracy, they are how you protect the running system from your own mistakes. A good PR is small, focused on one concern, has a clear description (why this change, not just what), and includes tests. Compare a good PR description with a bad one. The bad one: 'fix stuff' with no body. The good one: one sentence on the problem, one on the solution, one on how to test it. Look at a real PR — its description, its diff tab, and its review thread. Watch a thread where the author responded well to feedback: responding to review is a professional skill, not personal.">
       <div class="slide-content">
         <span class="eyebrow">The shipping loop</span>
         <h2>The pull request lifecycle</h2>
@@ -183,7 +183,7 @@
     </section>
 
     <!-- SLIDE 10: Demo — Live PR Walkthrough -->
-    <section class="slide demo" data-notes="LIVE DEMO — budget 12 minutes. Open a real PR on the training repo in the browser. Walk through in order: the title and description (is the why clear?), the diff tab (one concern or scattered changes?), the review thread (how did the author respond to comments?), the CI checks panel (which checks run, which failed, why). Make a point of showing a PR that needed two or three rounds of review — that is normal, not a failure, and new engineers need to see it normalised. If time allows, show what a broken CI log looks like: find the actual error line, not just the red X. End by asking the room: what would you have written differently in this description?">
+    <section class="slide demo" data-notes="This is a live walkthrough of a real PR on the training repo in the browser. Go through it in order: the title and description (is the why clear?), the diff tab (one concern or scattered changes?), the review thread (how did the author respond to comments?), the CI checks panel (which checks run, which failed, why). Notice a PR that needed two or three rounds of review — that is normal, not a failure, and worth seeing as normal. Look at a broken CI log too: find the actual error line, not just the red X. Then ask yourself: what would you have written differently in this description?">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Walking through a real PR</h2>
@@ -200,7 +200,7 @@
     </section>
 
     <!-- SLIDE 11: CI/CD -->
-    <section class="slide two-col" data-notes="CI stands for Continuous Integration. The robot that checks your work before a human does. Walk what runs: lint, type check, unit tests, integration tests, build. Emphasise: green CI is the floor, not the ceiling. A test suite that always passes because it tests nothing is worse than no test suite — it gives false confidence. For the red CI column, make this visceral: do not re-run and hope. That is superstition, not engineering. Open the failing job log. Read the error. Fix the cause. Push again. If you cannot reproduce the failure locally, that discrepancy is itself the bug — find it. Live: trigger a failing pipeline (a broken test), show the log, push the fix, watch it go green.">
+    <section class="slide two-col" data-notes="CI stands for Continuous Integration — the robot that checks your work before a human does. Here is what runs: lint, type check, unit tests, integration tests, build. Green CI is the floor, not the ceiling. A test suite that always passes because it tests nothing is worse than no test suite — it gives false confidence. When CI goes red, make this visceral: do not re-run and hope. That is superstition, not engineering. Open the failing job log. Read the error. Fix the cause. Push again. If you cannot reproduce the failure locally, that discrepancy is itself the bug — find it. You will see a failing pipeline (a broken test), then the log, then the fix pushed, then the run go green.">
       <div class="slide-content">
         <span class="eyebrow">The automated gate</span>
         <h2>CI/CD with GitHub Actions</h2>
@@ -230,7 +230,7 @@
     </section>
 
     <!-- SLIDE 12: Testing Code You Did Not Write -->
-    <section class="slide" data-notes="Tests matter more in shared code than anywhere else. In a solo student project, you can hold the whole system in your head. In a shared production codebase you cannot — tests are how you change things without fear. Practical point: before touching anything in the training repo this week, run the test suite first. If it is already broken, that is important information. Then: pick one untested function and write two tests for it. A happy-path test (the function does what the docstring says when inputs are valid) and an edge-case test (empty input, zero, null, boundary). Live: open a real function in the repo and write one test together on screen. Ask: what would make this test fail? If the answer is 'nothing obvious', the test is probably not worth much.">
+    <section class="slide" data-notes="Tests matter more in shared code than anywhere else. In a solo student project, you can hold the whole system in your head. In a shared production codebase you cannot — tests are how you change things without fear. Practical point: before touching anything in the training repo this week, run the test suite first. If it is already broken, that is important information. Then pick one untested function and write two tests for it. A happy-path test (the function does what the docstring says when inputs are valid) and an edge-case test (empty input, zero, null, boundary). Open a real function in the repo and write one test for it. Then ask: what would make this test fail? If the answer is 'nothing obvious', the test is probably not worth much.">
       <div class="slide-content">
         <span class="eyebrow">Shared code needs tests</span>
         <h2>Testing code you did not write</h2>
@@ -248,7 +248,7 @@
     </section>
 
     <!-- SLIDE 13: Driving One Claude Code Agent -->
-    <section class="slide demo" data-notes="LIVE DEMO — budget 12 minutes. Open Claude Code inside VS Code. The lesson is not 'use Claude Code'; the lesson is how to supervise it. Step 1: brief it well — give it the module name, the specific task, and the constraint that it should not change anything outside that scope. Step 2: scope the task narrowly — one function, not the whole file. Step 3: let it run, then review the diff line by line before accepting anything. Now the most important part: show it being confidently wrong. Let it make a plausible but incorrect change — it will often do this when the context is ambiguous. Ask it to justify the change. Read the diff aloud. Then run the test. Make the point explicit: the agent is fast, not trustworthy. Your job as a human engineer is supervision, not transcription. If you accept a diff you did not understand, you now own a bug you cannot explain.">
+    <section class="slide demo" data-notes="Open Claude Code inside VS Code. The lesson is not 'use Claude Code'; the lesson is how to supervise it. Step 1: brief it well — give it the module name, the specific task, and the constraint that it should not change anything outside that scope. Step 2: scope the task narrowly — one function, not the whole file. Step 3: let it run, then review the diff line by line before accepting anything. Now the most important part: watch it be confidently wrong. It will often make a plausible but incorrect change when the context is ambiguous. Ask it to justify the change. Read the diff carefully. Then run the test. The point is explicit: the agent is fast, not trustworthy. Your job as a human engineer is supervision, not transcription. If you accept a diff you did not understand, you now own a bug you cannot explain.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Driving one Claude Code agent</h2>
@@ -266,7 +266,7 @@
     </section>
 
     <!-- SLIDE 14: The No-Agent Bug Rep -->
-    <section class="slide" data-notes="This slide carries the most important teaching beat of the week and it must not be rushed. The question to pose to the room: why are we asking you to fix the first bug by hand, with no agent, when we just spent 12 minutes showing you how powerful Claude Code is? Pause. Let them answer. Then give the real answer: you cannot supervise a machine doing something you have never done yourself. If you have never read a stack trace and traced an error back to its root cause, you will not know when the agent is reading the trace wrong and giving you a plausible but incorrect fix. The by-hand bug is not busywork — it is calibration. It builds the reference point you need to catch the agent when it is wrong. Walk the by-hand method: read the full stack trace top to bottom, find the file and line number, open that file, read the surrounding context, form a hypothesis, test it with a minimal change. Q&A before moving to the project brief.">
+    <section class="slide" data-notes="This is the most important beat of the week, so do not rush it. The question to sit with: why are you being asked to fix the first bug by hand, with no agent, right after seeing how powerful Claude Code is? Here is the real answer: you cannot supervise a machine doing something you have never done yourself. If you have never read a stack trace and traced an error back to its root cause, you will not know when the agent is reading the trace wrong and giving you a plausible but incorrect fix. The by-hand bug is not busywork — it is calibration. It builds the reference point you need to catch the agent when it is wrong. The by-hand method: read the full stack trace top to bottom, find the file and line number, open that file, read the surrounding context, form a hypothesis, test it with a minimal change.">
       <div class="slide-content">
         <span class="eyebrow">Non-negotiable rep</span>
         <h2>The by-hand bug — why it matters</h2>
@@ -282,7 +282,7 @@
     </section>
 
     <!-- SLIDE 15: Self-Learn -->
-    <section class="slide" data-notes="Walk through the four self-learn topics quickly — 2 minutes total. Topic A is GitHub beyond commit-and-push: branch, rebase, resolve a conflict without panic. Topic B is reading a large unfamiliar codebase: orient in a repo you did not write and answer the three diagnostic questions in writing. Topic C is Claude Code fundamentals: brief, run, and review a single agent and verify its explanation against actual code line by line. Topic D is testing code you did not write: add a happy-path test and an edge-case test. Emphasise: the AI prompts included in each topic are not shortcuts — they are worked examples of how to ask a good question. The goal is for each intern to adapt those prompts to their specific situation rather than paste them blindly. Total self-learn budget is 6 to 8 hours.">
+    <section class="slide" data-notes="Here are the four self-learn topics. Topic A is GitHub beyond commit-and-push: branch, rebase, resolve a conflict without panic. Topic B is reading a large unfamiliar codebase: orient in a repo you did not write and answer the three diagnostic questions in writing. Topic C is Claude Code fundamentals: brief, run, and review a single agent and verify its explanation against actual code line by line. Topic D is testing code you did not write: add a happy-path test and an edge-case test. The AI prompts included in each topic are not shortcuts — they are worked examples of how to ask a good question. Adapt those prompts to your specific situation rather than pasting them blindly. Budget 6 to 8 hours of self-learn total.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn — 6 to 8 hrs</span>
         <h2>Four topics this week</h2>
@@ -304,7 +304,7 @@
     </section>
 
     <!-- SLIDE 15a: Self-learn A — GitHub beyond commit and push -->
-    <section class="slide" data-notes="Topic A, 1.5 to 2 hours. The goal is muscle memory: branch, rebase, and resolve a merge conflict without panic. Push them to actually manufacture a conflict in the training repo and resolve it from the command line — reading about conflicts does not build the reflex, hitting one does. The video and the two Atlassian guides are the canonical references. The AI prompt is a worked example of how to ask for a guided walkthrough plus practice reps; tell them to adapt it, not paste it blindly.">
+    <section class="slide" data-notes="Topic A, 1.5 to 2 hours. The goal is muscle memory: branch, rebase, and resolve a merge conflict without panic. Actually manufacture a conflict in the training repo and resolve it from the command line — reading about conflicts does not build the reflex, hitting one does. The video and the two Atlassian guides are the canonical references. The AI prompt is a worked example of how to ask for a guided walkthrough plus practice reps; adapt it, do not paste it blindly.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn A · 1.5–2 hrs</span>
         <h2>GitHub beyond commit and push</h2>
@@ -322,7 +322,7 @@
     </section>
 
     <!-- SLIDE 15b: Self-learn B — Reading a large unfamiliar codebase -->
-    <section class="slide" data-notes="Topic B, 1.5 to 2 hours. Goal: orient in a repo you did not write and find where to make a change. The deliverable is written — answer the three diagnostic questions on paper, do not just feel like you understand. The two reads are short and practical. The AI prompt has them ask Claude Code for a map of the repo without changing files — a read-only onboarding pass. Stress that they must verify the map against the actual code, not trust it.">
+    <section class="slide" data-notes="Topic B, 1.5 to 2 hours. Goal: orient in a repo you did not write and find where to make a change. The deliverable is written — answer the three diagnostic questions on paper, do not just feel like you understand. The two reads are short and practical. The AI prompt has you ask Claude Code for a map of the repo without changing files — a read-only onboarding pass. You must verify the map against the actual code, not trust it.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn B · 1.5–2 hrs</span>
         <h2>Reading a large unfamiliar codebase</h2>
@@ -339,7 +339,7 @@
     </section>
 
     <!-- SLIDE 15c: Self-learn C — Claude Code fundamentals -->
-    <section class="slide" data-notes="Topic C, 1 to 1.5 hours. Goal: brief, run, and review a single agent and catch its mistakes. The key rep is verification — ask Claude Code to explain a module, then check every claim against the actual code line by line. Point them at the Quickstart, especially the CLAUDE.md and reviewing-changes sections. The AI prompt forces the agent to cite functions and line ranges so it can be checked, and to flag uncertainty rather than guess.">
+    <section class="slide" data-notes="Topic C, 1 to 1.5 hours. Goal: brief, run, and review a single agent and catch its mistakes. The key rep is verification — ask Claude Code to explain a module, then check every claim against the actual code line by line. Read the Quickstart, especially the CLAUDE.md and reviewing-changes sections. The AI prompt forces the agent to cite functions and line ranges so you can check it, and to flag uncertainty rather than guess.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn C · 1–1.5 hrs</span>
         <h2>Claude Code fundamentals</h2>
@@ -356,7 +356,7 @@
     </section>
 
     <!-- SLIDE 15d: Self-learn D — Writing tests for code you did not write -->
-    <section class="slide" data-notes="Topic D, 1 to 1.5 hours. Goal: add a happy-path test and an edge-case test to existing code. The trap to call out: a test that just mirrors the implementation proves nothing — the prompt explicitly tells the agent not to do that. Have them read their language's standard test-runner docs (pytest or Jest) plus the repo's own testing section. End every test by asking: what would make this fail?">
+    <section class="slide" data-notes="Topic D, 1 to 1.5 hours. Goal: add a happy-path test and an edge-case test to existing code. Watch for the trap: a test that just mirrors the implementation proves nothing — the prompt explicitly tells the agent not to do that. Read your language's standard test-runner docs (pytest or Jest) plus the repo's own testing section. End every test by asking: what would make this fail?">
       <div class="slide-content">
         <span class="eyebrow">Self-learn D · 1–1.5 hrs</span>
         <h2>Writing tests for code you did not write</h2>
@@ -373,7 +373,7 @@
     </section>
 
     <!-- SLIDE 16: Weekly Project -->
-    <section class="slide" data-notes="Walk the project brief carefully — this is the concrete deliverable. Three phases: first, clone, install, run the test suite, and confirm it is green before touching anything (if it is already red, write that down). Second, find the first small genuine bug and fix it by hand — no agent. Read the stack trace, trace the root cause, write down what it taught you. Third, find a second genuine issue and brief Claude Code to fix it. Review the diff before accepting. Add at least one test. Then open one clean PR: a title that describes the change, a description that explains the why, the tests included, CI passing. Deliverables are the merged PR link and a half-page written note. The note is not optional — it is how the assessment judges whether the trainee understood what they did, or just got lucky.">
+    <section class="slide" data-notes="Here is the concrete deliverable — work through it carefully. Three phases: first, clone, install, run the test suite, and confirm it is green before touching anything (if it is already red, write that down). Second, find the first small genuine bug and fix it by hand — no agent. Read the stack trace, trace the root cause, write down what it taught you. Third, find a second genuine issue and brief Claude Code to fix it. Review the diff before accepting. Add at least one test. Then open one clean PR: a title that describes the change, a description that explains the why, the tests included, CI passing. Your deliverables are the merged PR link and a half-page written note. The note is not optional — it is how the assessment judges whether you understood what you did, or just got lucky.">
       <div class="slide-content">
         <span class="eyebrow">This week's ship</span>
         <h2>The weekly project</h2>
@@ -390,7 +390,7 @@
     </section>
 
     <!-- SLIDE 16a: Project requirements checklist -->
-    <section class="slide" data-notes="These six are the non-negotiable must-haves — every one of them has to be true before the project counts as done. Read them as a checklist, not a suggestion. The two that trainees skip under time pressure are the by-hand bug (they reach for the agent immediately) and the test covering their change (they fix and run, but never add a test). Call both out. The deliberate split — one bug by hand, one with Claude Code — is the whole point of the week: it forces them to feel the difference between doing it themselves and supervising a machine.">
+    <section class="slide" data-notes="These six are the non-negotiable must-haves — every one of them has to be true before the project counts as done. Treat them as a checklist, not a suggestion. The two you are most likely to skip under time pressure are the by-hand bug (you reach for the agent immediately) and the test covering your change (you fix and run, but never add a test). Do not skip either. The deliberate split — one bug by hand, one with Claude Code — is the whole point of the week: it forces you to feel the difference between doing it yourself and supervising a machine.">
       <div class="slide-content">
         <span class="eyebrow">Project · must-haves</span>
         <h2>Requirements checklist</h2>
@@ -406,7 +406,7 @@
     </section>
 
     <!-- SLIDE 16b: Project suggested steps & stretch -->
-    <section class="slide" data-notes="This is the recommended order of operations — it keeps trainees from thrashing. Confirm a green baseline first so any failure later is theirs, not pre-existing. Orient with the Topic B method and write the three-question answer before touching code. Only then the two bugs, by-hand first. Branch, clean commits, PR, respond to review, merge. The stretch goals are optional but high-value: a regression test that would have caught the bug teaches prevention, and reviewing a peer's PR builds the reviewer muscle they will need by Week 3.">
+    <section class="slide" data-notes="This is the recommended order of operations — it keeps you from thrashing. Confirm a green baseline first so any failure later is yours, not pre-existing. Orient with the Topic B method and write the three-question answer before touching code. Only then the two bugs, by-hand first. Branch, clean commits, PR, respond to review, merge. The stretch goals are optional but high-value: a regression test that would have caught the bug teaches prevention, and reviewing a peer's PR builds the reviewer muscle you will need by Week 3.">
       <div class="slide-content">
         <span class="eyebrow">Project · how to approach it</span>
         <h2>Suggested steps &amp; stretch</h2>
@@ -428,7 +428,7 @@
     </section>
 
     <!-- SLIDE 17: Assessment -->
-    <section class="slide" data-notes="This is the slide that answers 'how am I graded?' — do not skip it, ambiguity here is what makes trainees anxious. Two things get submitted: the merged PR link and a half-page written note covering how you navigated the codebase, what the by-hand bug taught you, and where Claude Code helped or got in the way. On top of that, a 3-minute walkthrough — recorded or live in next class — of your change: what was wrong, how you fixed it, one thing the by-hand bug taught you about reading code. Walk the four rubric weights and make each concrete. Technical execution (30%): does the fix work, are the tests meaningful, is the PR clean, did CI pass. Handling ambiguity and failure (30%, equal top weight — say this out loud): how you navigated an unfamiliar repo and a real bug without freezing. Communication (25%): can a non-author follow your PR description and walkthrough. Ownership (15%): did you drive it to merged or stall waiting for help. Close on the definition of done and let it land: a reviewer who has never seen your change can read the PR, understand what it does and why, see the test that proves it, and watch CI pass — all without asking you a single question. That is the bar.">
+    <section class="slide" data-notes="This is the slide that answers 'how am I graded?' — do not skip it, ambiguity here is what makes people anxious. Two things get submitted: the merged PR link and a half-page written note covering how you navigated the codebase, what the by-hand bug taught you, and where Claude Code helped or got in the way. On top of that, a 3-minute walkthrough — recorded or live in next class — of your change: what was wrong, how you fixed it, one thing the by-hand bug taught you about reading code. Here are the four rubric weights, made concrete. Technical execution (30%): does the fix work, are the tests meaningful, is the PR clean, did CI pass. Handling ambiguity and failure (30%, equal top weight): how you navigated an unfamiliar repo and a real bug without freezing. Communication (25%): can a non-author follow your PR description and walkthrough. Ownership (15%): did you drive it to merged or stall waiting for help. Let the definition of done land: a reviewer who has never seen your change can read the PR, understand what it does and why, see the test that proves it, and watch CI pass — all without asking you a single question. That is the bar.">
       <div class="slide-content">
         <span class="eyebrow">How you're judged</span>
         <h2>Assessment</h2>
@@ -447,7 +447,7 @@
     </section>
 
     <!-- SLIDE 18: Common Pitfalls -->
-    <section class="slide" data-notes="Run through these quickly — 3 minutes max. These are not hypothetical; they are the exact mistakes the previous cohort made. Refactoring the whole file is the most common: the trainee sees something they do not like, fixes it, and now their PR is 400 lines and the reviewer cannot tell which line is the actual bug fix. Ignoring existing style is second: if the codebase uses single quotes, do not switch to double quotes just because you prefer them. Pushing without running tests locally is third and the most embarrassing: you learn CI exists when it fails on you in public. The defensive review response is fourth: 'I disagree' is fine, but it needs a reason and a question, not a dismissal. Ask the room: which of these do you think you are most likely to do? That self-awareness is half the defence.">
+    <section class="slide" data-notes="These are not hypothetical; they are the exact mistakes the previous cohort made. Refactoring the whole file is the most common: you see something you do not like, fix it, and now your PR is 400 lines and the reviewer cannot tell which line is the actual bug fix. Ignoring existing style is second: if the codebase uses single quotes, do not switch to double quotes just because you prefer them. Pushing without running tests locally is third and the most embarrassing: you learn CI exists when it fails on you in public. The defensive review response is fourth: 'I disagree' is fine, but it needs a reason and a question, not a dismissal. Ask yourself: which of these are you most likely to do? That self-awareness is half the defence.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -463,7 +463,7 @@
     </section>
 
     <!-- SLIDE 19: Recap -->
-    <section class="slide recap" data-notes="Final slide. Read the three recap points slowly. Then give the room 30 seconds of silence to write them down or screenshot the slide. The recap points are deliberately short enough to remember without notes. After the recap, preview week 2 with genuine enthusiasm — data fluency and SQL is where interns start touching real customer data, which raises the stakes in a motivating way. End with: the project is live, the training repo link is in the channel, and you are available for 30 minutes in the breakout room for anyone who is stuck. Remind them: the goal this week is not perfect code — it is experiencing the full loop from clone to merged PR, twice.">
+    <section class="slide recap" data-notes="Final slide. Sit with the three recap points — they are deliberately short enough to remember without notes, so write them down or screenshot the slide. Next up is Week 2: data fluency and SQL, where you start touching real customer data, which raises the stakes. The project is live and the training repo link is in the channel; if you get stuck, help is available. Remember: the goal this week is not perfect code — it is experiencing the full loop from clone to merged PR, twice.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>
@@ -484,15 +484,15 @@
     </section>
 
     <!-- APPENDIX: Instructor live-demo prep (not shown live) -->
-    <section class="slide" data-notes="Appendix, for the instructor — not part of the live flow. Have all five of these ready and tested before class so no live segment stalls on setup. The merge conflict and the failing CI pipeline in particular need to be staged in advance: you cannot manufacture them convincingly on the fly without burning the room's attention.">
+    <section class="slide" data-notes="These are the five things you'll see demonstrated live this week, staged in advance so no segment stalls on setup. The merge conflict and the failing CI pipeline in particular are set up ahead of time — they cannot be manufactured convincingly on the fly. Watch each one closely; you'll reproduce the same moves yourself in the project.">
       <div class="slide-content">
-        <span class="eyebrow">Appendix · for the instructor</span>
-        <h2>Live-demo prep checklist</h2>
+        <span class="eyebrow">Appendix · the live demos</span>
+        <h2>What you'll see demonstrated live</h2>
         <ul class="big-list">
           <li>A real repo cloned and ready.</li>
           <li>A pre-made branch with a deliberate merge conflict.</li>
           <li>A PR already open with review comments.</li>
-          <li>A CI pipeline that can be made to fail and pass on demand.</li>
+          <li>A CI pipeline made to fail and pass on demand.</li>
           <li>Claude Code authenticated inside VS Code.</li>
         </ul>
       </div>

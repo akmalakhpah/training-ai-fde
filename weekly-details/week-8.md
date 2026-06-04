@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Turn a vague business problem into a concrete technical plan.
 - Find the real problem behind the stated one.
@@ -19,45 +19,45 @@ By the end of the week the intern can:
 
 > Purpose: live scoping drills, then turn one brief into a filled scoping document on screen. This outline is the brief for the slide deck.
 
-### Slide-by-slide outline
+### What you'll cover
 
-**Block 1: Title and framing (3 min)**
-- Slide: "Scoping Ambiguity."
-- One line: the technical work is the easy half. The hard half is figuring out what to build before you build it.
+**Title and framing**
+- "Scoping Ambiguity."
+- The one line to hold onto: the technical work is the easy half. The hard half is figuring out what to build before you build it.
 
-**Block 2: Why briefs are vague (8 min)**
+**Why briefs are vague**
 - Customers describe symptoms, not problems. "We want to use AI" is a wish, not a spec.
 - The cost of building the stated request instead of the real need.
-- Talking point: the requirement looks vague because the business goal behind it was never made explicit.
+- The takeaway: the requirement looks vague because the business goal behind it was never made explicit.
 
-**Block 3: The clarifying question (12 min)**
+**The clarifying question**
 - Good questions vs leading questions. Asking "why" to reach the business goal.
 - The starter set: what does success look like, who is the user, what happens today without this, what is the constraint (time, cost, data, access).
-- Live: take a one-line brief and generate ten clarifying questions as a class.
+- You'll take a one-line brief and generate ten clarifying questions together.
 
-**Block 4: Finding the real problem (12 min)**
+**Finding the real problem**
 - The stated request vs the underlying need, side by side.
-- Live: a brief like "fix our support load" worked back to the real problem (maybe it is a docs problem, or a routing problem, not an AI problem).
-- Talking point: the best scoping sometimes ends with "you do not need AI for this".
+- You'll see a brief like "fix our support load" worked back to the real problem (maybe it is a docs problem, or a routing problem, not an AI problem).
+- The takeaway: the best scoping sometimes ends with "you do not need AI for this".
 
-**Block 5: Setting boundaries (12 min)**
+**Setting boundaries**
 - Scope creep and how to bound an open problem: what is in, what is out, what is explicitly not being built.
 - Phrasing in scope from out of scope without sounding like a no.
-- Live: draw the in and out line for one brief.
+- You'll draw the in and out line for one brief.
 
-**Block 6: Pushing back without losing the customer (12 min)**
-- Live: the instructor models declining a bad request while keeping trust, then a counter-example of doing it badly.
-- Talking point: "no" with a reason and an alternative builds trust; "no" alone loses it.
+**Pushing back without losing the customer**
+- You'll watch a bad request declined while trust is kept, then a counter-example of doing it badly.
+- The takeaway: "no" with a reason and an alternative builds trust; "no" alone loses it.
 
-**Block 7: The scoping document (16 min)**
-- Live: turn one brief into a filled scoping document on screen, using the template the intern will use.
+**The scoping document**
+- You'll see one brief turned into a filled scoping document on screen, using the template you will use yourself.
 - The sections: the real problem, the proposed plan, the assumptions made, and explicitly what we will not build.
-- Talking point: the what-we-will-not-build section is where the thinking shows.
+- The takeaway: the what-we-will-not-build section is where the thinking shows.
 
-**Block 8: Project and wrap (5 min)**
-- Walk the project brief and the defend-your-scope assessment. Q&A.
+**Project and wrap**
+- You'll walk through the project brief and the defend-your-scope assessment.
 
-### Live materials for the instructor
+### What you'll work from
 - Three or four one-line briefs drawn from real Pandai and SEA enterprise situations.
 - The scoping document template in Google Docs.
 - A good and a bad version of a pushback conversation.

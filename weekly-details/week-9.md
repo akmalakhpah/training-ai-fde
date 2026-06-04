@@ -6,9 +6,9 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
-- Integrate into systems they do not control.
+- Integrate into systems you do not control.
 - Work around legacy constraints and bad documentation.
 - Use the right authentication pattern for a given system.
 - Document workarounds so the next person survives.
@@ -17,7 +17,7 @@ By the end of the week the intern can:
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: walk a real integration including the workarounds that never appear in tutorials, and show the auth patterns the project will need. This outline is the brief for the slide deck.
+> Purpose: you'll walk through a real integration including the workarounds that never appear in tutorials, and see the auth patterns your project will need. This outline is the brief for the slide deck.
 
 ### Slide-by-slide outline
 
@@ -28,23 +28,23 @@ By the end of the week the intern can:
 **Block 2: Why customer environments are messy (8 min)**
 - Fragmented, undocumented, resistant to change, partial access.
 - The FDE stance: adapt to the customer's reality rather than forcing them to fit your product.
-- Talking point: you will rarely get the clean API the docs assume.
+- The reality: you will rarely get the clean API the docs assume.
 
 **Block 3: Integration patterns (12 min)**
 - Clean API, no API, file drop, scheduled export, webhook, scraping as last resort.
 - A decision tree: what to reach for given what access you have.
-- Live: identify the integration pattern for a real messy case.
+- Live: you'll identify the integration pattern for a real messy case.
 
 **Block 4: Authentication patterns (16 min)**
 - API keys: the simple bearer token. Where they leak and how to store them.
 - OAuth: delegated access without sharing passwords; the consent flow.
 - JWT: signed, self-contained tokens.
 - Webhooks: receiving events, and verifying they are genuine (HMAC signatures).
-- Live: show the two systems in the demo authenticate, an API key one way and a webhook the other.
-- Talking point: getting auth wrong is the most common way an integration silently fails or quietly leaks.
+- Live: you'll see the two systems in the demo authenticate, an API key one way and a webhook the other.
+- Remember: getting auth wrong is the most common way an integration silently fails or quietly leaks.
 
 **Block 5: A real integration, warts and all (16 min)**
-- Live: the instructor walks a real integration end to end, narrating the workarounds: the field that is always null, the endpoint that rate-limits, the timezone that is wrong, the doc that lies.
+- Live: you'll watch a real integration walked end to end, with the workarounds narrated: the field that is always null, the endpoint that rate-limits, the timezone that is wrong, the doc that lies.
 - N8N as the glue between two systems that were not designed to talk.
 
 **Block 6: Legacy constraints and partial access (10 min)**
@@ -53,12 +53,12 @@ By the end of the week the intern can:
 
 **Block 7: Documenting workarounds (10 min)**
 - The three-line note per workaround: what, why, and what to watch.
-- Talking point: the next engineer inherits your workarounds. Undocumented, they look like bugs.
+- Remember: the next engineer inherits your workarounds. Undocumented, they look like bugs.
 
 **Block 8: Project and wrap (5 min)**
-- Walk the project brief and assessment. Q&A.
+- You'll walk through the project brief and assessment. Q&A.
 
-### Live materials for the instructor
+### Live materials
 - Two systems that were genuinely not designed to talk to each other.
 - A real example of each auth pattern.
 - A list of real workarounds from past integrations.

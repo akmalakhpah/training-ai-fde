@@ -6,7 +6,7 @@
 
 ## Learning objectives
 
-By the end of the week the intern can:
+By the end of the week you can:
 
 - Explain how LLM applications work in production.
 - Treat prompting as engineering, not guesswork.
@@ -17,7 +17,7 @@ By the end of the week the intern can:
 
 ## 1. Taught Class (90 minutes)
 
-> Purpose: build a small, reliable LLM feature live on the Claude API, so the intern sees that the model is the easy part and the system around it is the job. This outline is the brief for the slide deck.
+> Purpose: build a small, reliable LLM feature live on the Claude API, so you see that the model is the easy part and the system around it is the job. This outline is the brief for the slide deck.
 
 ### Slide-by-slide outline
 
@@ -28,42 +28,42 @@ By the end of the week the intern can:
 **Block 2: The shape of an LLM app (10 min)**
 - The loop: input, prompt assembly, model call, parse, validate, act, handle failure.
 - Where things go wrong: the model is non-deterministic, the output is text, and text lies about being JSON.
-- Talking point: the model is the easy part. The system around it is the job.
+- The key point: the model is the easy part. The system around it is the job.
 
 **Block 3: Prompting as engineering (12 min)**
 - A prompt is code: it has inputs, expected outputs, edge cases, and versions.
 - Anatomy: role, task, context, format instruction, examples, constraints.
-- Live: write a first prompt that classifies a question by topic, then improve it across two versions and show the output change.
+- You'll see a first prompt written that classifies a question by topic, then improved across two versions with the output change shown.
 
 **Block 4: Structured output (14 min)**
 - The problem: "please return JSON" is not a guarantee.
 - The solution: structured outputs and strict tool use that constrain the model to a schema.
-- Live: define a JSON schema and get the model to return guaranteed-valid JSON on the Claude API.
-- Talking point: never parse free text when you can constrain the shape.
+- You'll see a JSON schema defined and the model return guaranteed-valid JSON on the Claude API.
+- The key point: never parse free text when you can constrain the shape.
 
 **Block 5: Error handling and non-determinism (12 min)**
-- Live: call the same prompt five times, show the variation, then write code that handles it.
+- You'll see the same prompt called five times, the variation shown, then code written that handles it.
 - Retries, timeouts, fallbacks, and what to do when the model returns something unusable.
-- Talking point: design for the bad response, not the demo response.
+- The key point: design for the bad response, not the demo response.
 
 **Block 6: Streaming (6 min)**
 - What streaming is and when it matters (perceived latency for users).
-- Live: stream a response token by token.
+- You'll see a response streamed token by token.
 
 **Block 7: Cost and latency (12 min)**
 - Token economics: input tokens, output tokens, and where the cost actually lands.
-- Live: measure the cost per call of the feature, then multiply it to Pandai scale (a million students).
+- You'll see the cost per call of the feature measured, then multiplied to Pandai scale (a million students).
 - Model tiers: when Haiku is enough and Opus is overkill.
-- Talking point: "can you run this cheaply at scale" is the question every customer asks.
+- The key point: "can you run this cheaply at scale" is the question every customer asks.
 
 **Block 8: Project and wrap (5 min)**
-- Walk the project brief and assessment, including the one-line reliability check. Q&A.
+- You'll walk through the project brief and assessment, including the one-line reliability check. Q&A.
 
-### Live demo checklist for the instructor
-- A working Claude API key and a minimal project scaffold.
+### What you'll see demonstrated live
+- A live Claude API call from a minimal project scaffold.
 - A classification prompt that visibly improves across versions.
-- A JSON schema for structured output.
-- A cost counter that prints tokens and dollars per call.
+- A JSON schema enforcing structured output.
+- A cost counter printing tokens and dollars per call.
 
 ---
 

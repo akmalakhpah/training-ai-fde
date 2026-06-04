@@ -13,7 +13,7 @@
 <body data-week-num="5" data-deck-title="Week 05 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to the heaviest week in Phase 2. Warn the cohort upfront: this is a build week, not a reading week. The vector store has been provisioned ahead of time so they can jump straight into code without losing hours to infrastructure setup. By Friday they will have shipped a working retrieval pipeline over a real corpus and identified at least one genuine failure case they can explain.">
+    <section class="slide title" data-notes="Welcome to the heaviest week in Phase 2. Know upfront: this is a build week, not a reading week. The vector store has been provisioned ahead of time so you can jump straight into code without losing hours to infrastructure setup. By Friday you will have shipped a working retrieval pipeline over a real corpus and identified at least one genuine failure case you can explain.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 05 · Phase 2 — AI Application Engineering</span>
         <h1>Retrieval and Grounding (RAG)</h1>
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="slide quote" data-notes="The fundamental problem with ungrounded models is not that they refuse to answer — it is that they answer confidently even when they are completely wrong. This is far more dangerous in production than a model that says 'I cannot find this.' Let this land before moving to the solution. Ask the room: who has already experienced a model giving a confident but wrong answer? That lived experience is the entire motivation for this week.">
+    <section class="slide quote" data-notes="The fundamental problem with ungrounded models is not that they refuse to answer — it is that they answer confidently even when they are completely wrong. This is far more dangerous in production than a model that says 'I cannot find this.' If you have already watched a model give a confident but wrong answer, that lived experience is the entire motivation for this week.">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The failure mode</span>
         <p class="pull-quote">'The model was fluent, authoritative, and completely wrong — and no one in the room could tell.'</p>
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Read each objective out loud and anchor it to a concrete deliverable. Objective 1 is theory tested in the class. Objectives 2 through 4 are tested in the project and assessment. Emphasise that knowing when NOT to use RAG is a first-class skill — an FDE who reaches for RAG reflexively ships over-engineered systems that are harder to debug and maintain than the problem warranted.">
+    <section class="slide" data-notes="Each objective anchors to a concrete deliverable. Objective 1 is theory tested in the class. Objectives 2 through 4 are tested in the project and assessment. Knowing when NOT to use RAG is a first-class skill — if you reach for RAG reflexively you ship over-engineered systems that are harder to debug and maintain than the problem warranted.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk through the agenda so the class knows where they are at all times. Total runtime is 90 minutes. Live coding segments are at Block 4 (chunking comparison), Block 5 (embedding scores), Block 6 (working grounded answer), and Block 7 (wrong retrieval). Save the last 8 minutes for the project walkthrough and Q&amp;A. Tell them the vector store is already provisioned — no setup today.">
+    <section class="slide" data-notes="Here is where you are headed today. You will see live coding for the chunking comparison, embedding scores, a working grounded answer, and a wrong retrieval, then the project walkthrough. The vector store is already provisioned — no setup today.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda</h2>
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="This contrast is the core motivation for RAG. The left column is what every base model does by default: recall from training weights, no source, no auditability, confident when wrong. The right column is what a grounded system gives you: retrieved evidence, citeable sources, an explicit 'I cannot find this' fallback, and visible failure. An FDE ships systems where the user can ask 'where does this answer come from?' and get a real answer. That is not optional in most production contexts.">
+    <section class="slide two-col" data-notes="This contrast is the core motivation for RAG. The left column is what every base model does by default: recall from training weights, no source, no auditability, confident when wrong. The right column is what a grounded system gives you: retrieved evidence, citeable sources, an explicit 'I cannot find this' fallback, and visible failure. You ship systems where the user can ask 'where does this answer come from?' and get a real answer. That is not optional in most production contexts.">
       <div class="slide-content">
         <span class="eyebrow">Why grounding matters</span>
         <h2>Memory vs retrieved evidence</h2>
@@ -88,7 +88,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Spend three full minutes on this diagram — it is the frame the rest of the class hangs on. Indexing happens once (or on a schedule): chunk the documents, embed each chunk into a vector, store the vectors in a vector store. Query happens on every user request: embed the question, find the nearest chunks by similarity, stuff the chunks into a prompt with the question, call the model. Everything else in this class is a detail on one of these six steps. Ask the class to draw it from memory after this slide.">
+    <section class="slide" data-notes="Sit with this diagram — it is the frame the rest of the week hangs on. Indexing happens once (or on a schedule): chunk the documents, embed each chunk into a vector, store the vectors in a vector store. Query happens on every user request: embed the question, find the nearest chunks by similarity, stuff the chunks into a prompt with the question, call the model. Everything else this week is a detail on one of these six steps. Try to draw it from memory after this slide.">
       <div class="slide-content">
         <span class="eyebrow">The pipeline</span>
         <h2>RAG end to end — two phases</h2>
@@ -114,7 +114,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Two reasons to chunk. First, most documents are longer than a prompt window can hold in full. Second and more important: retrieval works best when chunks are semantically focused — a chunk that is half finance and half operations gives a weak signal to the similarity search. Walk through each strategy. The overlap setting is the one trainees skip most often: without it, answers that straddle a chunk boundary are systematically missed. Live: chunk the same syllabus page three ways and ask the same question against each to show what changes.">
+    <section class="slide" data-notes="Two reasons to chunk. First, most documents are longer than a prompt window can hold in full. Second and more important: retrieval works best when chunks are semantically focused — a chunk that is half finance and half operations gives a weak signal to the similarity search. Work through each strategy. The overlap setting is the one you will skip most often: without it, answers that straddle a chunk boundary are systematically missed. You will watch the same syllabus page chunked three ways with the same question asked against each, to see what changes.">
       <div class="slide-content">
         <span class="eyebrow">Indexing — step 1</span>
         <h2>Chunking strategies and tradeoffs</h2>
@@ -128,7 +128,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="An embedding is a list of numbers — typically 768 to 1536 of them — that encodes the meaning of a piece of text. Two pieces of text with similar meaning produce vectors close to each other in that high-dimensional space; dissimilar text produces distant vectors. Cosine similarity is the standard metric: 1.0 means identical direction, 0 means unrelated. Live: embed ten curriculum chunks, run one query, read the top-5 similarity scores out loud so the class can see what 'close' and 'distant' actually look like as numbers. Point out that a score of 0.72 versus 0.68 is a very small margin — minor phrasing changes can flip which chunk ranks first.">
+    <section class="slide" data-notes="An embedding is a list of numbers — typically 768 to 1536 of them — that encodes the meaning of a piece of text. Two pieces of text with similar meaning produce vectors close to each other in that high-dimensional space; dissimilar text produces distant vectors. Cosine similarity is the standard metric: 1.0 means identical direction, 0 means unrelated. You will watch ten curriculum chunks get embedded, one query run, and the top-5 similarity scores read out, so you can see what 'close' and 'distant' actually look like as numbers. Notice that a score of 0.72 versus 0.68 is a very small margin — minor phrasing changes can flip which chunk ranks first.">
       <div class="slide-content">
         <span class="eyebrow">Indexing — step 2</span>
         <h2>Embeddings and similarity search</h2>
@@ -142,7 +142,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Stuffing is the simplest and most common assembly pattern: concatenate the retrieved chunks, append the question, and instruct the model to answer only from the provided context. The fallback instruction is critical and non-optional — without it, the model will hallucinate from training memory even when retrieval fails, because helpfulness is its default behaviour. Show the live working example over the curriculum corpus before moving on to failure modes, so the class has a mental baseline for what correct grounded output looks like.">
+    <section class="slide" data-notes="Stuffing is the simplest and most common assembly pattern: concatenate the retrieved chunks, append the question, and instruct the model to answer only from the provided context. The fallback instruction is critical and non-optional — without it, the model will hallucinate from training memory even when retrieval fails, because helpfulness is its default behaviour. You will watch a live working example over the curriculum corpus before failure modes, so you have a mental baseline for what correct grounded output looks like.">
       <div class="slide-content">
         <span class="eyebrow">Query phase</span>
         <h2>Assembling the grounded answer</h2>
@@ -164,7 +164,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide demo" data-notes="This is the most important block in the class — allocate the full 14 minutes. First show a query that works cleanly: the right chunk is retrieved, the similarity score is clearly highest, the answer is correct, and you can trace it to the source. Then deliberately trigger a wrong retrieval: choose a question whose answer is split across a chunk boundary, or whose keyword appears in an irrelevant section of the corpus. The model answers confidently in both cases. Point at that confidence explicitly: there is no error, no warning, no signal that anything went wrong — just a wrong answer delivered with authority. That is the failure mode that ships to users.">
+    <section class="slide demo" data-notes="This is the most important block of the week. First you will see a query that works cleanly: the right chunk is retrieved, the similarity score is clearly highest, the answer is correct, and you can trace it to the source. Then a wrong retrieval is triggered on purpose: a question whose answer is split across a chunk boundary, or whose keyword appears in an irrelevant section of the corpus. The model answers confidently in both cases. Notice that confidence explicitly: there is no error, no warning, no signal that anything went wrong — just a wrong answer delivered with authority. That is the failure mode that ships to users.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~14 min</span>
         <h2>RAG working well — then confidently wrong</h2>
@@ -179,7 +179,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="Label the failure modes precisely so trainees can diagnose them in their own projects rather than just noticing something is wrong. Missing context: the right chunk was never indexed or was merged into a larger chunk that dilutes its signal. Distracting context: the wrong chunk scored higher than the correct one because it shares surface vocabulary. Split answer: the answer spans a chunk boundary and neither half retrieves enough to answer correctly. Each failure mode has a different fix — re-chunk, query expansion, smaller overlap — and the diagnosis determines the fix. Repeat the key point: the scary failure is not a crash or a refusal, it is a confident wrong answer.">
+    <section class="slide" data-notes="Label the failure modes precisely so you can diagnose them in your own project rather than just noticing something is wrong. Missing context: the right chunk was never indexed or was merged into a larger chunk that dilutes its signal. Distracting context: the wrong chunk scored higher than the correct one because it shares surface vocabulary. Split answer: the answer spans a chunk boundary and neither half retrieves enough to answer correctly. Each failure mode has a different fix — re-chunk, query expansion, smaller overlap — and the diagnosis determines the fix. Remember the key point: the scary failure is not a crash or a refusal, it is a confident wrong answer.">
       <div class="slide-content">
         <span class="eyebrow">Failure modes</span>
         <h2>When RAG retrieves the wrong thing — and why</h2>
@@ -193,7 +193,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="Reflexively reaching for RAG is one of the most common mistakes an FDE makes, and week 5 is where they internalise the decision. Run through both columns. If the question has a deterministic lookup answer — a price, a date, a user ID — a database query is faster, cheaper, and more reliable than embedding similarity. If the entire corpus fits in one prompt and you run it infrequently, just stuff the whole thing in. RAG earns its complexity only when the corpus is large, dynamic, varied, and the questions are genuinely semantic. Ask the class to name one task in their project corpus where RAG might be overkill.">
+    <section class="slide two-col" data-notes="Reflexively reaching for RAG is one of the most common mistakes you can make, and this week is where you internalise the decision. Work through both columns. If the question has a deterministic lookup answer — a price, a date, a user ID — a database query is faster, cheaper, and more reliable than embedding similarity. If the entire corpus fits in one prompt and you run it infrequently, just stuff the whole thing in. RAG earns its complexity only when the corpus is large, dynamic, varied, and the questions are genuinely semantic. Name one task in your project corpus where RAG might be overkill.">
       <div class="slide-content">
         <span class="eyebrow">Tool selection</span>
         <h2>When RAG is the wrong tool</h2>
@@ -222,7 +222,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="Measurement is what separates an FDE from a tinkerer. The method is deliberately simple: write five questions before you start building, label the correct source chunk for each, run retrieval, and check whether the correct chunk appears in the top-k results. Precision at k is the fraction of queries where the right chunk was in the top-k. This single number lets you compare chunking strategies, embedding models, and overlap settings in a principled way — you can tell whether a change made retrieval better or worse, rather than relying on gut feel. Introduce this now so they design the eval set before they start building.">
+    <section class="slide" data-notes="Measurement is what separates an FDE from a tinkerer. The method is deliberately simple: write five questions before you start building, label the correct source chunk for each, run retrieval, and check whether the correct chunk appears in the top-k results. Precision at k is the fraction of queries where the right chunk was in the top-k. This single number lets you compare chunking strategies, embedding models, and overlap settings in a principled way — you can tell whether a change made retrieval better or worse, rather than relying on gut feel. Set up this eval set before you start building.">
       <div class="slide-content">
         <span class="eyebrow">Evaluating the system</span>
         <h2>Measuring retrieval quality</h2>
@@ -236,7 +236,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="The reliability check is a required submission item, not a stretch goal — flag this clearly. Every RAG system can mislead a user with a confident wrong answer; the question is whether the system flags low confidence before that answer reaches the user. A similarity threshold is the simplest approach: if the top-k score is below a cutoff, surface a warning instead of an answer. Discuss this now so trainees build the safeguard from the start rather than bolting it on at the end. The stretch goal — exposing the similarity score to the user — is worth mentioning as a pattern they will see in real production systems.">
+    <section class="slide" data-notes="The reliability check is a required submission item, not a stretch goal. Every RAG system can mislead a user with a confident wrong answer; the question is whether the system flags low confidence before that answer reaches the user. A similarity threshold is the simplest approach: if the top-k score is below a cutoff, surface a warning instead of an answer. Build the safeguard from the start rather than bolting it on at the end. The stretch goal — exposing the similarity score to the user — is a pattern you will see in real production systems.">
       <div class="slide-content">
         <span class="eyebrow">Required: reliability check</span>
         <h2>Flagging low-confidence answers</h2>
@@ -250,7 +250,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk the project brief in detail — this is the last 8 minutes of class. The submission has two equally weighted parts: working code and a written failure analysis. The failure analysis is worth 30% of the rubric and is taken as seriously as the pipeline itself. The 5-minute demo must deliberately show a failure case and the trainee's honest read on why it happened — a demo that only shows the happy path will lose marks. The vector store is already provisioned; there is no infrastructure work to do before they start coding. Suggested steps 1 through 5 map directly to the learning objectives so they can self-check progress.">
+    <section class="slide" data-notes="Here is the project brief in detail. The submission has two equally weighted parts: working code and a written failure analysis. The failure analysis is worth 30% of the rubric and is taken as seriously as the pipeline itself. Your 5-minute demo must deliberately show a failure case and your honest read on why it happened — a demo that only shows the happy path will lose marks. The vector store is already provisioned; there is no infrastructure work to do before you start coding. The suggested steps map directly to the learning objectives so you can self-check progress.">
       <div class="slide-content">
         <span class="eyebrow">This week's project</span>
         <h2>Build a RAG system over a real corpus</h2>
@@ -266,7 +266,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="This is a heavy week — 16 to 20 hours total including class, self-learn, project, and assessment. Remind the class the vector store is already provisioned so they should not lose time to setup. The self-learn is structured into four sequenced topics: building from scratch, chunking strategies, embeddings and measurement, and when not to use RAG. They must do Topic A first — you cannot evaluate a pipeline you have not built. Each topic has a linked resource and a paste-into-Claude prompt that is ready to use; direct them to the weekly detail page for the exact links.">
+    <section class="slide" data-notes="This is a heavy week — 16 to 20 hours total including class, self-learn, project, and assessment. The vector store is already provisioned so you should not lose time to setup. Your self-learn is structured into four sequenced topics: building from scratch, chunking strategies, embeddings and measurement, and when not to use RAG. Do Topic A first — you cannot evaluate a pipeline you have not built. Each topic has a linked resource and a paste-into-Claude prompt that is ready to use; the weekly detail page has the exact links.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn (6–8 hours)</span>
         <h2>How to spend your self-learn time</h2>
@@ -279,7 +279,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide" data-notes="Pitfalls are predictable — most trainees hit at least two of these during week 5. Walk through each one quickly. Chunk size is the most commonly ignored lever: trainees pick 512 at random and never measure. The missing fallback instruction is the most dangerous omission: without it, the model hallucinates from training memory whenever retrieval misses, defeating the entire purpose of RAG. Only showing the happy path in the project submission is the most common rubric failure — the failure analysis is 30% of the grade. Finish with the infrastructure warning: most retrieval failures are chunking and query design problems, not vector store problems.">
+    <section class="slide" data-notes="Pitfalls are predictable — you will likely hit at least two of these this week. Chunk size is the most commonly ignored lever: it is tempting to pick 512 at random and never measure. The missing fallback instruction is the most dangerous omission: without it, the model hallucinates from training memory whenever retrieval misses, defeating the entire purpose of RAG. Only showing the happy path in your project submission is the most common rubric failure — the failure analysis is 30% of the grade. And remember the infrastructure point: most retrieval failures are chunking and query design problems, not vector store problems.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -293,7 +293,7 @@ If the answer is not in the context, say:
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Recap slide. Read the three bullets slowly and let each one land. Then preview Week 6 to give the class momentum: after building RAG this week they understand why structured tool access matters — RAG answers questions from static documents, but MCP and tool calling answer questions from live systems. The jump from week 5 to week 6 is the natural next step in building real AI applications. Remind them the vector store is provisioned and they should start Topic A of self-learn today.">
+    <section class="slide recap" data-notes="Let each of these three points land. Then look ahead to Week 6: after building RAG this week you understand why structured tool access matters — RAG answers questions from static documents, but MCP and tool calling answer questions from live systems. The jump from this week to next is the natural next step in building real AI applications. The vector store is provisioned, so start Topic A of self-learn today.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>

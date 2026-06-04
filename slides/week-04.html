@@ -13,7 +13,7 @@
 <body data-week-num="4" data-deck-title="Week 04 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to Phase 2: AI Application Engineering. This is where the course pivots from production foundations to the thing Pandai actually hired for — building systems that use AI in production. Stress that Phase 2 is not about understanding how models work internally; it is about engineering reliable systems on top of them. Quick temperature check: who has made an API call to a model before today? Set the frame: by Friday they will have shipped a small but real LLM feature with reliable structured output, error handling, and cost reporting.">
+    <section class="slide title" data-notes="Welcome to Phase 2: AI Application Engineering. This is where the course pivots from production foundations to the thing Pandai actually hired for — building systems that use AI in production. Phase 2 is not about understanding how models work internally; it's about engineering reliable systems on top of them. Have you made an API call to a model before today? Either way, here's the frame: by Friday you'll have shipped a small but real LLM feature with reliable structured output, error handling, and cost reporting.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 04 · Phase 2 — AI Application Engineering</span>
         <h1>LLM Application Patterns</h1>
@@ -21,7 +21,7 @@
       </div>
     </section>
 
-    <section class="slide quote" data-notes="Let this land before moving on. Most interns arrive thinking the exciting engineering challenge is the model itself. Correct that assumption immediately. The model is a black-box API call — what matters is the input you feed it, what you do with the output, and how your system behaves when the output is wrong. Every slide after this one is evidence for that claim. Ask: 'where do you think the hard work is?' and let them answer before revealing your view. They will underestimate parsing, validation, error handling, and cost — those are the topics this week fixes.">
+    <section class="slide quote" data-notes="Let this land. You'll probably arrive thinking the exciting engineering challenge is the model itself — it isn't. The model is a black-box API call; what matters is the input you feed it, what you do with the output, and how your system behaves when the output is wrong. Every slide after this one is evidence for that claim. Ask yourself where you think the hard work is. You'll underestimate parsing, validation, error handling, and cost — those are exactly the topics this week fixes.">
       <div class="slide-content">
         <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The real job</span>
         <p class="pull-quote">The model is the easy part. The system around it is the job.</p>
@@ -29,7 +29,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="State all four objectives clearly before diving in. These map directly to what the project rubric scores. 'Explain how LLM apps work in production' means they can trace the full loop: assemble, call, parse, validate, act, handle failure. 'Prompting as engineering' means they treat prompts like code with inputs, outputs, edge cases, and versions. 'Reliable structured output' means schema-constrained JSON, not hoping the model returns the right shape. 'Reason about cost and non-determinism' means they can calculate dollars per call and code defensively against variation.">
+    <section class="slide" data-notes="Here are all four objectives — they map directly to what the project rubric scores. 'Explain how LLM apps work in production' means you can trace the full loop: assemble, call, parse, validate, act, handle failure. 'Prompting as engineering' means you treat prompts like code with inputs, outputs, edge cases, and versions. 'Reliable structured output' means schema-constrained JSON, not hoping the model returns the right shape. 'Reason about cost and non-determinism' means you can calculate dollars per call and code defensively against variation.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
@@ -42,7 +42,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Give them the roadmap so they can track where they are in the 90 minutes. Blocks 1 through 6 are teaching segments; the demo block is participatory — encourage them to have a terminal open. Flag that the demo is the centrepiece: they will see every concept assembled into one working feature. The project brief comes at the end so they leave with concrete work to start. Budget note: each block is 10–14 minutes; the demo is 20 minutes; project brief is 5 minutes.">
+    <section class="slide" data-notes="Here's the roadmap so you can track where you are. Blocks 1 through 6 teach the concepts; the demo block is hands-on — have a terminal open for it. The demo is the centrepiece: you'll see every concept assembled into one working feature. The project brief comes at the end so you leave with concrete work to start.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda</h2>
@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Draw this loop on a whiteboard if you can, or walk through each step slowly. Input comes from a user or a system. Prompt assembly is where your engineering lives — context, format instructions, examples. The model call is just HTTP. Parsing is where things first break: you asked for JSON and got markdown with JSON inside it. Validation is your safety net. Action is what the feature actually does with the structured result. Failure handling is the step most interns skip entirely. Stress: every production LLM feature is this loop, nothing more, and the model is only one of seven steps.">
+    <section class="slide" data-notes="Picture this loop and walk through each step. Input comes from a user or a system. Prompt assembly is where your engineering lives — context, format instructions, examples. The model call is just HTTP. Parsing is where things first break: you asked for JSON and got markdown with JSON inside it. Validation is your safety net. Action is what the feature actually does with the structured result. Failure handling is the step you'll be tempted to skip entirely. Remember: every production LLM feature is this loop, nothing more, and the model is only one of seven steps.">
       <div class="slide-content">
         <span class="eyebrow">The production loop</span>
         <h2>How an LLM app actually works</h2>
@@ -75,7 +75,7 @@
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="This is the 'model is the easy part' slide made concrete. The left column is what interns expect to spend their time on. The right column is where production bugs actually live. Prompt assembly bugs are the most common: missing context, ambiguous instructions, or a format instruction that the model interprets differently on unusual input. Output parsing is brittle: free-text responses look like JSON until an edge case adds a preamble sentence. Validation is skipped by the majority of first implementations. Failure handling is almost always an afterthought. Ask: which column did you expect to spend most of your time in this week?">
+    <section class="slide two-col" data-notes="This is the 'model is the easy part' point made concrete. The left column is what you expect to spend your time on. The right column is where production bugs actually live. Prompt assembly bugs are the most common: missing context, ambiguous instructions, or a format instruction that the model interprets differently on unusual input. Output parsing is brittle: free-text responses look like JSON until an edge case adds a preamble sentence. Validation gets skipped in most first implementations. Failure handling is almost always an afterthought. Ask yourself: which column did you expect to spend most of your time in this week?">
       <div class="slide-content">
         <span class="eyebrow">Mental model</span>
         <h2>Where things go wrong</h2>
@@ -103,7 +103,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="A prompt is code. Make this point forcefully. A prompt has inputs (the things you interpolate in), expected outputs (the schema you defined), edge cases (short input, foreign-language input, adversarial input), and versions (v1 had no examples, v2 added two, v3 tightened the format instruction). If you treat a prompt as a magic string you type once and never revisit, you will ship a brittle feature. The six-part anatomy gives a shared vocabulary for the rest of the class. Walk through each part with a one-sentence example so they can apply it immediately in the live demo.">
+    <section class="slide" data-notes="A prompt is code — take that seriously. A prompt has inputs (the things you interpolate in), expected outputs (the schema you defined), edge cases (short input, foreign-language input, adversarial input), and versions (v1 had no examples, v2 added two, v3 tightened the format instruction). If you treat a prompt as a magic string you type once and never revisit, you'll ship a brittle feature. The six-part anatomy gives you a shared vocabulary for the rest of the week. Take each part with a one-sentence example so you can apply it immediately in the live demo.">
       <div class="slide-content">
         <span class="eyebrow">Prompting as engineering</span>
         <h2>A prompt is code — treat it like code</h2>
@@ -133,7 +133,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The problem is simple and painful: 'please return JSON' is a polite request, not a contract. The model might return JSON with a preamble sentence ('Here is the JSON you requested:'), JSON wrapped in a markdown code fence, JSON with trailing commas that fail to parse, or valid-looking JSON where a field has the wrong type. The solution is structured outputs: you pass a JSON schema to the API and the model is constrained at the decoding level — it literally cannot produce a token sequence that does not conform. The talking point to hammer: never parse free text when you can constrain the shape. This is the single biggest reliability improvement you can make to an LLM feature.">
+    <section class="slide" data-notes="The problem is simple and painful: 'please return JSON' is a polite request, not a contract. The model might return JSON with a preamble sentence ('Here is the JSON you requested:'), JSON wrapped in a markdown code fence, JSON with trailing commas that fail to parse, or valid-looking JSON where a field has the wrong type. The solution is structured outputs: you pass a JSON schema to the API and the model is constrained at the decoding level — it literally cannot produce a token sequence that does not conform. The point to hold onto: never parse free text when you can constrain the shape. This is the single biggest reliability improvement you can make to an LLM feature.">
       <div class="slide-content">
         <span class="eyebrow">Structured output</span>
         <h2>Never trust a model to format itself</h2>
@@ -148,7 +148,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Non-determinism is not a bug — it is a property of probabilistic models. But it means the same prompt, on the same input, on different calls, can return different things. Show them concretely by calling the same classification prompt five times and looking at the distribution of outputs. The design lesson is: code for the bad response, not the demo response. Retries should use exponential backoff and should feed the validation error back into the retry prompt so the model can self-correct. Fallbacks must be explicit: if the model returns something unusable after N retries, the feature must have a defined behaviour — log the failure, return a safe default, and alert. Never silently return garbage.">
+    <section class="slide" data-notes="Non-determinism is not a bug — it is a property of probabilistic models. But it means the same prompt, on the same input, on different calls, can return different things. See it concretely: call the same classification prompt five times and look at the distribution of outputs. The design lesson is: code for the bad response, not the demo response. Retries should use exponential backoff and should feed the validation error back into the retry prompt so the model can self-correct. Fallbacks must be explicit: if the model returns something unusable after N retries, the feature must have a defined behaviour — log the failure, return a safe default, and alert. Never silently return garbage.">
       <div class="slide-content">
         <span class="eyebrow">Error handling</span>
         <h2>Design for the bad response, not the demo response</h2>
@@ -162,7 +162,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Streaming matters for perceived latency and user experience. A non-streaming call on a long response makes the user wait for the full generation before seeing anything — for a 3-second generation that feels like a frozen screen. Streaming sends tokens as they are generated, so the user sees the response building in real time. For short classification-style calls, streaming adds code complexity with little benefit. For anything that generates paragraphs of text — feedback on a student answer, an explanation, a summary — streaming is the difference between a good and a poor user experience. Implementation is a single flag on the API client; show both modes live.">
+    <section class="slide" data-notes="Streaming matters for perceived latency and user experience. A non-streaming call on a long response makes the user wait for the full generation before seeing anything — for a 3-second generation that feels like a frozen screen. Streaming sends tokens as they are generated, so the user sees the response building in real time. For short classification-style calls, streaming adds code complexity with little benefit. For anything that generates paragraphs of text — feedback on a student answer, an explanation, a summary — streaming is the difference between a good and a poor user experience. Implementation is a single flag on the API client; you'll see both modes live.">
       <div class="slide-content">
         <span class="eyebrow">Streaming</span>
         <h2>When streaming changes the experience</h2>
@@ -189,7 +189,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Token economics is one of the most neglected skills in early LLM engineering. Every call has a cost: input tokens multiplied by the input price plus output tokens multiplied by the output price. The numbers look tiny — fractions of a cent — until you multiply by Pandai scale. Walk through the stat grid slowly and let the million-call number sink in. Model tier choice matters enormously: Haiku is roughly 25x cheaper than Opus per million tokens. If the task is classification or tagging, Haiku is almost always enough. Opus is for tasks that require genuine deep reasoning. The question every customer will ask: 'can you run this cheaply at scale?' They need to be able to answer it with a number before they deploy.">
+    <section class="slide" data-notes="Token economics is one of the most neglected skills in early LLM engineering. Every call has a cost: input tokens multiplied by the input price plus output tokens multiplied by the output price. The numbers look tiny — fractions of a cent — until you multiply by Pandai scale. Look at the stat grid and let the million-call number sink in. Model tier choice matters enormously: Haiku is roughly 25x cheaper than Opus per million tokens. If the task is classification or tagging, Haiku is almost always enough. Opus is for tasks that require genuine deep reasoning. The question every customer will ask: 'can you run this cheaply at scale?' You need to be able to answer it with a number before you deploy.">
       <div class="slide-content">
         <span class="eyebrow">Token economics</span>
         <h2>Cost per call — then multiply to Pandai scale</h2>
@@ -214,7 +214,7 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="This is the centrepiece of the class — build the feature live, narrating every decision. Start with a bare prompt that classifies a question by topic; show it working on easy input. Feed it a short ambiguous question and show it wobble or return the wrong category. Add a second version of the prompt with a format instruction and one example — show the output stabilise. Switch from free-text parsing to structured outputs with a JSON schema: topic as a string enum and difficulty as low/medium/hard. Add a cost counter that prints tokens in, tokens out, and dollars per call after every invocation. Finally wrap the call in try/except with a retry and an explicit fallback. The completed feature is the scaffold they start the project from.">
+    <section class="slide demo" data-notes="This is the centrepiece — the feature gets built live, with a reason behind every decision. Start with a bare prompt that classifies a question by topic; watch it work on easy input. Feed it a short ambiguous question and watch it wobble or return the wrong category. Add a second version of the prompt with a format instruction and one example — watch the output stabilise. Switch from free-text parsing to structured outputs with a JSON schema: topic as a string enum and difficulty as low/medium/hard. Add a cost counter that prints tokens in, tokens out, and dollars per call after every invocation. Finally wrap the call in try/except with a retry and an explicit fallback. The completed feature is the scaffold you start the project from.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live build · ~20 min</span>
         <h2>Classification feature — end to end on the Claude API</h2>
@@ -230,7 +230,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Walk through the self-learn topics so they know exactly what to do after class. Topic A is hands-on prompt iteration — they improve the classification prompt across three versions and keep notes on what changed the output; the AI prompt in the markdown is designed to be pasted directly into Claude. Topic B is structured output practice — they break naive JSON prompting with odd inputs and then see how a schema protects them. Topic C is cost arithmetic — they compute their own cost-per-call and scale it up to a million calls. Topic D is defensive coding — they call the same prompt five times and write handling code that survives the variation. Encourage them to use the AI prompts from the markdown; that is the self-learn format for Phase 2.">
+    <section class="slide" data-notes="Here's exactly what to do after class. Topic A is hands-on prompt iteration — you improve the classification prompt across three versions and keep notes on what changed the output; the AI prompt in the markdown is designed to be pasted directly into Claude. Topic B is structured output practice — you break naive JSON prompting with odd inputs and then see how a schema protects you. Topic C is cost arithmetic — you compute your own cost-per-call and scale it up to a million calls. Topic D is defensive coding — you call the same prompt five times and write handling code that survives the variation. Use the AI prompts from the markdown; that's the self-learn format for Phase 2.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn · 6–8 hrs</span>
         <h2>Four topics to work through</h2>
@@ -243,7 +243,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Read the brief carefully and field questions before moving on. The task is intentionally open: they pick any Pandai-flavoured input and define their own schema, as long as it has at least two fields with meaningful types. The four checklist items map directly to the rubric columns. Stress that cost reporting is not optional — it is a first-class requirement listed in the checklist, not a stretch goal. The suggested steps in the markdown are the recommended build order: define schema first, then prompt, then structured output, then error handling, then test against awkward inputs. The stretch item — prompt caching or a smaller model for part of the work — is genuinely valuable and worth encouraging for stronger interns.">
+    <section class="slide" data-notes="Read the brief carefully. The task is intentionally open: you pick any Pandai-flavoured input and define your own schema, as long as it has at least two fields with meaningful types. The four checklist items map directly to the rubric columns. Cost reporting is not optional — it's a first-class requirement listed in the checklist, not a stretch goal. The suggested steps in the markdown are the recommended build order: define schema first, then prompt, then structured output, then error handling, then test against awkward inputs. The stretch item — prompt caching or a smaller model for part of the work — is genuinely valuable and worth doing if you have the time.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
         <h2>Build a small LLM feature on the Claude API</h2>
@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Every Phase 2 deliverable carries a one-line reliability check. This is not an afterthought — it is a first-class deliverable that trains the habit of thinking about failure modes before they appear in production. The check forces the intern to name a specific input that breaks or degrades their feature and to articulate precisely what in their code catches it. A bad answer is vague: 'if the model returns something wrong my try/except handles it.' A good answer is precise: 'a question written entirely in Malay causes the topic classifier to return Other because the schema enum rejects the Malay-language value; this is caught by the validation step and logged with the raw response for review.' Model that distinction out loud.">
+    <section class="slide" data-notes="Every Phase 2 deliverable carries a one-line reliability check. This is not an afterthought — it's a first-class deliverable that trains the habit of thinking about failure modes before they appear in production. The check forces you to name a specific input that breaks or degrades your feature and to articulate precisely what in your code catches it. A bad answer is vague: 'if the model returns something wrong my try/except handles it.' A good answer is precise: 'a question written entirely in Malay causes the topic classifier to return Other because the schema enum rejects the Malay-language value; this is caught by the validation step and logged with the raw response for review.' Aim for that second kind of answer.">
       <div class="slide-content">
         <span class="eyebrow">Reliability check · every Phase 2 deliverable</span>
         <h2>Name one input that breaks it — and what catches it</h2>
@@ -274,7 +274,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Run through these pitfalls quickly — each one is a real failure mode from past interns or production LLM features. Stopping at the first working call is the most common: the demo worked on the happy path, so they submitted. Remind them the rubric explicitly rewards testing failure paths, and that the reliability check requires naming a failure. Parsing free text instead of using structured outputs is the most brittle decision and the easiest to fix with one API parameter. Ignoring cost until the end means they cannot answer the cost question in the rubric. Treating retries as optional means the feature crashes on the first transient API error. Using Opus for a task that Haiku handles equally well costs 25x more.">
+    <section class="slide" data-notes="Each of these pitfalls is a real failure mode from past cohorts or production LLM features. Stopping at the first working call is the most common: the demo worked on the happy path, so it got submitted. Remember the rubric explicitly rewards testing failure paths, and the reliability check requires naming a failure. Parsing free text instead of using structured outputs is the most brittle decision and the easiest to fix with one API parameter. Ignoring cost until the end means you can't answer the cost question in the rubric. Treating retries as optional means the feature crashes on the first transient API error. Using Opus for a task that Haiku handles equally well costs 25x more.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -289,7 +289,7 @@
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Three sentences, then preview Week 5. The transition from 'build a model app' to 'ground a model in real knowledge' is the natural next step: once you can get reliable structured output from a model, the next question is how you give it accurate, current, and domain-specific information without retraining it. RAG — Retrieval Augmented Generation — is the standard answer to that question in production. Set that expectation so they think about it during the project week and come to Week 5 with a question already forming.">
+    <section class="slide recap" data-notes="Three things to remember, then a look at Week 5. The transition from 'build a model app' to 'ground a model in real knowledge' is the natural next step: once you can get reliable structured output from a model, the next question is how you give it accurate, current, and domain-specific information without retraining it. RAG — Retrieval Augmented Generation — is the standard answer to that question in production. Keep it in mind during the project week and come to Week 5 with a question already forming.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>
