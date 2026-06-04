@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 2 · Data Fluency — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="2" data-deck-title="Week 02 · Slides">
+  <div class="deck">
+
+    <!-- Slide 1: Title -->
+    <section class="slide title" data-notes="Welcome the cohort to week 2. Set the context immediately: an FDE spends more time in the customer's data than in their own code, and that data is always messier than the demo they saw during a sales cycle. This week is about building the muscle to navigate that mess confidently. Ask for a quick show of hands: who has written a SQL JOIN before? Who has seen a production database with broken data in it? Use the answers to calibrate your pace for the first block.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 02 · Phase 1 — Production Foundations</span>
+        <h1>Data Fluency</h1>
+        <p class="subtitle">For people who will live inside customer databases.</p>
+      </div>
+    </section>
+
+    <!-- Slide 2: Hook / Quote -->
+    <section class="slide quote" data-notes="Hold on this slide for 20–30 seconds. Let it land. The point is not to discourage anyone — it is to reframe where the hard work actually happens. Most graduates assume writing the query is the skill. It is not. The skill is knowing what question to ask, reading data you did not design, and trusting nothing until you have checked it. Everything in this week flows from that reframe. Ask: what is the messiest data you have ever had to work with?">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The real job</span>
+        <p class="pull-quote">The demo dataset was clean. The customer's database never is.</p>
+        <p class="pull-quote-cite">— every FDE, six weeks into their first engagement</p>
+      </div>
+    </section>
+
+    <!-- Slide 3: Learning Objectives -->
+    <section class="slide" data-notes="Read each objective aloud and pause after each one. These are the measurable outcomes for the whole week — class, self-learn, and project together. Anchor every section of the class to at least one of these. The four objectives map directly to the four self-learn topics and the project requirements. At the end of the week, ask interns to score themselves 1–5 against each objective before they submit their project — this creates a feedback loop even before you mark the work.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By Friday you can</h2>
+        <ul class="big-list">
+          <li>Query, transform, and move real data with confidence.</li>
+          <li>Recognise dirty data and decide what to do about it.</li>
+          <li>Take a messy export and turn it into a clean, queryable table.</li>
+          <li>Use AI to draft SQL, then verify it by hand.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 4: Agenda -->
+    <section class="slide" data-notes="Walk through the agenda and give rough timings so they know when to expect breaks. You have 90 minutes total. Blocks 1 and 2 (SQL and window functions) take about 25 minutes including the first live demo. Block 3 (dirty data) takes 12 minutes. Block 4 (cleaning and loading) takes 12 minutes with the second live demo. Blocks 5–7 (indexing, Sheets, AI) take about 24 minutes. Save the last 10 minutes for the project brief and Q&A. Warn them upfront: there will be live queries on real data — if something is slow or breaks, that is part of the lesson.">
+      <div class="slide-content">
+        <span class="eyebrow">Today</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>SQL you actually need — joins, CTEs, subqueries</li>
+          <li>Window functions — ROW_NUMBER, LAG, running totals</li>
+          <li>Spotting dirty data — the profiling pass</li>
+          <li>Cleaning and loading — fix, drop, flag, or escalate</li>
+          <li>Indexing a slow query — before and after</li>
+          <li>The non-technical view — Gemini and Google Sheets</li>
+          <li>Using AI for SQL, safely</li>
+          <li>Project brief and wrap</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Slide 5: SQL You Actually Need -->
+    <section class="slide two-col" data-notes="Cover the four SQL constructs in order of how often they appear in customer work. On JOINs: ask the room the difference between INNER and LEFT JOIN — most know inner, but not what LEFT JOIN does to non-matching rows (they become NULLs on the right side, and this is where silent data loss hides). On CTEs: emphasise the WITH keyword and that each CTE is a named subquery you can reference once or many times in the same statement. Spend 2 minutes showing a subquery versus a CTE for the same problem — the CTE is almost always easier to debug and review. Allow 12 minutes total for this block including the live query that follows.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 1 · SQL</span>
+        <h2>The constructs that matter most</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Joins and aggregates</h3>
+            <ul>
+              <li>INNER JOIN — only matching rows on both sides</li>
+              <li>LEFT JOIN — all left rows, NULLs where right has no match</li>
+              <li>GROUP BY + COUNT / SUM / AVG</li>
+              <li>HAVING — filter after aggregation, not before</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">CTEs and subqueries</h3>
+            <ul>
+              <li>WITH cte_name AS (...) — give a step a name</li>
+              <li>Chain CTEs: each can reference the one above it</li>
+              <li>Subquery: the same idea, inline — harder to read</li>
+              <li>Rule of thumb: if you need to name it, use a CTE</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Window Functions -->
+    <section class="slide" data-notes="Window functions are the most powerful tool most junior engineers have never seen. Start with the key idea: unlike GROUP BY, a window function adds a column to every row — it does not collapse rows. Draw a table on the whiteboard: left side is the raw rows, right side is the same rows with a new ROW_NUMBER column added. Then show the OVER (PARTITION BY ... ORDER BY ...) syntax. The four workhorses to cover: ROW_NUMBER to enumerate rows per group, RANK for tied positions, LAG to pull the previous row's value into the current row, and SUM OVER for a running total. Give them 12 minutes including the live demo. The key insight to plant: window functions are how you detect data-quality problems, not just how you do analytics.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 2 · Window functions</span>
+        <h2>Calculate across rows without collapsing them</h2>
+        <ul class="big-list">
+          <li><strong>ROW_NUMBER() OVER (PARTITION BY key ORDER BY ts)</strong> — enumerate rows per group. Use this to find duplicate keys.</li>
+          <li><strong>RANK() OVER (...)</strong> — like ROW_NUMBER but tied rows share a rank.</li>
+          <li><strong>LAG(col, 1) OVER (ORDER BY ts)</strong> — pull the previous row's value into the current row. Use this to detect reversals or drops.</li>
+          <li><strong>SUM(amount) OVER (ORDER BY ts)</strong> — running total without collapsing rows.</li>
+          <li>Key idea: OVER(...) means 'across this window of rows, keep every row intact'.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 7: Live Demo — SQL + Window Functions -->
+    <section class="slide demo" data-notes="LIVE DEMO — allow 15 minutes for blocks 1 and 2 combined. Open the training database in your SQL client and project it. Step 1: write a simple SELECT with an INNER JOIN to answer a real question, such as 'which customers have placed more than 3 orders this month'. Step 2: refactor to use a CTE — show how the WITH block makes intent obvious. Step 3: add ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) to spot duplicate order rows for the same customer on the same day. Step 4: add LAG(order_total) to flag orders where the total dropped to zero or went negative. Ask the trainees to predict the output before you run each step — this forces active thinking rather than passive watching.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~15 min</span>
+        <h2>Build a query from simple to complex</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Start: SELECT with an INNER JOIN to answer one real question about the dataset.</li>
+            <li>Refactor with a CTE — show the same query before and after; ask which is clearer.</li>
+            <li>Add ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) to surface duplicate rows per customer.</li>
+            <li>Add LAG(order_total) to flag orders where the total reversed or hit zero.</li>
+            <li>Ask trainees to predict the output before each run — keep it interactive.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: Spotting Dirty Data -->
+    <section class="slide" data-notes="Never trust an export. This is the single most important sentence of the week — say it now, and repeat it at the end. Walk through each category of dirty data with a concrete example from the training dataset. For nulls: show that a column labelled 'required' in the schema has 8% nulls in the actual table. For duplicate keys: show two rows with the same order_id but different amounts. For wrong types: show a 'price' column stored as TEXT containing 'RM 12.50' with the currency symbol baked in. For out-of-range: show order quantities of -1 or 99999. For inconsistent categories: show 'MY', 'Malaysia', 'malaysia', 'MYS' all meaning the same country. Allow 12 minutes including the live profiling query that follows.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 3 · Data quality</span>
+        <h2>The usual suspects in every export</h2>
+        <ul class="big-list">
+          <li><strong>Nulls where there should not be</strong> — required fields that are empty in practice.</li>
+          <li><strong>Duplicate keys</strong> — two rows that claim to be the same record with different values.</li>
+          <li><strong>Wrong types</strong> — prices stored as text, dates as integers, booleans as 'Y'/'N'.</li>
+          <li><strong>Out-of-range values</strong> — quantities of -1, ages of 200, timestamps in the future.</li>
+          <li><strong>Inconsistent categories</strong> — 'MY', 'Malaysia', 'malaysia', 'MYS' all meaning the same thing.</li>
+          <li><strong>Broken rows</strong> — partial imports, truncated text, misaligned columns from a CSV gone wrong.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 9: The Profiling Pass -->
+    <section class="slide" data-notes="LIVE DEMO continuation — 6 minutes. Run the profiling query live on the training dataset. The output should be a table with one row per column: column name, null count, null percentage, distinct value count, min, max. Show trainees how to read it: a null percentage above 0 on a required field is a bug, not a design choice. A distinct count of 4 on a country column that should have 1 is a bug. A max value of 99999 on a quantity column is suspicious. The goal is to go from 'I have no idea what is in this table' to 'I have a written catalogue of every problem' in under 5 minutes. This catalogue drives every decision in the cleaning step. Emphasise: run this first, every time, before touching the data.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 3 · Profiling</span>
+        <h2>The profiling pass — run this first, always</h2>
+        <div class="code-block">SELECT 'order_id' AS col,
+       COUNT(*) - COUNT(order_id) AS nulls,
+       COUNT(DISTINCT order_id)  AS distinct_vals
+FROM orders
+UNION ALL
+SELECT 'order_total',
+       COUNT(*) - COUNT(order_total),
+       COUNT(DISTINCT order_total)
+FROM orders
+UNION ALL
+SELECT 'customer_id',
+       COUNT(*) - COUNT(customer_id),
+       COUNT(DISTINCT customer_id)
+FROM orders;</div>
+        <ul class="big-list">
+          <li>Run this on every export before touching the data — catalogue every problem found.</li>
+          <li>A null count above 0 on a 'required' column is a confirmed bug, not a maybe.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 10: Cleaning and Loading -->
+    <section class="slide two-col" data-notes="Every data-quality problem forces a decision. Walk through the four options in order of invasiveness: fix (correct the value — only safe if you are certain of the right answer), drop (remove the row — only if it is genuinely unrecoverable; document why), flag (add a column marking the problem so downstream queries can filter — the least invasive option), escalate (go back to the data owner — the right choice when you lack enough context to decide). Emphasise the golden rule: never clean in place. Always write cleaned data into a fresh table. Keep the raw data intact so you can redo the cleaning if your decision was wrong. This is not paranoia — you will need it. Allow 12 minutes including the live load into a fresh table.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 4 · Cleaning</span>
+        <h2>One decision per problem</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Your four options</h3>
+            <ul>
+              <li><strong>Fix</strong> — correct the value if you are certain of the right answer</li>
+              <li><strong>Drop</strong> — remove the row if it is unrecoverable; document why</li>
+              <li><strong>Flag</strong> — add a column marking the problem; least invasive</li>
+              <li><strong>Escalate</strong> — ask the data owner when you lack the context to decide</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">The golden rule</h3>
+            <ul>
+              <li>Never clean in place — write the result to a fresh table</li>
+              <li>Keep the raw data intact and untouched</li>
+              <li>Your cleaning must be reproducible from scratch</li>
+              <li>Confirm row counts: raw = clean + dropped</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 11: Live — Messy Export to Clean Table -->
+    <section class="slide demo" data-notes="LIVE DEMO — the centrepiece, allow 15 minutes. This is the full workflow end to end: start with the deliberately messy export file, load it into a raw staging table without modifying anything, run the profiling pass to catalogue problems, then write a cleaning CTE that fixes wrong types (CAST), removes duplicate keys (using ROW_NUMBER to keep only the first occurrence), flags nulls in required fields as a boolean column, and normalises inconsistent categories (CASE WHEN 'MY' THEN 'Malaysia' ...). Then INSERT INTO a fresh clean table SELECT from the cleaning CTE. Confirm the row counts: raw count equals clean rows plus dropped rows. Show that the raw table is still completely untouched. This demo is the project brief made visible — every step the trainees must do this week is in this walkthrough. Go slowly, narrate every decision, and explain why you are making each choice.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~15 min</span>
+        <h2>Messy export → clean, queryable table</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Load the raw export as-is into a staging table — no cleaning yet, nothing modified.</li>
+            <li>Run the profiling pass and narrate every problem found.</li>
+            <li>Write a cleaning CTE: CAST wrong types, ROW_NUMBER to deduplicate, CASE WHEN to normalise categories, flag column for missing required fields.</li>
+            <li>INSERT INTO clean_orders SELECT ... FROM cleaning_cte — one statement, no side effects.</li>
+            <li>Confirm: raw row count = clean rows + dropped rows. Show the raw table is still intact.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12: Indexing a Slow Query -->
+    <section class="slide" data-notes="LIVE DEMO — 8 minutes. Open the slow query on the training dataset. This should be a query that takes several seconds on an unindexed table — a WHERE clause on a non-indexed column or a JOIN on two large tables with no index on the join key. Run EXPLAIN ANALYZE before adding the index and show the full-scan row count and estimated cost. Add the index with CREATE INDEX, then run EXPLAIN ANALYZE again. The stat numbers on this slide are what you want trainees to remember viscerally. The conceptual point is the mental image: a full scan reads every row in sequence, an index lookup jumps straight to the matching page. That is the entire story — everything else is details. Warn them: indexes cost on writes, so do not add them blindly to every column.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 5 · Performance</span>
+        <h2>Indexing a slow query — before and after</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value danger">4.8 s</div>
+            <div class="stat-label">Full table scan — reads every row</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value success">38 ms</div>
+            <div class="stat-label">Index lookup — jumps to matching rows</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">1 line</div>
+            <div class="stat-label">CREATE INDEX idx ON orders(customer_id);</div>
+          </div>
+        </div>
+        <ul class="big-list">
+          <li>Run EXPLAIN ANALYZE before and after — read the actual cost, not just the wall-clock time.</li>
+          <li>Index columns used in WHERE, JOIN ON, and ORDER BY clauses.</li>
+          <li>Indexes cost on every INSERT and UPDATE — index with evidence, not instinct.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 13: Gemini and Google Sheets -->
+    <section class="slide" data-notes="LIVE DEMO — 8 minutes. The customer often wants the answer in a spreadsheet, not a database terminal. Open the cleaned dataset, export one aggregate query result to a Google Sheet (CSV paste or the Sheets connector if available), then open Gemini inside the Sheet and ask it to summarise the key finding in plain English. The goal is to produce one paragraph a non-engineer can read and act on. Review and edit the Gemini output before showing it — model output often needs a sentence cut. Point out that this is not a replacement for understanding the data: the FDE understands the data, Gemini helps communicate it. Ask trainees: who would you send this to in a real customer engagement?">
+      <div class="slide-content">
+        <span class="eyebrow">Block 6 · Non-technical view</span>
+        <h2>Gemini + Google Sheets for stakeholder output</h2>
+        <ul class="big-list">
+          <li>Export one cleaned aggregate result to a Google Sheet — paste or use the Sheets connector.</li>
+          <li>Open Gemini inside the Sheet and ask: 'Summarise the key finding in two sentences for a non-engineer.'</li>
+          <li>Review and edit the output before sending it anywhere — the model drafts, you own it.</li>
+          <li>The customer often wants the answer in a sheet, not a database terminal.</li>
+          <li>You understand the data; Gemini helps you communicate it — the direction matters.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 14: Using AI for SQL, Safely -->
+    <section class="slide" data-notes="LIVE DEMO — 8 minutes. Ask Claude or Gemini to write a window-function query for a specific task — something like 'write a query that uses ROW_NUMBER to find duplicate order_ids in the orders table, keeping only the most recent row per order_id'. Run it on the training dataset. Then check the output by hand against a 5-row sample you pull manually. The key talking point: a wrong query that runs is more dangerous than one that errors — SQL that returns results does not mean it returns correct results. Show the verification prompt technique: paste the query back into the model and ask it to walk you through what it does row by row on the sample. This is the verification workflow for the rest of the programme.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 7 · AI-assisted SQL</span>
+        <h2>The model drafts. You verify.</h2>
+        <ul class="big-list">
+          <li>Ask Claude or Gemini for a window-function query — be specific about the table name and the task.</li>
+          <li>Run it on the training dataset and inspect every output column.</li>
+          <li>Pull a 5-row sample with a known answer and check the query result against it by hand.</li>
+          <li>Verification prompt: 'Walk me through what this query does row by row on this sample: [paste 5 rows].'</li>
+          <li class="danger">A wrong query that runs is more dangerous than one that errors — SQL does not tell you when it is wrong.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 15: Self-Learn Summary -->
+    <section class="slide" data-notes="Give interns a clear map for their 6–8 hours of self-study. Topic A (SQL joins, CTEs, subqueries, 1.5–2 hrs): Crunchy Data interactive playground, GeeksforGeeks window functions article, and the CTE-by-example AI prompt from the week-2 brief. Topic B (window functions, 1.5 hrs): BeardedDev YouTube walkthrough, then write their own ROW_NUMBER duplicate-finder on the training dataset. Topic C (data quality detection, 1.5 hrs): profile the training dataset themselves, catalogue every problem they find before reading the answer. Topic D (moving data safely and verifying AI SQL, 1–1.5 hrs): export-transform-load exercise and the row-by-row verification prompt. The AI prompts in the brief are ready to paste in with their schema and data — lower the friction to starting.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn · 6 to 8 hours</span>
+        <h2>Four topics, hands-on in each</h2>
+        <ul class="big-list">
+          <li><strong>Topic A (1.5–2 hrs):</strong> SQL joins, CTEs, subqueries — Crunchy Data playground + CTE-by-example AI prompt from the brief.</li>
+          <li><strong>Topic B (1.5 hrs):</strong> Window functions — BeardedDev YouTube walkthrough + write your own ROW_NUMBER duplicate finder on the training dataset.</li>
+          <li><strong>Topic C (1.5 hrs):</strong> Data quality — profile the training dataset yourself first, catalogue every problem before reading ahead.</li>
+          <li><strong>Topic D (1–1.5 hrs):</strong> Moving data safely + verifying AI SQL — export, transform, load, confirm row counts, then use the verification prompt.</li>
+          <li>The AI prompts in the week-2 brief are ready to paste in — add your schema and data and go.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 15b: Self-Learn Resources -->
+    <section class="slide two-col" data-notes="This is the resource directory for the four self-learn topics — point interns here so they do not have to hunt for links. Each topic in the week-2 brief has a goal, a 'start here' first action, watch/read material, and a ready-to-paste Claude prompt. Topic A: Crunchy Data interactive CTEs-and-window-functions playground and the GeeksforGeeks window functions article. Topic B: the BeardedDev follow-along YouTube walkthrough (fallback search 'BeardedDev SQL window functions follow along'). Topic C: search 'data quality dimensions completeness validity uniqueness' for one overview, then their database's docs on type casting and constraints. Topic D: an export-transform-load round trip and the row-by-row verification prompt. Tell them the goal of each topic is a small concrete artefact, not passive watching — a query that runs, a catalogue of problems, a row-count match.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn · resources</span>
+        <h2>Links and ready-to-paste AI prompts</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Watch &amp; read</h3>
+            <ul>
+              <li><strong>A:</strong> Crunchy Data playground — CTEs and Window Functions (crunchydata.com/developers/playground/ctes-and-window-functions)</li>
+              <li><strong>A:</strong> GeeksforGeeks — Window Functions in SQL (geeksforgeeks.org/sql/window-functions-in-sql)</li>
+              <li><strong>B:</strong> BeardedDev — SQL Window Functions, Follow Along (youtube.com/watch?v=lBcDSsgp0RU)</li>
+              <li><strong>C:</strong> Search "data quality dimensions completeness validity uniqueness" + your DB's type-casting docs</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">Ask AI (paste into Claude)</h3>
+            <ul>
+              <li><strong>A:</strong> "Teach me CTEs by example using this schema: [paste]. Show the same query as a subquery and as a CTE, explain which is clearer, then give 3 graded practice questions."</li>
+              <li><strong>B:</strong> "Explain window functions on a table of student quiz attempts — ROW_NUMBER, RANK, LAG, running total, each with a worked output, plus one data-quality check."</li>
+              <li><strong>C:</strong> "Here are 20 messy rows: [paste]. As a data-quality reviewer, list every problem by type and how to detect it at scale with SQL."</li>
+              <li><strong>D:</strong> "Before I run this SQL: [paste], walk it row by row on this 5-row sample: [paste]. What breaks, and how do I sanity-check the result?"</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 16: Weekly Project -->
+    <section class="slide" data-notes="Walk the project brief slowly — this is the deliverable they will be assessed on. The messy export will contain broken rows, wrong types, missing values, and duplicate keys. At least one problem will have no clean answer — they must choose and justify. Emphasise the three steps: detect (profile and catalogue), fix (clean with SQL, decide fix vs drop vs flag for each problem), load (INSERT INTO a fresh table, confirm row counts). The written note is as important as the SQL — it is how a colleague or customer understands what was wrong and what was decided without reading the queries. Assessment is 30% technical execution, 30% handling ambiguity, 25% communication, 15% ownership. Remind them: the golden rule — keep the raw data intact.">
+      <div class="slide-content">
+        <span class="eyebrow">This week's project</span>
+        <h2>Detect · Fix · Load — and explain it</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li><strong>Detect:</strong> profile the messy export — catalogue every data-quality problem before touching anything.</li>
+            <li><strong>Fix:</strong> clean with SQL — decide fix vs drop vs flag for each problem, justify every choice.</li>
+            <li><strong>Load:</strong> INSERT INTO a fresh, queryable table — confirm row counts match before and after.</li>
+            <li><strong>Write:</strong> one paragraph explaining what was wrong, how you detected it, and what you decided.</li>
+            <li>Keep the raw data intact — someone must be able to reproduce your clean table from scratch.</li>
+            <li>The export includes broken rows, wrong types, missing values, and duplicate keys — plus at least one problem with no clean answer you must choose and justify.</li>
+            <li>Deliverables: the cleaned dataset (or fresh table), the SQL (readable and commented), and the one-paragraph note.</li>
+            <li><strong>Stretch:</strong> a validation query that fails loudly if the same problem appears in a future export.</li>
+            <li><strong>Stretch:</strong> a Gemini + Sheets non-technical summary of one finding.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 16b: Assessment -->
+    <section class="slide" data-notes="Make the grading explicit so there are no surprises. What to submit: the cleaned dataset or table, the SQL, and the written note — the same three artefacts as the deliverable. The rubric maps to the course-wide rubric: technical execution 30% (is the cleaned data correct, is the SQL good), handling ambiguity and failure 30% (how they handled the problem with no clean answer — this is weighted as heavily as raw correctness on purpose), communication 25% (clarity of the note — it matters as much as the query), and ownership 15% (did they profile thoroughly or stop at the first obvious issue). Read the definition of done aloud and let it land: someone can run their SQL against the raw export, reproduce the clean table, and understand what was wrong and what was decided from the note alone — without reading a single query. If their submission cannot pass that test, it is not done yet.">
+      <div class="slide-content">
+        <span class="eyebrow">How it is judged</span>
+        <h2>Assessment — the note matters as much as the query</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">30%</div>
+            <div class="stat-label">Technical execution — correct cleaned data, quality SQL</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">30%</div>
+            <div class="stat-label">Ambiguity &amp; failure — handling the problem with no clean answer</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">25%</div>
+            <div class="stat-label">Communication — clarity of the written note</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">15%</div>
+            <div class="stat-label">Ownership — profiled thoroughly, not stopped at the first issue</div>
+          </div>
+        </div>
+        <ul class="big-list">
+          <li><strong>Submit:</strong> the cleaned dataset or table, the SQL, and the written note.</li>
+          <li class="success"><strong>Definition of done:</strong> someone can run your SQL against the raw export, reproduce your clean table, and learn what was wrong and what you decided from the note alone — without reading the queries.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 17: Pitfalls -->
+    <section class="slide" data-notes="Run through these in 3 minutes maximum. Most pitfalls come from overconfidence (trusting the data before profiling, trusting the AI query before verifying) or from underconfidence (escalating before profiling). The 'cleaning in place' pitfall is the one that will actually hurt them in the project — make it concrete: if you UPDATE the raw table and then realise your CASE WHEN had a bug, you have no way to recover the original data. Always write to a fresh table. The 'stopping at the first obvious issue' pitfall is the ownership criterion — a thorough profiling pass often reveals a second or third problem hidden behind the first.">
+      <div class="slide-content">
+        <span class="eyebrow">Watch out for</span>
+        <h2>Common pitfalls this week</h2>
+        <ul class="big-list">
+          <li>Trusting the export before profiling it — the schema says it is clean; the data says otherwise.</li>
+          <li>Cleaning in place — if you UPDATE the raw table, you cannot undo a wrong decision.</li>
+          <li>Running an AI-generated query without checking it on a 5-row sample first.</li>
+          <li>Fixing the first obvious problem and stopping — one bad column usually has company.</li>
+          <li>Writing the explanation after the SQL as an afterthought — the note is half the deliverable.</li>
+          <li>Escalating immediately without profiling — the data owner will ask 'what did you find?' first.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Slide 18: Recap -->
+    <section class="slide recap" data-notes="Three sentences — say them slowly and leave space after each one. These are the three things that should stick from this week regardless of how much SQL they remember. Then preview week 3 to give forward momentum. Remind them: project is due before next class. If they are stuck, post in the cohort channel with what they have tried, not just 'I am stuck'. End on time — the demo ran long enough; they need time to go try it themselves.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>Never trust an export — profile it first, every time, without exception.</li>
+            <li>Never clean in place — write to a fresh table so your work is reproducible.</li>
+            <li>The model drafts SQL; you verify it — a wrong query that runs is worse than one that errors.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 03 · Deploy, Observe, Recover — take a service from local to live and recover it when it breaks.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

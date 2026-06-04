@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 12 · Ship and Defend — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="12" data-deck-title="Week 12 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome everyone to the final class of the program. The full panel is here — AI Engineer, Product Manager, and Project Manager — because this is not a rehearsal, it is the real thing. Set the tone: this session is about presenting and defending real work, not polishing a story. Remind interns that the capstone is weighted most heavily in the overall grade. Acknowledge that reaching week 12 is itself a significant achievement, and that the next 90 minutes are where everything from the program comes together.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 12 · Phase 4 — Capstone Embedded Deployment</span>
+        <h1>Ship and Defend</h1>
+        <p class="subtitle">Present real work, defend real decisions, and leave behind something the next person can use.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="Read this out slowly. Hidden failures are an FDE liability — not because people expect perfection, but because a hidden failure that resurfaces in production with no postmortem is far more damaging than an honest one that was documented and learned from. The panel is not here to catch anyone out; they are here to see if the intern can be trusted with real systems. Trust requires honesty about what broke and why.">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The standard</span>
+        <p class="pull-quote">The most valuable part of your presentation is the failure you almost did not mention.</p>
+        <p class="pull-quote-cite">— the panel, every capstone</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="State the three objectives directly. By the end of this session each intern should have stood in front of the panel, demonstrated a working deployment, and left behind a postmortem and a set of patterns. These are not aspirational — they are the definition of done for week 12. Anchor every part of the session against one of these three outcomes so the room understands what success looks like.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By the end of this session you have</h2>
+        <ul class="big-list">
+          <li>Presented and defended real work under questioning from the full panel.</li>
+          <li>Reflected on at least one failure honestly in a written postmortem.</li>
+          <li>Extracted reusable patterns that help the next deployment go faster.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through the agenda so everyone knows how the 90 minutes are structured. Each intern gets 12 to 15 minutes — 10 to 12 for the presentation and 3 to 5 for panel questions. Postmortem and patterns write-ups are submitted separately after the session. The panel will score presentations live, and final scores will be shared within 48 hours along with individual written feedback.">
+      <div class="slide-content">
+        <span class="eyebrow">Today · 90 minutes</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>Presentation structure — what each intern covers</li>
+          <li>Live demos and defence — each intern presents in turn</li>
+          <li>Panel debrief — cross-cutting themes from all presentations</li>
+          <li>Capstone scoring — rubric, weighting, and the three extra questions</li>
+          <li>Graduation criteria — what it means to leave as a deployable AI FDE</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This is the brief for each intern's presentation. Walk through each block and its time allocation before the first intern begins. Emphasise block 4: walking one real production failure is the most valuable part of the presentation, not the optional part. Interns who skip or minimise the failure block send a signal that they are not yet ready for unsupervised field work. The panel will probe any block that feels rehearsed or polished beyond what the evidence supports.">
+      <div class="slide-content">
+        <span class="eyebrow">Per-intern presentation · 12–15 min each</span>
+        <h2>Presentation structure</h2>
+        <ol class="numbered-list">
+          <li><strong>The problem and the scope (2 min)</strong> — what you built, who owns it, and what you chose not to build.</li>
+          <li><strong>Live demo (4 min)</strong> — real environment, real data, real trigger, real result.</li>
+          <li><strong>The decisions (3 min)</strong> — two or three real tradeoffs: model choice, integration approach, a guardrail.</li>
+          <li><strong>One production failure (3 min)</strong> — what broke, how you recovered. Do not hide this.</li>
+          <li><strong>Reusable patterns (2 min)</strong> — one or two patterns that would help the next deployment.</li>
+          <li><strong>Defence</strong> — the panel probes decisions, the failure, and the limits of the system.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="This is where the session lives — the live demos. Before calling the first intern up, remind everyone of the format and that the panel will hold questions until after each presentation block is complete. Set a visible timer. The room should feel like a real stakeholder review, not a classroom exercise, because it is. Encourage the audience to note questions they would ask; part of growing as an FDE is learning to probe other people's systems intelligently.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~60 min total</span>
+        <h2>Demos and defence</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Each intern presents in the agreed order. Timer is visible to the room.</li>
+            <li>Real environment only — no localhost demos, no mock data.</li>
+            <li>Panel holds questions until after each presentation block is complete.</li>
+            <li>Defence questions come from all three panel members.</li>
+            <li>Audience members note questions they would ask — debrief uses them.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="Explain what the panel is actually listening for during each presentation. The left column is what a deployable AI FDE demonstrates. The right column is what sends a signal that the intern is not yet ready for unsupervised field work. Share this with interns in advance — there should be no surprises about what the panel values. The most common failure mode is polishing the failure away, which the panel can usually detect and will probe directly.">
+      <div class="slide-content">
+        <span class="eyebrow">What the panel listens for</span>
+        <h2>Signal vs. noise</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="success">Strong signal</h3>
+            <ul>
+              <li>Deployment worked in a real environment</li>
+              <li>Honest about what went wrong</li>
+              <li>Explains technical decisions to non-technical people</li>
+              <li>Owned it end to end, not carried</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">Weak signal</h3>
+            <ul>
+              <li>Demo runs only in a controlled setup</li>
+              <li>Failure is minimised or absent</li>
+              <li>Jargon without explanation</li>
+              <li>Credit claimed for work others carried</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Introduce the postmortem as a required written deliverable, not an optional reflection. Explain the blameless framing: the postmortem is focused on the system, not the person. Every element of the postmortem structure exists to make it useful to the next engineer, not to assign fault. Reference Google SRE as the canonical source for blameless postmortem culture — sre.google/sre-book/postmortem-culture/. Remind interns that an honest postmortem is one of the three extra capstone gates.">
+      <div class="slide-content">
+        <span class="eyebrow">Written deliverable · blameless</span>
+        <h2>The postmortem</h2>
+        <ul class="big-list">
+          <li><strong>Short summary</strong> — what you built and how it went overall.</li>
+          <li><strong>Timeline</strong> — significant moments including the failure, in order.</li>
+          <li><strong>Root cause</strong> — honest, focused on the system, not on blame.</li>
+          <li><strong>What went well and what went badly</strong> — including where you got lucky.</li>
+          <li><strong>What you would do differently</strong> — concrete enough that the next engineer benefits.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The AI prompt gives interns a concrete tool for writing the postmortem after the session. Walk through what belongs in the paste — notes on what they built, the timeline, and the failure. The ask is for a blameless, structured output that another engineer can learn from. This is not about using AI to avoid thinking; it is about using AI to scaffold honest reflection. Interns should still own every word of the final postmortem and verify that it accurately reflects what happened.">
+      <div class="slide-content">
+        <span class="eyebrow">Ask AI · Postmortem</span>
+        <h2>Prompt to paste into Claude</h2>
+        <div class="code-block">'Help me write a blameless postmortem for my capstone. Here are my notes on what I built, the timeline, and the main failure I hit: [paste]. Structure it as summary, timeline, root cause, what went well, what went badly, and what I would do differently. Keep it honest and focused on the system, not on blaming myself, and make the lessons concrete enough that the next engineer benefits.'</div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Reusable patterns are the second written deliverable. Explain what makes a pattern genuinely reusable: it names the problem, states the approach, and flags the pitfall to avoid. A pattern that only makes sense in the context of the intern's specific project is not reusable. Push interns to be precise — the test is whether someone who did not do their project could apply the pattern to a different deployment. This is also one of the three extra capstone gates.">
+      <div class="slide-content">
+        <span class="eyebrow">Written deliverable · pay it forward</span>
+        <h2>Reusable patterns</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What a pattern looks like</h3>
+            <ul>
+              <li>The problem it solves</li>
+              <li>The reusable approach</li>
+              <li>The pitfall to avoid</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Examples</h3>
+            <ul>
+              <li>A reliable prompt structure for ambiguous queries</li>
+              <li>An integration workaround that generalises across connectors</li>
+              <li>A guardrail design for edge-case inputs</li>
+              <li>An N8N error-handling pattern for flaky APIs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The AI prompt for patterns gives interns a structured way to extract what they learned into something transferable. The key phrase in the prompt is 'someone who did not do my project could use it' — that is the bar for genuinely reusable. Walk interns through what to paste: the full scope of what they built and the problems they hit along the way, not just the highlights.">
+      <div class="slide-content">
+        <span class="eyebrow">Ask AI · Patterns</span>
+        <h2>Prompt to paste into Claude</h2>
+        <div class="code-block">'Here is what I built and the problems I solved along the way: [paste]. Help me extract two or three reusable patterns the next engineer could apply. For each, state the problem it solves, the approach, and the pitfall to avoid. Write each so someone who did not do my project could use it.'</div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The capstone scoring slide brings the rubric into the room. The full course rubric applies — technical execution, handling ambiguity and failure, communication, and ownership. The three extra capstone questions are not bonus points; they are pass-fail gates that sit on top of the rubric. Make sure interns understand that a technically excellent deployment with a dishonest postmortem still fails the second extra gate. Weighted most heavily means the capstone score has the largest single impact on the overall program grade.">
+      <div class="slide-content">
+        <span class="eyebrow">Capstone · weighted most heavily</span>
+        <h2>How the capstone is judged</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">30</div>
+            <div class="stat-label">Technical execution</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">30</div>
+            <div class="stat-label">Handling ambiguity and failure</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">25</div>
+            <div class="stat-label">Communication</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">15</div>
+            <div class="stat-label">Ownership</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The three extra capstone questions sit above the rubric as pass-fail gates. Walk through each one. The first tests whether the deployment was real. The second tests whether the intern is trustworthy enough to work without supervision. The third tests whether the intern contributed something lasting to the team. All three must be answered with a clear yes for the capstone to pass. A strong rubric score with a no on any extra question results in a development plan and a path to retry, not a graduation.">
+      <div class="slide-content">
+        <span class="eyebrow">Three extra capstone gates</span>
+        <h2>Pass-fail questions above the rubric</h2>
+        <ol class="numbered-list">
+          <li>Did the deployment actually work in a real environment?</li>
+          <li>Was the postmortem honest about what went wrong?</li>
+          <li>Were the reusable patterns genuinely useful to the next person?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Close the session with a genuine celebration — twelve weeks of weekly deliverables, real failures, real recoveries, and now a completed capstone. Read the graduation criteria aloud and let them sit. Note that strong technically but weak on ambiguity or communication does not graduate as field-ready — that intern gets a development plan and a clear path to retry, which is a different outcome but not the end of the road. The program-level check four to eight weeks later is the real measure of whether the program worked.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>Graduation criteria</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>Shipped a working deliverable every week across all four phases.</li>
+            <li>Demonstrated calm and competence during at least one real failure.</li>
+            <li>Passed the capstone with a working deployment and an honest postmortem.</li>
+            <li>Can explain technical decisions to a non-technical audience.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">After the program</div>
+              <div class="title">Graduation — a deployable AI Forward Deployed Engineer. One program-level check 4 to 8 weeks later: are you productive on real Pandai work without being carried?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

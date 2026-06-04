@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 10 · Customer-Facing Communication and Capstone Scoping — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="10" data-deck-title="Week 10 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to Week 10. This class does double duty: the first 70 minutes cover customer-facing communication skills, and the last 20 minutes are a live capstone scoping session where each intern pairs with their assigned mentor. Remind the room that this week is the last chance to get scope agreed before Weeks 11 and 12 are pure build and ship. Set the tone early: communication is the skill that gets faked the most and exposed the fastest in the field.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 10 · Phase 3 — The FDE Craft</span>
+        <h1>Customer-Facing Communication and Capstone Scoping</h1>
+        <p class="subtitle">The skill that gets faked the most — and exposed the fastest.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="This quote captures the real test for the week. Technical accuracy alone does not close a deal, get sign-off, or build trust. The person in the room who communicates clearly wins even when they are not the deepest engineer. Ask the room: think of a time you knew the right answer but could not get the other person to believe you. That gap — between knowing and convincing — is what this class is about.">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The real test</span>
+        <p class="pull-quote">A non-technical decision-maker can follow your recommendation, understand the tradeoff, and believe your call.</p>
+        <p class="pull-quote-cite">— Week 10 definition of done</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Anchor the class against these four concrete outcomes. An intern who achieves all four leaves this week ready to handle real customer conversations and ready to build. Stress that scoping the capstone today is not optional — without an agreed scope, Weeks 11 and 12 turn into scope creep and missed deadlines. Point to each objective and ask which one feels most uncomfortable right now; that is the one to lean into this week.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By end of week you can</h2>
+        <ul class="big-list">
+          <li>Explain technical tradeoffs to non-technical people in plain language.</li>
+          <li>Build trust and manage expectations before they become problems.</li>
+          <li>Deliver bad news clearly, early, and with a path forward.</li>
+          <li>Scope your own capstone so Weeks 11 and 12 are pure build and ship.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the agenda so interns know what is coming. The class is 90 minutes total. Blocks 1 to 6 cover communication skills in roughly 70 minutes. Block 7 is the live capstone pairing — the 18-minute scoping session at the end. Warn them now: the scoping session requires them to have thought about their capstone before they walk in. If they arrive without a draft of the four fields, the session will be wasted time for both intern and mentor.">
+      <div class="slide-content">
+        <span class="eyebrow">Today — 90 min</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>Who is in the room — framing for different audiences (8 min)</li>
+          <li>Benefits over features — speak their language (10 min)</li>
+          <li>Framing a tradeoff on one slide (12 min)</li>
+          <li>Good vs bad: live demonstration (12 min)</li>
+          <li>Managing expectations and delivering bad news (12 min)</li>
+          <li>The deck and the glance test — Gemini, local context (10 min)</li>
+          <li>Capstone scoping — live pairing with your mentor (18 min)</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="Every room has at least two audiences and often three. Executives want ROI and risk. Operators want reliability and predictability. Engineers want to know how it works. The mistake most technical people make is pitching to the engineer in the room while the executive is the decision-maker. Show how the exact same fact — 'the model runs at 98% accuracy' — maps to a different sentence for each audience. Run this as a live drill: take one technical fact and say it three different ways.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 1 · Who is in the room</span>
+        <h2>Same fact, three audiences</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What they care about</h3>
+            <ul>
+              <li><strong>Executive:</strong> ROI, risk, and what happens if this goes wrong</li>
+              <li><strong>Operator:</strong> reliability, daily workflow, what breaks</li>
+              <li><strong>Engineer:</strong> how it works, what the failure modes are</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">Communicate in their terms</h3>
+            <ul>
+              <li>Find out who signs off before you build the slide</li>
+              <li>Lead with what they care about, not what you find interesting</li>
+              <li>One slide, one audience — never try to serve all three at once</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Features describe what a thing does. Benefits describe what it does for the person listening. People are moved by benefits, not features. The classic mistake: 'Our model uses RAG with a vector store and reranking.' Nobody outside the engineering team cares. The benefit version: 'When a teacher searches for lesson plans, they get answers that match their school syllabus, not generic results from the internet.' Spend time on the live reframe: take a real Pandai technical capability and restate it as a benefit for a school administrator.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 2 · Benefits over features</span>
+        <h2>What it does for them, not what it does</h2>
+        <ul class="big-list">
+          <li><strong>Feature:</strong> the model uses retrieval-augmented generation with reranking.</li>
+          <li><strong>Benefit:</strong> teachers get answers that match their school syllabus, not generic internet results.</li>
+          <li><strong>Feature:</strong> latency is under 800ms at P95.</li>
+          <li><strong>Benefit:</strong> students get an answer before they lose focus — no spinner, no wait.</li>
+          <li>Live: take one technical capability from your project and restate it as a benefit for a non-technical school administrator.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Most technical people present a tradeoff by listing both options and then shrugging. A decision-maker reads that as 'the engineer does not know what to do.' The structure that works: state the options, state what each costs and buys in plain terms, then make a clear recommendation with a reason. That last step is the one technical people skip most often. Practice the phrase out loud with the room: 'My recommendation is X because Y.' One reason, not five.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 3 · Framing a tradeoff</span>
+        <h2>Options → cost and benefit → your recommendation</h2>
+        <ol class="numbered-list">
+          <li>State the two real options — no strawmen, no false choices.</li>
+          <li>For each option: what does it cost, and what does it buy? Plain numbers, plain language.</li>
+          <li>Make a clear recommendation. Say the words: 'I recommend X.'</li>
+          <li>Give one reason — the strongest one. Not five reasons hedged together.</li>
+          <li>Fit it on one slide. If it does not fit, the thinking is not done yet.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="This is the centrepiece of the class. Run the bad version first: use jargon, present both options without a recommendation, hedge with 'it depends,' let the audience flounder. Then run the good version: benefit-led, plain language, a clear recommendation with one reason. After each version, ask the room what changed. They will name: jargon removed, recommendation added, hedging removed, one point per slide. Write their answers on a whiteboard if possible — the contrast is more memorable than any explanation.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Block 4 · Live · ~12 min</span>
+        <h2>A good and a bad version of the same conversation</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li><strong class="danger">Bad version:</strong> jargon-heavy, options listed without resolution, hedging with 'it depends,' customer leaves anxious and without a decision.</li>
+            <li><strong class="success">Good version:</strong> benefit-led, plain language, a clear recommendation with a single strong reason, customer leaves confident.</li>
+            <li>After each version: the class names exactly what changed.</li>
+            <li>What to watch for: jargon removed, recommendation added, hedge cut, one clear point per slide.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Bad news that arrives late arrives twice as bad. The deadline slip message is the most common bad-news scenario for an FDE. The structure that works: what happened, when the new date is, what you are doing about it, and what you need from them if anything. No excuses — take ownership even when the cause was outside your control. The self-learn exercise asks Claude to show both the trust-building version and the trust-damaging version side by side. Running the bad version here lets interns feel the difference viscerally.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 5 · Managing expectations</span>
+        <h2>Deliver bad news early, clearly, with a path forward</h2>
+        <ul class="big-list">
+          <li>Set expectations before they become problems — not after the fact.</li>
+          <li>Bad news travels worse the longer you sit on it.</li>
+          <li>The structure: what happened → new date → what you are doing → what you need.</li>
+          <li>No excuses. Own it, even when the cause was outside your control.</li>
+          <li>Live: the message you send when Friday's deployment slips to the following Wednesday.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The glance test: a busy executive should be able to grasp the point of a slide in five seconds. One slide, one point. No paragraph of text. The slide title is the conclusion, not the topic label. Use Gemini inside Google Slides to draft and tighten the message — paste bullet points in, ask it to cut to the essential sentence. The local context point matters: in Bahasa Malaysia business communication, indirect framing of problems preserves the relationship; in Mandarin settings, preserving the client's face matters even when the news is hard. Interns need to navigate all three registers.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 6 · The deck and the glance test</span>
+        <h2>One slide. One point. Five seconds.</h2>
+        <ul class="big-list">
+          <li>The title is the conclusion, not the topic — 'Cheaper model risks accuracy drop' beats 'Model comparison.'</li>
+          <li>Build in Google Slides; use Gemini to draft and tighten each slide message.</li>
+          <li>Ask Gemini: 'Cut this to one sentence a school principal can act on.'</li>
+          <li><strong>English settings:</strong> direct recommendation is expected and respected.</li>
+          <li><strong>Bahasa Malaysia settings:</strong> indirect framing of problems preserves the relationship.</li>
+          <li><strong>Mandarin settings:</strong> preserve the client's face — deliver hard news privately before the group meeting.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="This is the capstone scoping block — the second half of this week's double duty. The Week 8 scoping template has four fields: the problem, the plan, the assumptions, and what you will not build. The mentor's job is to cut anything that will not fit in two weeks at roughly 20 hours per week. An intern who walks out without an agreed scope will drift in Weeks 11 and 12. The hardest part of this session is usually 'what you will not build' — interns consistently over-scope, and the mentor must enforce realism without discouraging ambition.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 7 · Capstone Scoping — last 20 min</span>
+        <h2>Agree your scope before the build weeks begin</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>The four fields (Week 8 template)</h3>
+            <ul>
+              <li><strong>Problem:</strong> one sentence — what breaks without this?</li>
+              <li><strong>Plan:</strong> what you will build and in what order.</li>
+              <li><strong>Assumptions:</strong> what must be true for this to work.</li>
+              <li><strong>What you will NOT build:</strong> explicit, agreed, in writing.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">Live mentor pairing</h3>
+            <ul>
+              <li>Each intern pairs with their assigned capstone mentor now.</li>
+              <li>Walk through the four fields together — the intern leads.</li>
+              <li>Mentor cuts anything that will not fit in two weeks at 20 hrs/week.</li>
+              <li>Leave with a scope both sides have agreed is realistic.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The stat grid anchors the scoring reality: handling ambiguity and communication together outweigh technical execution. This surprises most interns. Stress that a technically perfect recommendation that no one believes or follows is a failure. A slightly imperfect recommendation that gets decision-maker buy-in and moves the project forward is a success. That is what it means to work in a customer-facing role — and it is what this week's assessment actually measures.">
+      <div class="slide-content">
+        <span class="eyebrow">How this week is scored</span>
+        <h2>Assessment rubric</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">30%</div>
+            <div class="stat-label">Technical execution — is the recommendation sound and the tradeoff real?</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">30%</div>
+            <div class="stat-label">Handling ambiguity — how you handle pushback and questions you cannot fully answer.</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">25%</div>
+            <div class="stat-label">Communication — clarity and trust. Can a non-technical person follow and believe it?</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">15%</div>
+            <div class="stat-label">Ownership — did you take a clear position and own the recommendation?</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through both deliverables clearly so there is no ambiguity. The recommendation presentation is live — the audience includes a mock customer and a leadership audience. Scoring is on clarity and trust, not technical depth alone. The capstone scope is a written one-pager, signed off by the mentor. Both deliverables are due together at the end of the week. Stress that starting the deck on Monday and rehearsing it before Friday is not optional — improvised delivery always reads as low confidence to a non-technical audience.">
+      <div class="slide-content">
+        <span class="eyebrow">Weekly project — two deliverables</span>
+        <h2>What you will build and submit</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Deliverable 1 — Recommendation presentation</h3>
+            <ul>
+              <li>A real tradeoff: cost vs quality, or speed vs safety.</li>
+              <li>A clean Google Slides deck that passes the glance test.</li>
+              <li>A one-page written brief of the recommendation.</li>
+              <li>Live delivery scored on clarity and trust, not just technical correctness.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Deliverable 2 — Agreed capstone scope</h3>
+            <ul>
+              <li>One page: problem, plan, assumptions, what you will not build.</li>
+              <li>Agreed and signed off by your mentor in today's pairing session.</li>
+              <li>Realistic for two weeks at approximately 20 hours per week.</li>
+              <li>This scope is the contract that protects Weeks 11 and 12.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Self-learn is four topics totalling 6 to 8 hours. Topic A covers communicating to mixed audiences using Stanford and Lucidchart readings plus a Claude prompt that rewrites a technical decision in five plain sentences for a school administrator. Topic B is framing tradeoffs on a single slide. Topic C is writing a bad-news message, with Claude showing both the trust-building and trust-damaging versions side by side. Topic D is tightening the deck in Google Slides with Gemini and applying the Week 8 scoping template. Point interns to the weekly detail file for the exact Claude prompts to paste in.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn — 6 to 8 hrs</span>
+        <h2>Four topics, four Claude prompts</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Topics A and B</h3>
+            <ul>
+              <li><strong>A · Mixed audiences (1.5–2 hrs):</strong> Stanford and Lucidchart readings; ask Claude to rewrite a technical decision in five plain sentences leading with the benefit.</li>
+              <li><strong>B · Framing tradeoffs (1.5 hrs):</strong> turn one real tradeoff into a single slide; ask Claude to frame it for one executive and one engineer simultaneously.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Topics C and D</h3>
+            <ul>
+              <li><strong>C · Delivering bad news (1 hr):</strong> write the deadline-slip message; ask Claude to show both the trust-building and the trust-damaging version so you can see the difference.</li>
+              <li><strong>D · Deck and capstone scope (1.5–2 hrs):</strong> tighten each slide with Gemini; apply the Week 8 template to your capstone and get it agreed with your mentor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Pitfalls to call out explicitly. 'It depends' without a recommendation is the most common failure mode — it signals that the intern cannot make a decision under uncertainty. Jargon is not a signal of expertise to a non-technical audience; it is a signal of poor preparation. Over-scoping the capstone is extremely common; the mentor's job in the pairing session is to cut ruthlessly. Sitting on bad news is the trust-destroying mistake that is hardest to recover from. Run through these quickly — interns will recognise most of them from earlier in the week.">
+      <div class="slide-content">
+        <span class="eyebrow">Watch out</span>
+        <h2>Common pitfalls this week</h2>
+        <ul class="big-list">
+          <li>Ending with 'it depends' instead of a recommendation — that is a deferral, not a communication.</li>
+          <li>Using jargon as a proxy for expertise — it reads as poor preparation to a non-technical audience.</li>
+          <li>Building a deck for engineers when the decision-maker is an executive.</li>
+          <li>Over-scoping the capstone — if the mentor cuts it, listen and accept the cut without negotiating it back up.</li>
+          <li>Sitting on bad news hoping it resolves itself — it never does, and the trust damage compounds with every day of silence.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Three things to remember from this week. Emphasise that the capstone scope is not a nice-to-have — it is the structural prerequisite for Weeks 11 and 12. Without an agreed scope, the build weeks become improvised and stressful for both intern and mentor. Preview Week 11 to give them momentum: they will own a real scoped Pandai deployment end to end, and today's communication and scoping work is what makes that possible.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>Communicate in the terms the listener already cares about — benefits, not features; their risk, not your architecture.</li>
+            <li>A recommendation without a clear call is not a recommendation — say 'I recommend X because Y' and own it.</li>
+            <li>Walk out today with a capstone scope your mentor has agreed is realistic — Weeks 11 and 12 depend on it.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 11 · Build in Place — own a real scoped Pandai deployment end to end.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

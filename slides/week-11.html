@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 11 · Build in Place — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="11" data-deck-title="Week 11 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to Phase 4. This is the capstone kickoff — not a lecture, a working session. Scope was already agreed in Week 10, so the job today is to lock the deadline, confirm access, and name the one thing that cannot slip. Set the tone immediately: everything before this week was practice. This is real, with a real owner, a real user, and a real deadline. The mentor unblocks; the intern owns. Do not let the session drift into re-designing scope — that conversation should have been closed in Week 10.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 11 · Phase 4 — Capstone Embedded Deployment</span>
+        <h1>Build in Place</h1>
+        <p class="subtitle">A real deployment. A real owner. A real deadline. No simulation.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="Read this line out loud, then let it sit for a moment. Every prior week — the git workflows, the SQL, the RAG pipelines, the N8N automations — was deliberately scoped so the intern could make mistakes safely. That safety net is now gone. A real user is waiting. That shift in stakes changes how decisions are made, and the intern needs to feel it before the session moves on. Ask the room: what feels different now compared to Week 1?">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The shift</span>
+        <p class="pull-quote">Everything so far was practice. This is real, with a real owner and a real deadline.</p>
+        <p class="pull-quote-cite">— Week 11 capstone framing</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="State the three learning objectives and make them concrete. 'Own a real deployment end to end' means no one else is responsible for whether it ships — if it fails, the intern finds out why and fixes it. 'Apply every prior week' means this is the integration test of the whole programme, and the intern should be able to point to specific weeks that each tool or technique came from. 'Hit real walls and climb them' means the mentor will not step in and fix things; they will ask questions that help the intern find the fix themselves. Being rescued teaches nothing and robs the intern of confidence.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By end of week you can</h2>
+        <ul class="big-list">
+          <li>Own a real deployment end to end — no delegation, no rescue.</li>
+          <li>Apply every prior week under real conditions with real stakes.</li>
+          <li>Hit real walls and climb them with a mentor who unblocks but does not rescue.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through the kickoff agenda so the intern knows what the 90-minute session will cover. Stress that this is a working session, not a lecture — decisions are made and recorded during it, nothing leaves ambiguous. By the end of the kickoff the intern should have a locked deadline, confirmed access to every system they need, and a written name for the single failure condition they must protect against. If anything is still open at the end, schedule a follow-up the same day, not next week.">
+      <div class="slide-content">
+        <span class="eyebrow">Kickoff agenda · 90 minutes</span>
+        <h2>What we cover today</h2>
+        <ol class="numbered-list">
+          <li>Capstone framing — why this is different (10 min)</li>
+          <li>Confirm scope from Week 10 — pressure-test and cut (20 min)</li>
+          <li>Lock the deadline and name the failure condition (15 min)</li>
+          <li>Confirm access — repos, environments, credentials, data (15 min)</li>
+          <li>Plan the two weeks day by day (20 min)</li>
+          <li>Q&amp;A and go (10 min)</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Spend real time on scope confirmation. Re-read the Week 10 agreed scope together out loud — the problem, the plan, the assumptions, and crucially what will NOT be built. The mentor then pressure-tests it: what is the riskiest assumption? What has the intern not built before? What depends on a third party that could block them? Anything that will not fit in two weeks at roughly 20 hours per week gets cut now. Cutting is a professional skill, not a failure; shipping a smaller thing that actually works is the capstone passing condition.">
+      <div class="slide-content">
+        <span class="eyebrow">Scope lock</span>
+        <h2>Pressure-testing and cutting scope</h2>
+        <ul class="big-list">
+          <li>Re-read the Week 10 agreed scope: the problem, the plan, the assumptions, what will NOT be built.</li>
+          <li>The mentor pressure-tests once more — what is the riskiest assumption?</li>
+          <li>Two weeks at ~20 hrs per week is a hard budget. Cut anything that does not fit.</li>
+          <li>Cutting is a professional skill, not a failure. Ship the smaller thing that works.</li>
+          <li>The intern decides what cuts to make; the mentor holds the standard.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The failure condition is the most important output of the kickoff. Ask the intern: if one thing slipped and the capstone was a failure, what would that one thing be? Write it down explicitly. That single condition gets protected first — all other decisions this week flow from protecting it. The deadline is fixed once named; changing it requires a re-scope conversation with the mentor, not a quiet slip. A quiet slip discovered at Week 12 is the worst outcome for everyone.">
+      <div class="slide-content">
+        <span class="eyebrow">Deadline and risk</span>
+        <h2>Lock the deadline. Name the failure condition.</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Lock the deadline</h3>
+            <ul>
+              <li>Set the exact date and time.</li>
+              <li>Changing it requires a re-scope conversation — not a quiet slip.</li>
+              <li>The deadline protects the Week 12 panel slot for the whole cohort.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">Name the failure condition</h3>
+            <ul>
+              <li>One sentence: the single thing that, if it slipped, would make this a failure.</li>
+              <li>Write it down and put it somewhere visible during the build.</li>
+              <li>Protect that thing first above all other work this week.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Suitable capstones all share one property: they solve a real problem for a real person inside Pandai, and they can be built and deployed in two weeks with the existing toolchain. Walk through each example briefly. The messaging-based learning helper and the RAG assistant are the most common patterns from prior cohorts. If the intern has a capstone that does not fit one of these patterns, ask: who is the real user and what real problem does this remove for them? If they cannot answer clearly and concisely, the scope is not real enough yet.">
+      <div class="slide-content">
+        <span class="eyebrow">Capstone types</span>
+        <h2>Suitable capstones for this programme</h2>
+        <ul class="big-list">
+          <li>A messaging-based learning helper on N8N — students or teachers ask questions via chat and get accurate, sourced answers.</li>
+          <li>A RAG assistant over curriculum content — searches and surfaces relevant material from real Pandai content.</li>
+          <li>An internal automation that removes a manual task — replaces a real, recurring human effort with a reliable automated process.</li>
+          <li>A small agent supporting the customer success team — handles a defined class of requests without requiring escalation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This is the full toolchain slide. Everything listed here has been taught in Weeks 1 through 10. Make the connections explicit for the intern: Claude Code and Conductor from Week 5, MCP servers from Week 6, GitHub and CI from Week 1, AWS or Cloudflare from Week 3, N8N from Weeks 7 and 9, reliability checks from Week 10. The capstone is the integration test of all of it. If any tool here is unfamiliar or the intern has not used it yet, surface it now during the kickoff — do not let it block the build on day two.">
+      <div class="slide-content">
+        <span class="eyebrow">The full toolchain</span>
+        <h2>Everything from Weeks 1–10 in one place</h2>
+        <div class="cols">
+          <div class="col">
+            <ul>
+              <li><strong>Build:</strong> Claude Code and Conductor</li>
+              <li><strong>Model tools:</strong> MCP server (Week 6)</li>
+              <li><strong>Version control:</strong> GitHub, clean PRs, CI</li>
+            </ul>
+          </div>
+          <div class="col">
+            <ul>
+              <li><strong>Deploy:</strong> AWS or Cloudflare (Week 3)</li>
+              <li><strong>Integrate and automate:</strong> N8N (Weeks 7 and 9)</li>
+              <li><strong>Prove it works:</strong> reliability checks applied seriously</li>
+              <li><strong>Operate:</strong> a runbook</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The working rhythm matters as much as the toolchain. 'Smallest end-to-end slice first' means the intern should have something real and deployed — even if it only handles one case — before adding any scope. This is the most important discipline of the embedded build: always have a working system, never be in the middle of a large rewrite with nothing running. The decision log becomes the Week 12 postmortem; the intern should write it as they go, not reconstruct it at the end under pressure.">
+      <div class="slide-content">
+        <span class="eyebrow">Embedded work</span>
+        <h2>Working rhythm for the build</h2>
+        <ul class="big-list">
+          <li>Build the smallest end-to-end slice first — get something real working before adding scope.</li>
+          <li>Keep a running log of decisions and walls hit; it becomes your Week 12 postmortem.</li>
+          <li>When stuck, bring a specific, well-framed question to the mentor — not 'it does not work'.</li>
+          <li>Every day: what is done, what is the next smallest slice, what is blocked?</li>
+          <li>The mentor gets a daily one-line status — no surprises at the mid-capstone review.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="These three prompts are battle-tested patterns for the embedded build. Walk through each one and explain when to use it. The unblocking prompt is for when the intern is genuinely stuck and has done their own diagnosis first — the framing forces specificity before the model engages, which leads to better answers. The scoping prompt helps when the intern is unsure how to slice remaining work after a blocker resolves. The runbook prompt is for the final day of the build, to ensure operational docs are complete before the Week 12 presentation.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Prompts for the build</span>
+        <h2>Three prompts to keep moving</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li><strong>Unblocking (paste into Claude Code):</strong> 'I am stuck on [symptom]. Here is what I have tried: [list]. Here are the files and error: [paste]. Diagnose the most likely cause, propose the smallest fix, and tell me how to verify it. Do not refactor beyond what is needed.'</li>
+            <li><strong>Scoping a slice:</strong> 'Here is my capstone scope and deadline: [paste]. Break it into end-to-end slices, smallest first, so I always have something working. For each slice, tell me what done looks like and what I can safely defer.'</li>
+            <li><strong>Writing the runbook:</strong> 'My deployed system does [describe]. Help me write a one-page runbook: start and stop, config and secrets, three most likely failures and recovery, who to contact.'</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The weekly project slide is the deliverable contract. Read it out loud with the intern and confirm each checkbox is achievable within the scoped two weeks. If any checkbox is unreachable given the current scope, re-scope now — not on Friday. The deliverables are the deployed system, the repo, the reliability checks, and the runbook. All four must be present for the Week 12 panel. A beautiful demo with no real deploy does not satisfy the first checkbox.">
+      <div class="slide-content">
+        <span class="eyebrow">This week's ship</span>
+        <h2>Weekly project: working deployment with runbook</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>The system is deployed and works in a real environment — not a local demo.</li>
+            <li>Built with the real toolchain: Claude Code, GitHub, MCP server where relevant, AWS or Cloudflare, N8N.</li>
+            <li>Reliability checks show it works and name where it can fail.</li>
+            <li>A one-page runbook covers operation and recovery for a tired on-call person.</li>
+            <li>Scope was held — what you said you would not build, you did not build.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The mid-capstone review is a formal checkpoint, not a casual check-in. The intern should show a working slice — something that actually runs and does something real, not a walkthrough of code. Surface blockers early; re-scope now if the deadline is at risk, not in Week 12. The mentor confirms the deadline is still realistic. If the intern cannot show a working slice by mid-week, the scope must be cut further — the deadline does not move to accommodate an uncut scope.">
+      <div class="slide-content">
+        <span class="eyebrow">Mid-week checkpoint</span>
+        <h2>Mid-capstone review — with the mentor</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What to show</h3>
+            <ul>
+              <li>A working slice — something that actually runs.</li>
+              <li>The decision log so far.</li>
+              <li>Any blocker not yet resolved.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">If behind</h3>
+            <ul>
+              <li>Re-scope now, not in Week 12.</li>
+              <li>The mentor confirms the new scope in writing.</li>
+              <li>A stuck intern caught mid-week can recover; one caught at the panel cannot.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Pitfalls slide — go through these quickly but make each one concrete with an example from a prior cohort or a plausible scenario. Scope creep mid-build is the most common failure mode: the intern sees a related improvement and chases it, loses a day, and the original deliverable slips. Access blocked on day two is almost always something that could have been confirmed in the kickoff. The mentor should watch for silent blocking — an intern who has not committed in 24 hours is probably stuck and not asking.">
+      <div class="slide-content">
+        <span class="eyebrow">Watch out</span>
+        <h2>Pitfalls and risks</h2>
+        <ul class="big-list">
+          <li><strong>Scope creep mid-build:</strong> adding a related improvement instead of finishing the agreed slice. Cut it; log it for later.</li>
+          <li><strong>Access blocked on day two:</strong> a credential, repo permission, or API key not confirmed in the kickoff. Confirm everything today.</li>
+          <li><strong>No working slice at mid-week:</strong> building in large pieces with nothing runnable. Slice smaller and deploy earlier.</li>
+          <li><strong>Waiting to surface a blocker:</strong> sitting on a stuck problem for two days before asking. Bring it to the mentor same day.</li>
+          <li><strong>Runbook left to the last hour:</strong> operational docs written under pressure are incomplete. Write it as you build.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Assessment context: the capstone carries the highest weight in the full course rubric across four dimensions — technical execution, handling ambiguity and failure, communication, and ownership. All four are assessed through the Week 12 presentation and postmortem, not just the code. Preview this now so the intern knows what the panel is looking for when they present next week, and so they collect the evidence — the decision log, the postmortem, the reliability check output — during the build rather than reconstructing it afterward.">
+      <div class="slide-content">
+        <span class="eyebrow">Assessment — carried into Week 12</span>
+        <h2>What the panel evaluates</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">Real</div>
+            <div class="stat-label">Did the deployment actually work in a real environment?</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">Honest</div>
+            <div class="stat-label">Was the postmortem honest about what went wrong?</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">Reusable</div>
+            <div class="stat-label">Were the patterns genuinely useful to the next person?</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Recap slide. Three sentences only — make each one land before moving to the next. The intern leaves this session with a locked deadline, confirmed access, a written failure condition, and a day-by-day plan. The mentor's job this week is to ask questions that unblock, not to solve problems — that boundary must be clear to both parties before the build begins. Week 12 is the presentation and defence; the intern should know what the panel expects and be building toward it every single day this week.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>Scope was agreed in Week 10 — this week you build and ship it, not redesign it.</li>
+            <li>The mentor unblocks; the intern owns. Being rescued teaches nothing.</li>
+            <li>Always have a working slice. Deploy early, slice small, surface blockers same day.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 12 · Ship and Defend — present and defend your deployment to the full panel.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

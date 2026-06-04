@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI FDE Training — 12-Week Course</title>
+  <meta name="description" content="A 12-week hybrid program that turns fresh graduates into deployable AI Forward Deployed Engineers." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css?v=18" />
+
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231856FF'/%3E%3Ctext x='50' y='62' font-family='monospace' font-size='34' font-weight='700' fill='white' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E"
+  />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar" aria-label="Course navigation"></aside>
+    <main class="main" id="main"></main>
+  </div>
+
+  <script src="config.js?v=18"></script>
+  <script src="data.js?v=18"></script>
+  <script src="app.js?v=18"></script>
+
+  <script>
+    // Intercept in-app links so the hashchange handler runs cleanly.
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("a[data-link]");
+      if (link && link.getAttribute("href").startsWith("#")) {
+        // Native anchor behavior is fine; hashchange listener handles render.
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 3 · Deploy, Observe, Recover — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="3" data-deck-title="Week 03 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to the heaviest week of Phase 1. Set the stakes immediately: shipping is not the finish line, keeping a service alive and knowing the instant it breaks is the real job. Acknowledge upfront that one path, AWS or Cloudflare, is all they need for the project; the other is shown in class so they understand the tradeoffs before choosing. Quick pulse check: who has deployed something beyond a local machine before? That tells you how much scaffolding the class needs in the first few blocks.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 03 · Phase 1 — Production Foundations</span>
+        <h1>Deploy, Observe, Recover</h1>
+        <p class="subtitle">Shipping is not the finish line. The job is keeping it alive and knowing the moment it is not.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="Let this land quietly before moving on. The demo ran on their laptop, under their control, with their data, at their pace. Production is none of those things. Strangers hit it at odd hours, infrastructure shifts beneath it, and no one is watching when it goes wrong. That gap between a working demo and a reliable service is the entire point of this week. Ask the room: what is different about a system you are not watching?">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The gap</span>
+        <p class="pull-quote">The demo runs on your laptop. Production runs where you are not watching.</p>
+        <p class="pull-quote-cite">— the moment every new engineer finds out</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through each objective slowly. Stress the verbs: take, expose, know, diagnose. These are things they will actually do this week, not topics they will read about. Return to this slide at the end of class and ask: which of these do you feel uncertain about? That shapes where they spend their self-learn hours and helps you give targeted guidance before they start the project.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By Friday you can</h2>
+        <ul class="big-list">
+          <li>Take a service from local to live on AWS or Cloudflare.</li>
+          <li>Expose a working API endpoint and keep config and secrets out of the code.</li>
+          <li>Know when a service is broken and why, using only logs and metrics.</li>
+          <li>Diagnose and recover from a failure you caused on purpose.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Map the 90 minutes so the class knows the shape of the session. The live incident in block 7 is the centrepiece and everything before it is setup for that moment. Alert them now: during the incident they will not be allowed to read the source code, only the logs. That constraint is intentional and mirrors real on-call conditions where you often do not have easy access to the codebase, only the telemetry.">
+      <div class="slide-content">
+        <span class="eyebrow">Today</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>What 'live' actually means — anatomy of a running service (8 min)</li>
+          <li>Containers and environments (10 min)</li>
+          <li>Configuration and secrets (10 min)</li>
+          <li>Two paths to live — AWS vs Cloudflare, pick one (14 min)</li>
+          <li>Observability — logs, metrics, and the difference (12 min)</li>
+          <li>The live incident — class diagnoses a broken service (14 min)</li>
+          <li>API design in one slide (5 min)</li>
+          <li>Project brief and wrap (4 min)</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This is the conceptual foundation everything else rests on. Make sure every term is defined before moving on. A build artifact is the thing that actually runs — not the source code but the compiled or packaged output of it. An environment is a set of infrastructure and configuration that together make the service behave a certain way. Ask: where does each of these live on their laptop right now? Then ask: where would each live if a thousand strangers were calling this service at 3am while the intern is asleep?">
+      <div class="slide-content">
+        <span class="eyebrow">Block 1 — What 'live' means</span>
+        <h2>The anatomy of a running service</h2>
+        <ul class="big-list">
+          <li>Build artifact — the thing that actually runs, not the source code.</li>
+          <li>Environment — infrastructure, configuration, and network wired together.</li>
+          <li>Configuration — behaviour that legitimately changes between environments.</li>
+          <li>Secrets — credentials and keys that must never enter source control.</li>
+          <li>Public endpoint — the address the outside world calls.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The core promise of a container is reproducibility: the same image produces the same behaviour on a laptop, in CI, and in production. Without containers, 'it works on my machine' is a real and expensive problem that costs teams days. Dev, staging, and prod are not copies of each other — they exist to catch problems before they reach users. A bug found in staging is a near-miss; the same bug in production is an incident with real users affected. Keep this framing: environments are a safety net, not bureaucracy.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 2 — Containers and environments</span>
+        <h2>The same thing, everywhere</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Why containers</h3>
+            <ul>
+              <li>Package code, runtime, and dependencies together.</li>
+              <li>Runs identically on every machine and platform.</li>
+              <li>Solves 'works on my machine' permanently.</li>
+              <li>The image is the build artifact you ship.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Why separate environments</h3>
+            <ul>
+              <li>Dev — break things freely, no users affected.</li>
+              <li>Staging — mirror of prod for final checks before release.</li>
+              <li>Prod — real users; treat every change carefully.</li>
+              <li>A bug caught in staging is a near-miss, not an incident.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This slide carries a rule with no exceptions: nothing secret belongs in source code, ever. A secret committed to git, even for one minute, must be treated as already leaked because git history is permanent and repositories are mirrored in ways you cannot control. Environment variables are the standard mechanism for runtime configuration. Secret stores such as AWS Secrets Manager or Cloudflare Secrets add rotation and access control on top. Do the live move in front of the class: take one hardcoded value, put it in an env var, redeploy, confirm the service still works. That 3-minute demo makes the abstract concrete.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 3 — Configuration and secrets</span>
+        <h2>The rule with no exceptions</h2>
+        <ul class="big-list">
+          <li>Nothing secret in the code. Nothing environment-specific hardcoded.</li>
+          <li>Use environment variables for values that change between environments.</li>
+          <li>Use a secret store (AWS Secrets Manager, Cloudflare Secrets) for credentials and keys.</li>
+          <li>A secret in git history is a secret forever — treat it as already leaked the moment it is pushed.</li>
+          <li>Live: move one hardcoded value to an env var and redeploy — class watches the whole cycle.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="The intern picks one of these paths for the project, not both. Show both in class so they can make an informed choice rather than an arbitrary one. AWS gives a deeper compute model — good for anything stateful, long-running, or resource-intensive, with the full AWS ecosystem behind it. Cloudflare Workers run at the edge in over 300 locations with near-zero cold start — ideal for lightweight, latency-sensitive, stateless APIs. Choosing a path is itself a real engineering decision: ask them to briefly justify their choice in the incident report. Do the hello-world live deploy on both paths during class so they see the mechanics before deciding.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 4 — Two paths to live</span>
+        <h2>Pick one for the build</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Path A · AWS</h3>
+            <ul>
+              <li>Managed compute: Lambda or App Runner.</li>
+              <li>Full AWS ecosystem — IAM, CloudWatch, Secrets Manager.</li>
+              <li>Better for stateful, heavy, or long-running workloads.</li>
+              <li>Deploy with the AWS CLI or console.</li>
+              <li class="success">Pick this if you need more control or heavier compute.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Path B · Cloudflare Worker</h3>
+            <ul>
+              <li>Runs at the edge — 300+ locations, sub-millisecond cold start.</li>
+              <li>Deploy with the Wrangler CLI in a few minutes.</li>
+              <li>Secrets via wrangler secret put, no console required.</li>
+              <li>Best for lightweight, latency-sensitive, stateless APIs.</li>
+              <li class="success">Pick this for global reach and fast iteration.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Logs and metrics are complementary, not substitutes for each other. A log entry tells you exactly what happened at a specific moment — request received, error thrown, value returned. A metric tells you the shape of behaviour over time — how often errors occur, how long requests take, how many are in flight. The critical safety rule: never log secrets, tokens, passwords, or personal data; in regulated industries this is a compliance issue and everywhere else it is sound practice. Show a real log stream from the deployed service so the class sees what a healthy request looks like before anything is broken.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 5 — Observability</span>
+        <h2>Logs vs metrics — know the difference</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Logs</h3>
+            <ul>
+              <li>Timestamped record of what happened, in sequence.</li>
+              <li>Tell you the exact moment and chain of events.</li>
+              <li>Best for: diagnosing a specific failure or request.</li>
+              <li class="danger">Never log secrets, tokens, or personal data.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Metrics</h3>
+            <ul>
+              <li>Aggregated measurements over time: counts, rates, latencies.</li>
+              <li>Tell you how often and how bad a problem is.</li>
+              <li>Best for: spotting trends and triggering alerts.</li>
+              <li class="success">A metric can catch the problem before a user reports it.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="This is the centrepiece of the class and the most valuable 14 minutes. Break the service live — a missing env var, a bad config value, or a deliberately thrown error — without telling the class what you changed. Hand them only the logs and metrics. Let the room work through it together: what does the error message say, what timestamp did things go wrong, what changed around that time, what is the hypothesis? Walk the full recovery cycle: hypothesis, evidence check, fix, redeploy, confirm. Close with the key talking point: stay calm and read. The logs almost always told you already. The skill is reading them without panicking.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~14 min</span>
+        <h2>The live incident</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Instructor breaks the deployed service on purpose — bad config, missing env var, or thrown error.</li>
+            <li>Class diagnoses using only logs and metrics. Source code is off limits.</li>
+            <li>Work the recovery cycle: form a hypothesis, check the logs, fix, redeploy, confirm.</li>
+            <li>Key lesson: stay calm and read. The logs almost always told you already.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="A brief but important block. A clean API endpoint is the contract between your service and everything that calls it. Inputs must be validated before they reach your business logic — never trust what comes in from the network. Outputs must have a consistent shape so callers can rely on the structure across deployments. Status codes must be accurate: a 200 response that contains an error message is worse than a 500 because it silently breaks caller logic. This slide sets up exactly what their project endpoint should look like and what will be assessed.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 6 — API design</span>
+        <h2>What a clean endpoint looks like</h2>
+        <ul class="big-list">
+          <li>Clear inputs — validate before your logic runs, never trust the network.</li>
+          <li>Clear outputs — a consistent shape every caller can rely on.</li>
+          <li>Sensible status codes — 200 means success, not 'we tried our best'.</li>
+          <li>Explicit errors — tell the caller what went wrong and why, without leaking internals.</li>
+          <li>This is the shape your project service will expose and what the assessment checks.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the self-learn plan at a high level so the class leaves knowing exactly how to spend their 6 to 8 hours. Topic A is the core hands-on work and must be done first — deploying and confirming a public URL is the foundation everything else builds on. Topic B adds the endpoint the project requires. Topic C is the log-reading practice that mirrors the live incident, now done alone under their own chosen failure. Topic D locks in the config and secrets habit the project will be assessed on. Remind them: the AI prompts listed in the week detail are designed to paste verbatim and get production-grade answers — encourage them to actually use them rather than just reading docs.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn (6–8 hours)</span>
+        <h2>How to use your week</h2>
+        <ol class="numbered-list">
+          <li>Topic A (2 hrs) — Deploy the hello-world to your chosen platform and confirm the public URL from a browser.</li>
+          <li>Topic B (1–1.5 hrs) — Add one clean endpoint: structured input, structured output, correct status codes.</li>
+          <li>Topic C (1.5 hrs) — Trigger an error on purpose and find the root cause using only the logs.</li>
+          <li>Topic D (1 hr) — Move every hardcoded value to an env var; confirm the service still runs cleanly.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Read the checklist aloud item by item. Every requirement maps directly to a learning objective. The most important requirement is item 5: diagnosing and fixing using only logs and metrics, not by re-reading the source first. That constraint is what makes this a real exercise rather than a trivial debugging session. The incident report is the written artefact that proves they can communicate a failure clearly — this carries 25% of the assessment weighting and matters as much as the fix itself. Flag the stretch goal: a health-check endpoint is the simplest form of automated observability and a genuinely useful addition.">
+      <div class="slide-content">
+        <span class="eyebrow">Weekly project</span>
+        <h2>Deploy, break, recover, document</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Deploy a small service to AWS or Cloudflare with a public URL.</li>
+            <li>Expose at least one API endpoint with clean inputs, outputs, and status codes.</li>
+            <li>Keep config and secrets out of the code — use env vars or a secret store.</li>
+            <li>Break it intentionally: bad config, missing variable, or a thrown error.</li>
+            <li>Diagnose and fix using only logs and metrics — no re-reading source code first.</li>
+            <li>Write the incident report: timeline, symptom, diagnosis from logs, fix, confirmation.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Say these pitfalls out loud because they will happen this week if not flagged now. Hardcoding a secret 'just for now' is the most common and most serious mistake — one git push makes it permanent. Moving on before confirming the deployed service is healthy means the intern may spend hours debugging a deploy problem they think is a code problem. Skimming logs is how the root cause stays hidden — slow down and read every line around the failure timestamp. Attempting both paths wastes time that would be better spent going deep on one. And guessing at the fix without a hypothesis from the logs first is the opposite of the methodical approach the assessment rewards.">
+      <div class="slide-content">
+        <span class="eyebrow">Watch out</span>
+        <h2>Common pitfalls this week</h2>
+        <ul class="big-list">
+          <li>Hardcoding a secret 'just for now' — one push makes it permanent in git history.</li>
+          <li>Moving on before confirming the deployed service is actually healthy and reachable.</li>
+          <li>Skimming logs — slow down and read every line around the failure timestamp.</li>
+          <li>Attempting both deployment paths — pick one and go deep on it.</li>
+          <li>Guessing at the fix without first forming a hypothesis from the evidence in the logs.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Close with three memorable lines then preview week 4. The shift from 'my code works' to 'my service is healthy' is the mindset change this week instils. Logs are not optional — they are the only reliable window into what a running service is actually doing when no one is watching. Config discipline, no secrets in code ever, is what makes a service safe to deploy across multiple environments without fear. Then tee up week 4: they now have a live service and next week they will put an LLM on top of it and discover what 'unreliable model' really means at the application layer.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>Shipping is the beginning, not the end — a live service needs watching.</li>
+            <li>Logs are your only reliable window into what a running service is actually doing.</li>
+            <li>Config discipline — no secrets in code, ever — is what makes deploys safe.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 04 · LLM Application Patterns — building reliable systems on top of unreliable models.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

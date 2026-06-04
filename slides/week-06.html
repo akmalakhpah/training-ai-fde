@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 6 · MCP and Tool Calling — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="6" data-deck-title="Week 06 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to Week 6, the first week of Phase 2: AI Application Engineering. Up until now the intern has been a competent developer; this week they get their first real hands. A model that can only talk is a chatbot. A model that can call tools is a building block for real systems. Set the expectation: today is both conceptual and hands-on, and the project this week feeds directly into Week 7.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 06 · Phase 2 — AI Application Engineering</span>
+        <h1>MCP and Tool Calling</h1>
+        <p class="subtitle">A model that can only talk is a chatbot. A model that can call tools is an FDE's building block.</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="State the five objectives and anchor every section of class against one of them. The intern should be able to do all five by Friday, not just have heard about them. Pause briefly on objective five: Conductor arrives this week, not Week 1, because now there is actual parallel work worth orchestrating. The intern has enough tools and tasks to genuinely benefit from parallelism.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By Friday you can</h2>
+        <ul class="big-list">
+          <li>Explain MCP as the standard protocol for connecting models to tools and data.</li>
+          <li>Use an existing MCP server and complete a real task through it.</li>
+          <li>Build a custom MCP server that exposes tools with strict input schemas.</li>
+          <li>Add a guardrail that blocks a clearly bad action and holds when provoked.</li>
+          <li>Use Conductor to run more than one agent in parallel on real work.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="The N-times-M integration problem is real and painful. Before a shared protocol, every team wired every tool into every app by hand. If you have ten models and twenty data sources, that is potentially two hundred custom integrations to maintain. MCP collapses that to N plus M: each tool speaks MCP once, each model speaks MCP once, and they all connect. Use the USB analogy: before USB there was a different plug for every peripheral; MCP is the USB for AI tools.">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The problem</span>
+        <p class="pull-quote">Before MCP: N models times M tools equals N times M custom integrations, all by hand.</p>
+        <p class="pull-quote-cite">— the integration tax MCP eliminates</p>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="Spend time on what a shared protocol actually changes. The left column is the world before MCP, where every integration is a snowflake someone has to maintain. The right column is the MCP world, where a tool is written once and any compliant model can call it. Emphasise the three things an MCP server can expose: tools are functions the model can call, resources are data it can read, and prompts are reusable templates. Most of the class will focus on tools because that is what gives the model hands.">
+      <div class="slide-content">
+        <span class="eyebrow">What MCP provides</span>
+        <h2>Before and after a common protocol</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="danger">Before MCP</h3>
+            <ul>
+              <li>Each tool wired by hand into each app</li>
+              <li>N models times M tools integrations</li>
+              <li>Bespoke schemas, bespoke error handling</li>
+              <li>Fragile, hard to reuse, hard to test</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">With MCP</h3>
+            <ul>
+              <li>One common protocol: any model, any tool</li>
+              <li>Tools, resources, and prompts exposed cleanly</li>
+              <li>Build a server once, connect many models</li>
+              <li>MCP is to AI tools what USB was to peripherals</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This slide explains the actual mechanics of a tool call at the protocol level. The model does not run code. It outputs a structured request: 'I want to call this tool with these arguments.' Your code intercepts that request, runs the real function, and returns the result. The model then continues reasoning with the result in its context. The description on the tool definition is a prompt: the model reads it to decide when and how to call the tool, so a vague description leads to wrong calls.">
+      <div class="slide-content">
+        <span class="eyebrow">The mechanics</span>
+        <h2>How a model actually calls a tool</h2>
+        <ol class="numbered-list">
+          <li>The model reads your tool definition: name, description, and input schema.</li>
+          <li>It decides to call the tool and outputs a structured request with arguments.</li>
+          <li>Your code intercepts the request and runs the real function.</li>
+          <li>The result is returned to the model as a new message in context.</li>
+          <li>The model continues reasoning — possibly calling more tools.</li>
+        </ol>
+        <div class="code-block">{ name: 'get_topic', description: 'Given a student question, return its topic and difficulty. description is a prompt the model reads.', inputSchema: { type: 'object', properties: { question: { type: 'string', description: 'The full text of the question.' } }, required: ['question'] } }</div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE DEMO — connecting to an existing MCP server. Use the filesystem server or a sample database server. The point is that you do not always build: the fastest integration is often a server that already exists. Walk through: installing the server, configuring it in Claude, running one real task end to end, then explaining what happened at the protocol level. Ask the room: what did the model actually send? Show the raw tool call in the logs if possible.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
+        <h2>Connecting to an existing MCP server</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Install and configure the filesystem (or database) MCP server — no custom code.</li>
+            <li>Connect Claude to the server with one config change.</li>
+            <li>Give Claude a real task that requires reading or searching the filesystem.</li>
+            <li>Watch the tool call go out, see the result come back, see Claude continue.</li>
+            <li>Open the raw logs: show the exact JSON the model sent and received.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Now the intern builds their own server. Walk the structure before touching code: define the tool with a tight input schema, validate the input before doing anything else, do the actual work, return a clean structured result. A tight schema is not bureaucracy — it is the description the model reads to know what to send. If the schema is loose, the model guesses. If it guesses wrong, the tool breaks silently or does something unexpected.">
+      <div class="slide-content">
+        <span class="eyebrow">Build it yourself</span>
+        <h2>Structure of a custom MCP server</h2>
+        <ol class="numbered-list">
+          <li>Define the tool: name, description the model will read, strict input schema.</li>
+          <li>Validate the input before you do anything — reject bad input early and cleanly.</li>
+          <li>Do the actual work inside the validated path only.</li>
+          <li>Return a clean, structured result the model can reason about.</li>
+          <li>Expose the server so any MCP-compatible client can connect to it.</li>
+        </ol>
+        <div class="code-block">from mcp.server.fastmcp import FastMCP
+mcp = FastMCP('classifier')
+
+@mcp.tool()
+def classify_question(question: str) -> dict:
+    'Given a student question, return its topic and difficulty.'
+    if not question.strip():
+        raise ValueError('question must not be empty')
+    return { 'topic': 'math', 'difficulty': 'medium' }</div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE DEMO — building the custom MCP server. This is the core skill of the week. Start from the FastMCP scaffold, add one tool with a strict input schema, call it from Claude, and watch the round trip. Emphasise the description on the tool function: whatever you write there is a prompt the model reads. Show what happens when you give it a vague description versus a precise one — the model calls it differently. Leave the guardrail for the next demo slide.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~16 min</span>
+        <h2>Building and calling a custom MCP server</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Start with the FastMCP scaffold — under 20 lines to a working server.</li>
+            <li>Define one tool with a strict input schema and a tight, specific description.</li>
+            <li>Run the server locally and connect Claude to it.</li>
+            <li>Give Claude a task that forces it to call your tool — watch the round trip end to end.</li>
+            <li>Change the description to something vague and show the model misfiring.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="A multi-step agent loop is not magic — it is the tool-calling cycle running more than once. The model calls a tool, gets a result, decides what to do next, calls another tool, and so on until it decides the task is done. The interesting engineering is in the state between steps: what does the model remember, what do you pass back, and how does the loop know when to stop. Design each tool to return clean output the next step can use directly.">
+      <div class="slide-content">
+        <span class="eyebrow">Chaining tools</span>
+        <h2>Multi-step agent loops over MCP tools</h2>
+        <ul class="big-list">
+          <li>The loop: call a tool, get result, decide next step, call another tool.</li>
+          <li>The model holds state in its context window between calls.</li>
+          <li>Your server stays stateless — the model is the orchestrator.</li>
+          <li>The loop ends when the model decides the task is complete.</li>
+          <li>Design each tool to return clean output the model can use as next-step input.</li>
+        </ul>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-value">Step 1</div><div class="stat-label">Search / fetch data</div></div>
+          <div class="stat"><div class="stat-value">Step 2</div><div class="stat-label">Transform / analyse</div></div>
+          <div class="stat"><div class="stat-value">Step 3</div><div class="stat-label">Write / confirm result</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Guardrails are not optional when your model has hands. A model that can call tools can delete files, send emails, write to databases, and charge credit cards. A guardrail is the check that runs before the action, not after. Design the guardrail for the action you would be fired for: the delete without a specific filter, the email to all users, the charge without confirmation. The guardrail must live inside the tool function — not in the system prompt, because prompts can be reasoned around.">
+      <div class="slide-content">
+        <span class="eyebrow">Safety by design</span>
+        <h2>Why guardrails exist and where they live</h2>
+        <ul class="big-list">
+          <li>A model with hands can do real damage: delete, send, charge, overwrite.</li>
+          <li>Prompts are not guardrails — a model can reason past a prompt instruction.</li>
+          <li>Guardrails live inside the tool function, before the action runs.</li>
+          <li>Design for the action you would be fired for: block it unconditionally.</li>
+          <li>A guardrail a clever prompt can bypass is not a guardrail.</li>
+        </ul>
+        <div class="code-block">def delete_records(table: str, where_clause: str) -> dict:
+    if not where_clause.strip() or where_clause.strip() == '1=1':
+        raise ValueError(
+            'Guardrail: refusing to delete all records. Provide a specific filter.')
+    # proceed only after guard passes</div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE DEMO — guardrail firing. Add a guardrail to the custom server tool, then deliberately send the bad input and show it blocking. The intern needs to see the guardrail refuse and return a clean error — not a crash, a controlled rejection. Show Claude receiving the rejection and responding sensibly. Then try to prompt-engineer around the guardrail and confirm it still holds. This is the most memorable moment of class — make it dramatic by naming the bad action first and explaining exactly what damage it would have done.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
+        <h2>Guardrail: add it, then provoke it</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Add a guardrail to the custom server tool — one check before the action.</li>
+            <li>Provoke it: send the exact bad input the guardrail must block.</li>
+            <li>Show it holding: the action does not run, a clean error is returned.</li>
+            <li>Show Claude receiving the rejection and responding appropriately.</li>
+            <li>Try to prompt-engineer around the guardrail and confirm it still holds.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Conductor arrives in Week 6, not Week 1, because now there is actual parallel work worth orchestrating. In Week 1 the intern had one task at a time. Now they have a multi-tool server, a build step, a test step, and a refinement step — these can run independently. Explain when parallelism genuinely helps: independent tasks with no shared state, or tasks where one agent can judge another's output. Explain when it adds confusion: tasks that depend on each other's output, or tasks that write to the same resource simultaneously.">
+      <div class="slide-content">
+        <span class="eyebrow">More than one agent</span>
+        <h2>Conductor and parallel agents — why now, not Week 1</h2>
+        <ul class="big-list">
+          <li>Week 1: one task, one agent — parallelism would add confusion, not speed.</li>
+          <li>Week 6: the intern has tools, a server, tests, and refinement — real parallel work.</li>
+          <li>Conductor runs two or more agents simultaneously against the same tools.</li>
+          <li>Parallel agents help when tasks are independent and one can judge the other.</li>
+          <li>Avoid parallelism when tasks share state or one output feeds the next.</li>
+        </ul>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-value">Agent A</div><div class="stat-label">Build tool 1 and test it</div></div>
+          <div class="stat"><div class="stat-value">Agent B</div><div class="stat-label">Build tool 2 and test it</div></div>
+          <div class="stat"><div class="stat-value">You</div><div class="stat-label">Review both, merge the best</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week, split across four topics. Topic A grounds the theory: read the MCP overview and write three sentences that explain it to a colleague. Topic B is hands-on with an existing server — the fastest way to build intuition is to use something before you build it. Topic C is the core build: a custom FastMCP server with a real schema. Topic D ties it together: add a guardrail to your own tool and run two agents in Conductor. Point them to the specific URLs in the weekly detail document.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn this week</span>
+        <h2>6 to 8 hours across four topics</h2>
+        <ol class="numbered-list">
+          <li><strong>Topic A (1 hr):</strong> Read the MCP overview at modelcontextprotocol.io. Write three sentences explaining it to a colleague who has never used it.</li>
+          <li><strong>Topic B (1.5 hrs):</strong> Connect to an existing MCP server (filesystem or database) and complete one real task end to end. Follow the DataCamp MCP guide.</li>
+          <li><strong>Topic C (2 to 2.5 hrs):</strong> Build a custom FastMCP server — one tool, strict schema, called from Claude. Follow the Towards Data Science tutorial or the official build-server page.</li>
+          <li><strong>Topic D (1.5 hrs):</strong> Add a guardrail to your tool, provoke it, then run two agents in Conductor against your server and note whether it helped.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the project brief carefully. Two key constraints the intern must understand. First: at least two tools with strict schemas and at least one guardrail that actually holds when provoked. Second, and more important for motivation: this MCP server is what Week 7's automation will trigger. They are not building a throwaway exercise — they are building infrastructure that will be called by something other than themselves. Ask them to think now about what that automated caller will need from the server interface.">
+      <div class="slide-content">
+        <span class="eyebrow">Weekly project</span>
+        <h2>Build a custom MCP server for a real multi-step task</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Expose at least two tools with strict input schemas through your MCP server.</li>
+            <li>Drive Claude through a real multi-step task using those tools in an agent loop.</li>
+            <li>Add at least one guardrail that blocks a clearly bad action and holds when provoked.</li>
+            <li>Use Conductor to build and test in parallel — include one line on whether it saved time.</li>
+            <li><strong>This server is what Week 7 will automate — build it to be called by something other than you.</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The reliability check is a required part of the submission, not a stretch goal. The intern must name one specific bad input or action their guardrail must block — concrete, not vague — and confirm it blocks it when deliberately provoked. This is not just a test: it is proof the intern understands what can go wrong with their own tool. During the demo they will be asked to provoke the guardrail live. If it does not hold, the submission is incomplete regardless of everything else working.">
+      <div class="slide-content">
+        <span class="eyebrow">Reliability check</span>
+        <h2>Name the bad input — then prove it is blocked</h2>
+        <ul class="big-list">
+          <li>Name one specific bad input or action your guardrail must block. Be concrete, not vague.</li>
+          <li>Deliberately send that exact input to your running server.</li>
+          <li>Confirm the action does not execute and a clean error is returned.</li>
+          <li>Include this in your submission: one sentence naming the bad input, one confirming it held.</li>
+          <li>During the demo you will be asked to provoke it live — if it does not hold, the work is not done.</li>
+        </ul>
+        <div class="code-block">Reliability check (example):
+'The guardrail blocks delete_records when where_clause is empty or equals "1=1".
+Confirmed: sending where_clause="" raises ValueError and zero rows are deleted.'</div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Common pitfalls based on what typically goes wrong when engineers first build MCP servers. The most frequent mistake is a vague tool description — the model misreads it and sends wrong arguments. Second most frequent: the guardrail lives in the system prompt rather than the tool code, meaning a clever prompt can bypass it. Third: the server only works when the engineer is watching it — hardcoded local paths, manual setup steps, environment variables that only exist on their laptop. That last mistake breaks Week 7 immediately.">
+      <div class="slide-content">
+        <span class="eyebrow">Don't</span>
+        <h2>Common pitfalls this week</h2>
+        <ul class="big-list">
+          <li>Writing a vague tool description — the model reads it as a prompt and calls the tool incorrectly.</li>
+          <li>Putting the guardrail in the system prompt instead of inside the tool function code.</li>
+          <li>Building a server that only works when you are watching it — hardcoded paths, local-only env vars.</li>
+          <li>Running parallel agents on tasks that share state — they will conflict and corrupt each other.</li>
+          <li>Skipping the reliability check — if you have not provoked the guardrail deliberately, you do not know it works.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Recap the week in three points. Then preview Week 7 to give the intern momentum: their MCP server is about to become the backend of a real automation. If they built it to be callable by something other than themselves, Week 7 will be smooth. If they built a one-off, they will spend the first hour of Week 7 refactoring. Close by asking one person to name the bad input their guardrail blocks — reinforce that this is the culture: know exactly what can go wrong with what you ship.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>MCP is the USB of AI tools — one protocol so any model talks to any tool.</li>
+            <li>The guardrail lives inside the tool function, not inside the prompt.</li>
+            <li>Build the server to be called by something other than you — Week 7 depends on it.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 07 · Automation with N8N — automate a real workflow end to end and wire in your MCP agent.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

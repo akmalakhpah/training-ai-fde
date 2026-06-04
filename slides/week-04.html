@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 4 · LLM Application Patterns — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="4" data-deck-title="Week 04 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to Phase 2: AI Application Engineering. This is where the course pivots from production foundations to the thing Pandai actually hired for — building systems that use AI in production. Stress that Phase 2 is not about understanding how models work internally; it is about engineering reliable systems on top of them. Quick temperature check: who has made an API call to a model before today? Set the frame: by Friday they will have shipped a small but real LLM feature with reliable structured output, error handling, and cost reporting.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 04 · Phase 2 — AI Application Engineering</span>
+        <h1>LLM Application Patterns</h1>
+        <p class="subtitle">This is the AI in AI FDE. You will not train models — you will build production systems that use them.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="Let this land before moving on. Most interns arrive thinking the exciting engineering challenge is the model itself. Correct that assumption immediately. The model is a black-box API call — what matters is the input you feed it, what you do with the output, and how your system behaves when the output is wrong. Every slide after this one is evidence for that claim. Ask: 'where do you think the hard work is?' and let them answer before revealing your view. They will underestimate parsing, validation, error handling, and cost — those are the topics this week fixes.">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The real job</span>
+        <p class="pull-quote">The model is the easy part. The system around it is the job.</p>
+        <p class="pull-quote-cite">— the lesson this week earns the hard way</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="State all four objectives clearly before diving in. These map directly to what the project rubric scores. 'Explain how LLM apps work in production' means they can trace the full loop: assemble, call, parse, validate, act, handle failure. 'Prompting as engineering' means they treat prompts like code with inputs, outputs, edge cases, and versions. 'Reliable structured output' means schema-constrained JSON, not hoping the model returns the right shape. 'Reason about cost and non-determinism' means they can calculate dollars per call and code defensively against variation.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By Friday you can</h2>
+        <ul class="big-list">
+          <li>Explain how LLM applications work in production — input to output to action to failure handling.</li>
+          <li>Treat prompting as engineering: versions, test inputs, and measurable improvement across iterations.</li>
+          <li>Get reliable structured JSON output from the Claude API using a schema, not a wish.</li>
+          <li>Reason about cost, latency, and non-determinism as first-class design constraints at Pandai scale.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Give them the roadmap so they can track where they are in the 90 minutes. Blocks 1 through 6 are teaching segments; the demo block is participatory — encourage them to have a terminal open. Flag that the demo is the centrepiece: they will see every concept assembled into one working feature. The project brief comes at the end so they leave with concrete work to start. Budget note: each block is 10–14 minutes; the demo is 20 minutes; project brief is 5 minutes.">
+      <div class="slide-content">
+        <span class="eyebrow">Today</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>The shape of an LLM app in production — the full loop</li>
+          <li>Prompting as engineering — anatomy and iteration</li>
+          <li>Structured output — constraining the model to a schema</li>
+          <li>Error handling and non-determinism</li>
+          <li>Streaming — when and why it changes the experience</li>
+          <li>Token economics and cost at Pandai scale</li>
+          <li>Live build — classification feature end to end on the Claude API</li>
+          <li>Project brief and the reliability check</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Draw this loop on a whiteboard if you can, or walk through each step slowly. Input comes from a user or a system. Prompt assembly is where your engineering lives — context, format instructions, examples. The model call is just HTTP. Parsing is where things first break: you asked for JSON and got markdown with JSON inside it. Validation is your safety net. Action is what the feature actually does with the structured result. Failure handling is the step most interns skip entirely. Stress: every production LLM feature is this loop, nothing more, and the model is only one of seven steps.">
+      <div class="slide-content">
+        <span class="eyebrow">The production loop</span>
+        <h2>How an LLM app actually works</h2>
+        <ol class="numbered-list">
+          <li><strong>Input</strong> — user data, context, retrieved documents arrive from upstream.</li>
+          <li><strong>Prompt assembly</strong> — your code builds the full prompt from parts: role, task, context, examples.</li>
+          <li><strong>Model call</strong> — one HTTP request to the API; the model is a black box at this point.</li>
+          <li><strong>Parse</strong> — extract the structure the model was supposed to return.</li>
+          <li><strong>Validate</strong> — confirm the output actually matches the schema and types you defined.</li>
+          <li><strong>Act</strong> — write to a database, call another service, return to the user.</li>
+          <li><strong>Handle failure</strong> — retry, fallback, log, alert; design this before it happens.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="This is the 'model is the easy part' slide made concrete. The left column is what interns expect to spend their time on. The right column is where production bugs actually live. Prompt assembly bugs are the most common: missing context, ambiguous instructions, or a format instruction that the model interprets differently on unusual input. Output parsing is brittle: free-text responses look like JSON until an edge case adds a preamble sentence. Validation is skipped by the majority of first implementations. Failure handling is almost always an afterthought. Ask: which column did you expect to spend most of your time in this week?">
+      <div class="slide-content">
+        <span class="eyebrow">Mental model</span>
+        <h2>Where things go wrong</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What you expected to be hard</h3>
+            <ul>
+              <li>Choosing the right model</li>
+              <li>Writing the initial prompt</li>
+              <li>Getting an API key and making the first call</li>
+              <li>Reading the raw response</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">Where bugs actually live</h3>
+            <ul>
+              <li>Prompt assembly with real, messy input</li>
+              <li>Output parsing on edge cases — text that lies about being JSON</li>
+              <li>Missing validation — wrong types, missing fields, null values</li>
+              <li>No fallback when the model returns something unusable</li>
+              <li>Ignoring cost until the bill arrives</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="A prompt is code. Make this point forcefully. A prompt has inputs (the things you interpolate in), expected outputs (the schema you defined), edge cases (short input, foreign-language input, adversarial input), and versions (v1 had no examples, v2 added two, v3 tightened the format instruction). If you treat a prompt as a magic string you type once and never revisit, you will ship a brittle feature. The six-part anatomy gives a shared vocabulary for the rest of the class. Walk through each part with a one-sentence example so they can apply it immediately in the live demo.">
+      <div class="slide-content">
+        <span class="eyebrow">Prompting as engineering</span>
+        <h2>A prompt is code — treat it like code</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Anatomy of a good prompt</h3>
+            <ul>
+              <li><strong>Role</strong> — who the model is in this context</li>
+              <li><strong>Task</strong> — the specific thing it must do</li>
+              <li><strong>Context</strong> — what it needs to know to do it well</li>
+              <li><strong>Format instruction</strong> — the exact shape of the output</li>
+              <li><strong>Examples</strong> — one or two make the task concrete</li>
+              <li><strong>Constraints</strong> — what to do on bad or ambiguous input</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>It also has all the properties of code</h3>
+            <ul>
+              <li>Inputs — variables you interpolate at runtime</li>
+              <li>Expected outputs — the schema you defined</li>
+              <li>Edge cases — test inputs designed to break it</li>
+              <li>Versions — v1, v2, with a changelog of what changed and why</li>
+              <li>Tests — a set of inputs you run every time you change it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The problem is simple and painful: 'please return JSON' is a polite request, not a contract. The model might return JSON with a preamble sentence ('Here is the JSON you requested:'), JSON wrapped in a markdown code fence, JSON with trailing commas that fail to parse, or valid-looking JSON where a field has the wrong type. The solution is structured outputs: you pass a JSON schema to the API and the model is constrained at the decoding level — it literally cannot produce a token sequence that does not conform. The talking point to hammer: never parse free text when you can constrain the shape. This is the single biggest reliability improvement you can make to an LLM feature.">
+      <div class="slide-content">
+        <span class="eyebrow">Structured output</span>
+        <h2>Never trust a model to format itself</h2>
+        <ul class="big-list">
+          <li>Asking nicely for JSON is not a contract — it is a wish.</li>
+          <li>The model adds preamble sentences, wraps output in markdown, or puts the wrong type in a field.</li>
+          <li><strong>Structured outputs</strong> pass a JSON schema to the API — the model is constrained at decoding time, not by instruction.</li>
+          <li>It literally cannot produce a token sequence that violates the schema you passed.</li>
+          <li>This is the single biggest reliability improvement in one line of code.</li>
+          <li>Never parse free text when you can constrain the shape.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Non-determinism is not a bug — it is a property of probabilistic models. But it means the same prompt, on the same input, on different calls, can return different things. Show them concretely by calling the same classification prompt five times and looking at the distribution of outputs. The design lesson is: code for the bad response, not the demo response. Retries should use exponential backoff and should feed the validation error back into the retry prompt so the model can self-correct. Fallbacks must be explicit: if the model returns something unusable after N retries, the feature must have a defined behaviour — log the failure, return a safe default, and alert. Never silently return garbage.">
+      <div class="slide-content">
+        <span class="eyebrow">Error handling</span>
+        <h2>Design for the bad response, not the demo response</h2>
+        <ul class="big-list">
+          <li><strong>Non-determinism is real</strong> — the same prompt produces a distribution of outputs, not a fixed answer.</li>
+          <li><strong>Retries</strong> — exponential backoff on transient API errors; feed the validation error back on schema failures so the model can self-correct.</li>
+          <li><strong>Timeouts</strong> — set them; a model call can hang indefinitely without a deadline.</li>
+          <li><strong>Fallbacks</strong> — always explicit: if unusable after retries, return a safe default and log the raw response clearly.</li>
+          <li><strong>Logging</strong> — always log input tokens, output tokens, and the raw response when something goes wrong; you cannot debug what you did not record.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Streaming matters for perceived latency and user experience. A non-streaming call on a long response makes the user wait for the full generation before seeing anything — for a 3-second generation that feels like a frozen screen. Streaming sends tokens as they are generated, so the user sees the response building in real time. For short classification-style calls, streaming adds code complexity with little benefit. For anything that generates paragraphs of text — feedback on a student answer, an explanation, a summary — streaming is the difference between a good and a poor user experience. Implementation is a single flag on the API client; show both modes live.">
+      <div class="slide-content">
+        <span class="eyebrow">Streaming</span>
+        <h2>When streaming changes the experience</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Without streaming</h3>
+            <ul>
+              <li>User sees nothing until the full generation completes</li>
+              <li>A 3-second response feels like a frozen screen</li>
+              <li>Fine for short, structured API calls</li>
+              <li>Simpler code path</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">With streaming</h3>
+            <ul>
+              <li>Tokens arrive as they are generated</li>
+              <li>User sees progress immediately — perceived latency drops dramatically</li>
+              <li>Critical for long-form output: feedback, explanations, summaries</li>
+              <li>One flag on the API client; handle partial buffers carefully</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Token economics is one of the most neglected skills in early LLM engineering. Every call has a cost: input tokens multiplied by the input price plus output tokens multiplied by the output price. The numbers look tiny — fractions of a cent — until you multiply by Pandai scale. Walk through the stat grid slowly and let the million-call number sink in. Model tier choice matters enormously: Haiku is roughly 25x cheaper than Opus per million tokens. If the task is classification or tagging, Haiku is almost always enough. Opus is for tasks that require genuine deep reasoning. The question every customer will ask: 'can you run this cheaply at scale?' They need to be able to answer it with a number before they deploy.">
+      <div class="slide-content">
+        <span class="eyebrow">Token economics</span>
+        <h2>Cost per call — then multiply to Pandai scale</h2>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value">~500</div>
+            <div class="stat-label">tokens per classification call (input + output combined)</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">~$0.0004</div>
+            <div class="stat-label">approximate cost per call on Haiku</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">$400</div>
+            <div class="stat-label">cost for 1 million calls — one day at Pandai scale</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">25×</div>
+            <div class="stat-label">Haiku vs Opus price ratio — choose your model tier deliberately</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="This is the centrepiece of the class — build the feature live, narrating every decision. Start with a bare prompt that classifies a question by topic; show it working on easy input. Feed it a short ambiguous question and show it wobble or return the wrong category. Add a second version of the prompt with a format instruction and one example — show the output stabilise. Switch from free-text parsing to structured outputs with a JSON schema: topic as a string enum and difficulty as low/medium/hard. Add a cost counter that prints tokens in, tokens out, and dollars per call after every invocation. Finally wrap the call in try/except with a retry and an explicit fallback. The completed feature is the scaffold they start the project from.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live build · ~20 min</span>
+        <h2>Classification feature — end to end on the Claude API</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li><strong>Step 1</strong> — bare prompt: classify by topic, show it work then wobble on ambiguous input.</li>
+            <li><strong>Step 2</strong> — add format instruction and one example to the prompt; watch output stabilise across calls.</li>
+            <li><strong>Step 3</strong> — switch to structured outputs with a JSON schema (topic enum, difficulty enum); free text is no longer possible.</li>
+            <li><strong>Step 4</strong> — add a cost counter: print tokens in, tokens out, and dollars per call after every invocation.</li>
+            <li><strong>Step 5</strong> — wrap the call in try/except with exponential backoff retry and an explicit safe fallback.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through the self-learn topics so they know exactly what to do after class. Topic A is hands-on prompt iteration — they improve the classification prompt across three versions and keep notes on what changed the output; the AI prompt in the markdown is designed to be pasted directly into Claude. Topic B is structured output practice — they break naive JSON prompting with odd inputs and then see how a schema protects them. Topic C is cost arithmetic — they compute their own cost-per-call and scale it up to a million calls. Topic D is defensive coding — they call the same prompt five times and write handling code that survives the variation. Encourage them to use the AI prompts from the markdown; that is the self-learn format for Phase 2.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn · 6–8 hrs</span>
+        <h2>Four topics to work through</h2>
+        <ol class="numbered-list">
+          <li><strong>Prompt design and iteration (1.5–2 hrs)</strong> — iterate the classification prompt across three versions; measure and document the output change at each step.</li>
+          <li><strong>Reliable structured output (1.5–2 hrs)</strong> — break naive JSON prompting with three odd inputs; then fix it with a schema and see what the schema catches.</li>
+          <li><strong>Token economics and cost (1–1.5 hrs)</strong> — compute cost per call for your feature; multiply to a million calls a day and identify the single biggest cost lever.</li>
+          <li><strong>Handling non-determinism (1 hr)</strong> — call the same prompt five times; write the validation, retry, and fallback code that survives the variation.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Read the brief carefully and field questions before moving on. The task is intentionally open: they pick any Pandai-flavoured input and define their own schema, as long as it has at least two fields with meaningful types. The four checklist items map directly to the rubric columns. Stress that cost reporting is not optional — it is a first-class requirement listed in the checklist, not a stretch goal. The suggested steps in the markdown are the recommended build order: define schema first, then prompt, then structured output, then error handling, then test against awkward inputs. The stretch item — prompt caching or a smaller model for part of the work — is genuinely valuable and worth encouraging for stronger interns.">
+      <div class="slide-content">
+        <span class="eyebrow">Weekly project</span>
+        <h2>Build a small LLM feature on the Claude API</h2>
+        <div class="demo-card">
+          <p style="font-size: clamp(1rem, 1.6vw, 1.35rem); margin-bottom: 1rem;">Pick a Pandai-flavoured task — for example, tagging a question by topic and difficulty. Build it so it returns reliable structured JSON, handles errors, and reports its own cost per call.</p>
+          <ul class="big-list">
+            <li>Returns structured JSON that conforms to a schema you define — not free text.</li>
+            <li>Handles bad or surprising input without crashing — empty strings, wrong language, malformed input.</li>
+            <li>Reports its own cost per call: tokens in, tokens out, dollars — on every invocation.</li>
+            <li>Includes basic retry or fallback logic for a failed or malformed model response.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Every Phase 2 deliverable carries a one-line reliability check. This is not an afterthought — it is a first-class deliverable that trains the habit of thinking about failure modes before they appear in production. The check forces the intern to name a specific input that breaks or degrades their feature and to articulate precisely what in their code catches it. A bad answer is vague: 'if the model returns something wrong my try/except handles it.' A good answer is precise: 'a question written entirely in Malay causes the topic classifier to return Other because the schema enum rejects the Malay-language value; this is caught by the validation step and logged with the raw response for review.' Model that distinction out loud.">
+      <div class="slide-content">
+        <span class="eyebrow">Reliability check · every Phase 2 deliverable</span>
+        <h2>Name one input that breaks it — and what catches it</h2>
+        <ul class="big-list">
+          <li>Every Phase 2 deliverable carries a one-line reliability check in the submission.</li>
+          <li>Name one specific input that would make your feature produce wrong or malformed output.</li>
+          <li>State exactly what in your code catches it: schema validation, a retry, a fallback, a log line.</li>
+          <li>Vague answers fail: 'the try/except handles it' names nothing.</li>
+          <li>Precise answers pass: name the input, name the failure mode, name the catch.</li>
+        </ul>
+        <div class="code-block">Example: 'An empty string input causes the schema to reject the null topic field; caught by Pydantic validation, logged with the raw response, and returns the safe default {topic: unknown, difficulty: unknown}.'</div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Run through these pitfalls quickly — each one is a real failure mode from past interns or production LLM features. Stopping at the first working call is the most common: the demo worked on the happy path, so they submitted. Remind them the rubric explicitly rewards testing failure paths, and that the reliability check requires naming a failure. Parsing free text instead of using structured outputs is the most brittle decision and the easiest to fix with one API parameter. Ignoring cost until the end means they cannot answer the cost question in the rubric. Treating retries as optional means the feature crashes on the first transient API error. Using Opus for a task that Haiku handles equally well costs 25x more.">
+      <div class="slide-content">
+        <span class="eyebrow">Don't</span>
+        <h2>Common pitfalls this week</h2>
+        <ul class="big-list">
+          <li>Stopping at the first working call — the demo response is not the production response.</li>
+          <li>Parsing free-text JSON with a regex instead of using structured outputs.</li>
+          <li>Ignoring cost until the end — build the cost counter on call one, not after the feature is done.</li>
+          <li>Treating retry logic as a stretch goal — it is on the checklist and on the rubric.</li>
+          <li>Using Opus for a task that Haiku handles just as well at 25x the cost.</li>
+          <li>Writing a reliability check that names no specific input and no specific catch — it will not pass.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Three sentences, then preview Week 5. The transition from 'build a model app' to 'ground a model in real knowledge' is the natural next step: once you can get reliable structured output from a model, the next question is how you give it accurate, current, and domain-specific information without retraining it. RAG — Retrieval Augmented Generation — is the standard answer to that question in production. Set that expectation so they think about it during the project week and come to Week 5 with a question already forming.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>The model is the easy part — prompt assembly, output parsing, validation, and failure handling are the job.</li>
+            <li>Structured outputs with a schema turn a wish for JSON into a guarantee enforced at decoding time.</li>
+            <li>Every call has a cost; compute it on call one and multiply it to scale before you commit to a design or a model tier.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 05 · Retrieval and Grounding (RAG) — why models need grounding and how RAG works end to end.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>

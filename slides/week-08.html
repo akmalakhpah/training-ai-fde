@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Week 8 · Scoping Ambiguity — AI FDE Class</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="slides.css?v=18" />
+</head>
+<body data-week-num="8" data-deck-title="Week 08 · Slides">
+  <div class="deck">
+
+    <section class="slide title" data-notes="Welcome to Phase 3: The FDE Craft. This is where the programme shifts from 'can you build it' to 'are you building the right thing'. Introduce the class owner — the Product Manager — and explain why a PM is teaching this session: scoping is fundamentally about decision-making before any code is written. Set the tone clearly: the technical work is the easy half; the hard half is figuring out what to build before you build it.">
+      <div class="slide-content">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> Week 08 · Phase 3 — The FDE Craft</span>
+        <h1>Scoping Ambiguity</h1>
+        <p class="subtitle">Turning a vague business problem into a concrete technical plan.</p>
+      </div>
+    </section>
+
+    <section class="slide quote" data-notes="This quote is the core tension of the whole session. Every intern in the room has heard a version of this from a stakeholder. The instinct is to start building immediately — resist that. The brief is almost never the real problem. Let this sit for a moment before moving on; ask the room if they have heard a request like this and what they did next.">
+      <div class="slide-content">
+        <span class="eyebrow hook-eyebrow"><span class="eyebrow-dot"></span> The brief</span>
+        <p class="pull-quote">'We want to use AI.'</p>
+        <p class="pull-quote-cite">— every stakeholder, before the clarifying question</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="State the four learning objectives up front so learners know what success looks like by the end of the week. Anchor each objective to a concrete action, not a passive understanding. Note that objective four — writing a scoping document — is the deliverable they will defend in the assessment. Remind the cohort this is 90 minutes of taught class followed by 12 to 16 hours of self-learn and project work.">
+      <div class="slide-content">
+        <span class="eyebrow">Learning objectives</span>
+        <h2>By Friday you can</h2>
+        <ul class="big-list">
+          <li>Turn a vague business problem into a concrete technical plan.</li>
+          <li>Find the real problem behind the stated one.</li>
+          <li>Say no to the wrong solution without losing the customer.</li>
+          <li>Write a clear scoping document with an explicit what-we-will-not-build section.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk through the agenda so the cohort knows what is coming. This class is structured around live drills, not lectures — every block after the framing is interactive. Warn them that they will be put on the spot with one-line briefs and asked to find the real problem in real time. That discomfort is intentional and is exactly what the job feels like on day one with a new customer.">
+      <div class="slide-content">
+        <span class="eyebrow">Today</span>
+        <h2>Agenda</h2>
+        <ol class="numbered-list">
+          <li>Why briefs are vague — the cost of building the wrong thing</li>
+          <li>The clarifying question — asking 'why' until the goal is visible</li>
+          <li>Finding the real problem behind the stated request</li>
+          <li>Setting scope boundaries — what is in, what is explicitly out</li>
+          <li>Pushing back without losing the customer</li>
+          <li>Live: filling a scoping document on screen</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="This is the fundamental insight of the session. Customers describe symptoms because they experience pain at the symptom level — they do not see the underlying cause any more than a patient knows their diagnosis. The cost column on the right is important: building the stated request instead of the real need wastes engineering time, erodes trust when the shipped thing does not help, and often makes the real problem harder to solve later. Ask the room for an example they have seen personally before moving to the next slide.">
+      <div class="slide-content">
+        <span class="eyebrow">Why briefs are vague</span>
+        <h2>Symptoms vs problems</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>What customers say</h3>
+            <ul>
+              <li>'We want to use AI.'</li>
+              <li>'Fix our support load.'</li>
+              <li>'Build us a dashboard.'</li>
+              <li>'Automate this process.'</li>
+              <li>'Our users are dropping off.'</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">The cost of taking it literally</h3>
+            <ul>
+              <li>You build the wrong thing, correctly.</li>
+              <li>The real problem remains unsolved.</li>
+              <li>Engineering time is spent, trust is not earned.</li>
+              <li>The business goal was never made explicit.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The clarifying question is a skill, not a personality trait — it can be practised and improved. Walk through the starter set slowly. 'What does success look like' is the most important question because it forces the stakeholder to articulate a measurable outcome. 'What happens today without this' surfaces the workaround and often reveals that the problem is smaller or different than assumed. Warn learners against leading questions — a question that contains the solution is not a clarifying question, it is a pitch.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 3 · 12 min</span>
+        <h2>The clarifying question</h2>
+        <ul class="big-list">
+          <li><strong>What does success look like?</strong> — force a measurable outcome, not a vibe.</li>
+          <li><strong>Who is the user?</strong> — a teacher, a student, an ops manager each needs a different thing.</li>
+          <li><strong>What happens today without this?</strong> — reveals the workaround and the real pain.</li>
+          <li><strong>What is the constraint?</strong> — time, cost, data access, existing systems.</li>
+          <li><strong>Why now?</strong> — surfaces urgency, deadlines, and political context.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE DRILL — 12 minutes. Hand out one-line briefs drawn from real Pandai and SEA enterprise situations. Suggested briefs: 'we want to use AI', 'fix our support load', 'our students are not finishing the course', 'we need a recommendation engine'. Ask the cohort to work in pairs for two minutes to generate clarifying questions, then share with the room. The instructor records questions on screen. Debrief: which questions would most change the solution? Which questions are leading rather than open? This exercise builds the muscle of pausing before designing.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
+        <h2>Ten questions from one brief</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Instructor hands out one-line briefs — one per pair.</li>
+            <li>Pairs generate ten clarifying questions in two minutes. No solutions yet.</li>
+            <li>Class shares: which questions are open, which are leading?</li>
+            <li>Instructor highlights the two or three that would most change the solution.</li>
+            <li>Key lesson: good questions postpone the solution; bad questions assume it.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide two-col" data-notes="Use 'fix our support load' as the worked example. Walk through the diagnosis chain: support load is high — why? — tickets are repetitive — why? — users cannot find the answer in the docs — is this an AI problem? Maybe it is a docs problem, or a routing problem, or an onboarding problem. The best scoping sometimes ends with 'you do not need AI for this.' That conclusion builds more trust than shipping an AI feature that does not reduce the ticket count. Ask the cohort which of these they would have built without the clarifying questions.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 4 · 12 min</span>
+        <h2>Stated request vs real need</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Stated request</h3>
+            <ul>
+              <li>'Fix our support load.'</li>
+              <li>Assumed solution: AI chatbot.</li>
+              <li>Assumed cause: too many tickets.</li>
+              <li>Assumed fix: deflect with automation.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">What it might really be</h3>
+            <ul>
+              <li>Docs are outdated — a writing problem.</li>
+              <li>Tickets are misrouted — a process problem.</li>
+              <li>One feature confuses everyone — a UX problem.</li>
+              <li>Answer: you may not need AI at all.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Scope creep is the default trajectory of any project without explicit boundaries. The key move is writing the out-of-scope list before someone asks for the thing that is on it. Phrasing matters: 'we will not build X' sounds like a refusal; 'in this phase we are focused on Y, so X is out of scope and documented for a potential phase 2' sounds like a plan. Run the live exercise: draw the in and out line on screen for one of the briefs used earlier and ask the cohort to challenge where the line sits.">
+      <div class="slide-content">
+        <span class="eyebrow">Block 5 · 12 min</span>
+        <h2>Setting boundaries</h2>
+        <ul class="big-list">
+          <li>Scope creep is the default — bounding takes deliberate work.</li>
+          <li>Write the out-of-scope list <em>before</em> someone asks for what is on it.</li>
+          <li>Phrase boundaries as a plan, not a refusal: 'in this phase we focus on X.'</li>
+          <li>The what-we-will-not-build section protects the team and sets honest expectations.</li>
+          <li>Every feature added without re-scoping steals time from the agreed deliverable.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE DEMO — 12 minutes. This is the most memorable part of the session. The instructor models two versions of the same pushback conversation: first, the bad version — a blunt 'no, we will not do that' with no reason or alternative, which ends the relationship. Then the good version — 'I understand why that feels urgent; here is why it is outside the scope we agreed and here is what we could do instead.' Ask the cohort to name what changed between the two versions. The answer is: a reason, an acknowledgment of the customer's concern, and a concrete alternative or a phase 2 path.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
+        <h2>Pushing back without losing the customer</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Instructor models the bad pushback: 'no' with no reason — the customer leaves.</li>
+            <li>Instructor models the good pushback: reason + acknowledgment + alternative.</li>
+            <li>Formula: 'I understand why. Here is the tradeoff. Here is what we can do.'</li>
+            <li>Cohort observes: what changed? Tone, structure, or content?</li>
+            <li>Key lesson: 'no' with a reason and an alternative builds trust; 'no' alone loses it.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="LIVE FILL — 16 minutes. This is the centrepiece of the class. Open the scoping document template in Google Docs on screen and fill it live using one of the briefs from earlier. Talk through every decision out loud: why this is the real problem and not that one, what the plan assumes, why a specific thing is being left out. The what-we-will-not-build section is where the thinking shows — an empty or vague out-of-scope list is a red flag that the scoping has not been done. This filled document becomes the reference model for the weekly project.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~16 min</span>
+        <h2>Filling the scoping document on screen</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li><strong>The real problem</strong> — stated clearly, not the surface request.</li>
+            <li><strong>The proposed plan</strong> — concrete, realistic, time-bounded.</li>
+            <li><strong>The assumptions</strong> — what must be true for this plan to work.</li>
+            <li><strong>What we will not build</strong> — explicit, reasoned, documented.</li>
+            <li>Instructor narrates every decision. Cohort challenges in real time.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Link the technical plan to a business outcome a non-engineer actually cares about. This is the last step of scoping and the one most often skipped. If you cannot finish the sentence 'this is worth building because the customer will be able to...' then the scope is not done yet. The business outcome should be expressible in terms of time saved, cost reduced, students reached, or risk lowered — not in terms of lines of code or API calls made. This step is also what the customer remembers when they brief their own leadership.">
+      <div class="slide-content">
+        <span class="eyebrow">Connecting the dots</span>
+        <h2>Linking technical work to a business outcome</h2>
+        <ul class="big-list">
+          <li>Every scoping document must answer: why is this worth building?</li>
+          <li>Finish this sentence: 'This is worth building because the customer will be able to...'</li>
+          <li>Frame the value in terms a non-engineer cares about: time, cost, reach, risk.</li>
+          <li>Anchor to a number you can estimate — even a rough one is better than none.</li>
+          <li>If you cannot articulate the business outcome, the scope is not finished.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the self-learn plan so learners know what to do after class. Four topics, roughly 6 to 8 hours total. Topic A is problem framing and the clarifying question. Topic B is the stated request versus the real need. Topic C is writing and pressure-testing the scoping document using an AI prompt that acts as a skeptical engineering manager. Topic D is linking work to a business outcome. Each topic has an AI prompt designed so the AI acts as a sparring partner, not just an answer machine — the learner must engage, not just read.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn · 6 to 8 hrs</span>
+        <h2>This week outside class</h2>
+        <ul class="big-list">
+          <li><strong>Topic A:</strong> Problem framing and clarifying questions — write ten questions for a vague brief, in priority order.</li>
+          <li><strong>Topic B:</strong> Stated request vs real need — work a brief back to three possible underlying problems, one of which needs no AI.</li>
+          <li><strong>Topic C:</strong> Writing the scoping document — fill the template, then use the AI prompt to pressure-test it as a skeptical engineering manager.</li>
+          <li><strong>Topic D:</strong> Linking to a business outcome — phrase the value in three ways, each anchored to a number you can estimate.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the project brief clearly and slowly. The brief they receive is deliberately vague — one line, no context. Their first move should be writing clarifying questions, not designing a solution. The deliverable is a Google Doc using the scoping template. The stretch goal — a one-paragraph phase 2 section — rewards learners who can think about sequencing, not just scoping. Tell them the assessment is a live defence under pressure, not a written exam, so the document must be something they can speak to from memory.">
+      <div class="slide-content">
+        <span class="eyebrow">Weekly project · 6 to 8 hrs</span>
+        <h2>The deliverable</h2>
+        <div class="demo-card">
+          <p style="font-size: clamp(1rem, 1.6vw, 1.35rem); margin-bottom: 1rem;">Given a deliberately vague one-line brief, produce a scoping document that states the real problem, a proposed plan, the assumptions, and explicitly what you would not build.</p>
+          <ul class="big-list">
+            <li>Write your clarifying questions first. Resist designing before you scope.</li>
+            <li>State the real problem clearly — not the surface request.</li>
+            <li>List assumptions explicitly. Unstated assumptions are hidden risks.</li>
+            <li>Write a thoughtful what-we-will-not-build section — this is graded most heavily.</li>
+            <li>Link the work to a business outcome a non-engineer cares about.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="The assessment is a live performance under pressure, not a polished presentation. The instructor will play a customer who keeps changing the ask — requesting features that are out of scope, questioning assumptions, proposing an entirely different direction mid-session. The learner must hold their scope without getting defensive and without losing the relationship. That combination — confident but not combative — is the core FDE skill this session develops. Walk through the rubric so learners know exactly how they will be judged.">
+      <div class="slide-content">
+        <span class="eyebrow">Assessment · 2 to 3 hrs</span>
+        <h2>Defending your scope</h2>
+        <ul class="big-list">
+          <li>Present your scoping document in class.</li>
+          <li>The instructor plays a customer who keeps changing the ask.</li>
+          <li>Hold your scope: reason, acknowledge, offer an alternative. Do not fold, do not fight.</li>
+          <li><strong>Rubric:</strong> technical execution 30%, handling ambiguity 30%, communication 25%, ownership 15%.</li>
+          <li>Definition of done: a reader who only saw the one-line brief understands the real problem, the plan, and what is not being built.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Run through the pitfalls quickly — these are the failure modes seen most often in scoping exercises with FDE interns. The biggest one is designing before scoping: the moment someone starts drawing system diagrams from a one-line brief, the session is over. The second biggest is a vague out-of-scope section — if it says 'other features' or 'future work' without specifics, the thinking has not been done. Ask the room which pitfall they are most at risk of personally, and take one or two honest answers before moving to recap.">
+      <div class="slide-content">
+        <span class="eyebrow">Common mistakes</span>
+        <h2>Pitfalls to avoid</h2>
+        <ul class="big-list">
+          <li>Designing before scoping — jumping to a solution before finding the real problem.</li>
+          <li>A vague out-of-scope section: 'future work' is not a boundary, it is a blank cheque.</li>
+          <li>Unstated assumptions — every assumption you hide becomes a risk that surfaces at the worst moment.</li>
+          <li>Getting defensive under pressure instead of reasoning through the pushback calmly.</li>
+          <li>Forgetting the business outcome — a technically correct scope with no articulated value is still incomplete.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide recap" data-notes="Recap the session in three sentences. Then preview week 9 — integration into systems you do not control — so learners understand that the scoping skill they built this week will be immediately tested when the system they are integrating with behaves unexpectedly. The connection is deliberate: you cannot scope an integration without first understanding the real problem, and you cannot hold a scope boundary when an external API breaks unless you have already agreed what is out of scope.">
+      <div class="slide-content">
+        <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
+        <h2>If you remember three things</h2>
+        <div class="recap-card">
+          <ul class="big-list">
+            <li>The brief is never the real problem — your job starts with finding it.</li>
+            <li>The what-we-will-not-build section is where the thinking shows.</li>
+            <li>'No' with a reason and an alternative builds trust; 'no' alone loses it.</li>
+          </ul>
+          <div class="next-up">
+            <div>
+              <div class="label">Next week</div>
+              <div class="title">Week 09 · Integration and the Messy Real World — integrate into systems you do not control.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <script src="../config.js?v=18"></script>
+  <script src="slides.js?v=18"></script>
+</body>
+</html>
