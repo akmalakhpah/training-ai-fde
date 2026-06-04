@@ -2,7 +2,7 @@
 const courseData = {
   meta: {
     title: "AI Forward Deployed Engineer Course",
-    subtitle: "A 12-week hybrid program turning fresh graduates into deployable AI Forward Deployed Engineers.",
+    subtitle: "A 12-week hybrid program that turns you, a fresh graduate, into a deployable AI Forward Deployed Engineer.",
     duration: "12 weeks",
     commitment: "~16–20 hours / week",
     classFormat: "~90 min taught class + self-paced build",
@@ -13,19 +13,19 @@ const courseData = {
     title: "Course Philosophy",
     body: [
       "Most software fails in deployment, not in development. The product works in the demo and breaks inside the customer's real, messy environment. The Forward Deployed Engineer exists to close that gap by embedding with the customer, building production-grade solutions in place, and staying until they work.",
-      "For a fresh graduate, the technical gap is closable in weeks. The harder gap is the FDE craft: staying calm inside broken systems, turning a vague business problem into a concrete plan, owning delivery end to end, and talking to customers without hiding behind a screen. This course weights heavily toward that craft, because it is what degrees and bootcamps skip.",
+      "For you, a fresh graduate, the technical gap is closable in weeks. The harder gap is the FDE craft: staying calm inside broken systems, turning a vague business problem into a concrete plan, owning delivery end to end, and talking to customers without hiding behind a screen. This course weights heavily toward that craft, because it is what degrees and bootcamps skip.",
     ],
     muscles: [
       "Ship production code, not coursework.",
       "Stay functional inside ambiguous, broken, incomplete systems.",
       "Translate between human problems and technical plans.",
     ],
-    closer: "If a trainee finishes the course strong on muscle one but weak on two and three, they are not ready. The whole design exists to build all three at once.",
+    closer: "If you finish the course strong on muscle one but weak on two and three, you are not ready. The whole design exists to build all three at once.",
   },
 
   audience: {
     target:
-      "Fresh computer science or engineering graduates with a solid academic foundation but little or no production experience. They can write code. They have not yet shipped something real users depend on, debugged a live outage at 2am, or explained a technical tradeoff to a non-technical stakeholder.",
+      "You are a fresh computer science or engineering graduate with a solid academic foundation but little or no production experience. You can write code. You have not yet shipped something real users depend on, debugged a live outage at 2am, or explained a technical tradeoff to a non-technical stakeholder.",
     outcomes: [
       "Read and contribute to a large unfamiliar codebase without freezing.",
       "Build, deploy, observe, and recover a production service.",
@@ -33,7 +33,7 @@ const courseData = {
       "Build reliable LLM applications: structured outputs, RAG, agents, tool calling, and evaluation.",
       "Choose the right model for a given task on cost, latency, and quality grounds.",
       "Scope a vague business problem into a concrete technical plan.",
-      "Integrate into systems they do not control.",
+      "Integrate into systems you do not control.",
       "Present a technical recommendation to a mixed audience and earn trust.",
       "Own a real deployment end to end, including the moment it breaks.",
     ],
@@ -46,7 +46,7 @@ const courseData = {
       "Basic understanding of how the web works: HTTP, requests and responses, what an API is at a conceptual level.",
       "Willingness to be wrong in public. This is non-negotiable for an FDE.",
     ],
-    built: "Python depth, SQL, cloud, GitHub workflows beyond the basics, LLM application patterns, and the entire FDE craft. Trainees do not need any AI or machine learning background.",
+    built: "Python depth, SQL, cloud, GitHub workflows beyond the basics, LLM application patterns, and the entire FDE craft. You do not need any AI or machine learning background.",
     setup: [
       "A public GitHub repository named exactly 'training-ai-fde' (e.g. github.com/<your-username>/training-ai-fde), initialised with a README and one folder per week — this is where every weekly assessment is submitted.",
       "A working laptop with Visual Studio Code installed (code.visualstudio.com).",
@@ -60,10 +60,10 @@ const courseData = {
   },
 
   tooling: {
-    intro: "Claude is the primary model and assistant throughout the course. Trainees use it three ways:",
+    intro: "Claude is the primary model and assistant throughout the course. You use it three ways:",
     uses: [
       "As a coding partner through Claude Code for building and debugging.",
-      "As the model they build applications on through the Claude API.",
+      "As the model you build applications on through the Claude API.",
       "As a thinking partner for scoping, writing, and learning.",
     ],
     tiers: [
@@ -71,7 +71,7 @@ const courseData = {
       { name: "Sonnet tier", desc: "The balanced default for most development, analysis, and general application work." },
       { name: "Haiku tier", desc: "Fast and cost-efficient, for high-volume, latency-sensitive, simple tasks." },
     ],
-    principle: "Model names change over time, so trainees learn the tier principle, not a fixed version number. Choosing the right model for the task matters more than always reaching for the most powerful one.",
+    principle: "Model names change over time, so you learn the tier principle, not a fixed version number. Choosing the right model for the task matters more than always reaching for the most powerful one.",
   },
 
   phases: [
@@ -783,13 +783,13 @@ const courseData = {
         },
       ],
       deliverable: "Brief: present and defend your capstone to the full panel — a live demo and defence, a short written postmortem, and a list of reusable patterns.\n\nDeliverables: the final demo and defence (presented live to the panel); a short written postmortem; and a list of reusable patterns discovered that could help the next deployment.",
-      assessment: "Submit the final demo and defence (live to the panel), the written postmortem, and the reusable-patterns list.\n\nThe capstone is the real exam, weighted most heavily. The full course rubric applies — technical execution (30%), handling ambiguity and failure (30%), communication (25%), ownership (15%) — plus the three capstone questions: did the deployment actually work in a real environment; was the postmortem honest about what went wrong; were the reusable patterns genuinely useful to the next person.\n\nGraduation: an intern graduates as a deployable AI FDE when they have shipped a working deliverable every week, behaved calmly and competently during at least one real failure, passed the capstone with a working deployment and an honest postmortem, and shown they can explain technical decisions to a non-technical audience. Strong technically but weak on ambiguity or communication does not graduate as field-ready; the intern gets a development plan and a path to retry.\n\nDefinition of done: you stood in front of a panel, demonstrated a real working deployment, defended your decisions under questioning, told the truth about what broke, and left behind a postmortem and patterns the next person can actually use.",
+      assessment: "Submit the final demo and defence (live to the panel), the written postmortem, and the reusable-patterns list.\n\nThe capstone is the real exam, weighted most heavily. The full course rubric applies — technical execution (30%), handling ambiguity and failure (30%), communication (25%), ownership (15%) — plus the three capstone questions: did the deployment actually work in a real environment; was the postmortem honest about what went wrong; were the reusable patterns genuinely useful to the next person.\n\nGraduation: you graduate as a deployable AI FDE when you have shipped a working deliverable every week, behaved calmly and competently during at least one real failure, passed the capstone with a working deployment and an honest postmortem, and shown you can explain technical decisions to a non-technical audience. Strong technically but weak on ambiguity or communication does not graduate as field-ready; you get a development plan and a path to retry.\n\nDefinition of done: you stood in front of a panel, demonstrated a real working deployment, defended your decisions under questioning, told the truth about what broke, and left behind a postmortem and patterns the next person can actually use.",
     },
   ],
 
   landscape: {
     title: "Model Landscape Session",
-    intro: "Claude is the primary model throughout the course so trainees go deep rather than wide. But a real FDE must understand the broader landscape, because customers arrive with different constraints, budgets, and existing commitments. A dedicated self-paced session, run between Phase 2 and Phase 3, with a group debrief.",
+    intro: "Claude is the primary model throughout the course so you go deep rather than wide. But a real FDE must understand the broader landscape, because customers arrive with different constraints, budgets, and existing commitments. A dedicated self-paced session, run between Phase 2 and Phase 3, with a group debrief.",
     objectives: [
       "Understand the major categories: proprietary frontier models, open-weight models, and small or specialised models.",
       "Reason about tradeoffs that drive model choice: capability, cost, latency, context length, data residency, and licensing.",
@@ -801,29 +801,29 @@ const courseData = {
       "Measure cost per call, latency, and output quality on a small eval set.",
       "Write a one-page recommendation for two contrasting scenarios: a cost-sensitive, high-volume deployment (e.g. messaging integration), and a complex reasoning deployment where a frontier model is justified.",
     ],
-    closer: "There is no single best model, only the best model for a given set of constraints. An FDE who can only reach for one model will lose deployments that a more flexible engineer would win.",
+    closer: "There is no single best model, only the best model for a given set of constraints. If you can only reach for one model, you will lose deployments that a more flexible engineer would win.",
   },
 
   assessment: {
     intro: "There are no written exams. FDE readiness is demonstrated, not tested on paper.",
     weekly: [
       "Did it ship and work?",
-      "How did the trainee behave when it broke or the brief was unclear?",
-      "Could they explain it to a non-engineer?",
+      "How did you behave when it broke or the brief was unclear?",
+      "Could you explain it to a non-engineer?",
     ],
     rubric: [
       { dim: "Technical execution", weight: "30%", desc: "Does the work function correctly and to production standard?" },
       { dim: "Handling ambiguity and failure", weight: "30%", desc: "Behaviour when the brief is vague or the system breaks." },
       { dim: "Communication", weight: "25%", desc: "Clarity to technical and non-technical audiences." },
-      { dim: "Ownership", weight: "15%", desc: "Did they drive it to done, or wait to be carried?" },
+      { dim: "Ownership", weight: "15%", desc: "Did you drive it to done, or wait to be carried?" },
     ],
     graduation: [
       "Shipped a working deliverable every week.",
       "Demonstrated calm and competent behaviour during at least one real failure.",
       "Passed the capstone with a working deployment and an honest postmortem.",
-      "Shown they can explain technical decisions to a non-technical audience.",
+      "Shown you can explain technical decisions to a non-technical audience.",
     ],
-    note: "A trainee strong technically but weak on ambiguity or communication does not graduate as field-ready. They are given a development plan and a path to retry, because these are the traits the role cannot do without.",
+    note: "If you are strong technically but weak on ambiguity or communication, you do not graduate as field-ready. You are given a development plan and a path to retry, because these are the traits the role cannot do without.",
   },
 
   glossary: [
