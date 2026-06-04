@@ -27,6 +27,7 @@ const SCOPES = "https://www.googleapis.com/auth/drive.appdata email profile";
 
 // Shared with drive-sync.js via the common global script scope.
 let accessToken = null;
+let tokenExpiresAt = 0; // ms epoch when the current access token lapses
 let tokenClient = null;
 
 let currentProfile = null;
@@ -35,6 +36,54 @@ let authHandlers = { onSignedIn() {}, onSignedOut() {}, onError() {} };
 // Remember that the user *chose* to sync, so we only attempt a silent
 // token restore on future loads (never pop consent unprompted).
 const INTENT_KEY = "fde_gsync_intent";
+
+// Cache the short-lived access token (and its expiry) so a page reload
+// restores the session instantly with NO sign-in UI. Tokens last ~1h; we
+// only fetch a new one when this one has actually lapsed. (localStorage is
+// acceptable here for a static app — no client secret is ever stored.)
+const TOKEN_KEY = "fde_gsync_token";
+
+function storeToken(resp) {
+  accessToken = resp.access_token;
+  // resp.expires_in is seconds (~3599). Subtract a 2-min safety buffer.
+  const ttl = (Number(resp.expires_in) || 3600) * 1000 - 120000;
+  tokenExpiresAt = Date.now() + ttl;
+  try {
+    localStorage.setItem(
+      TOKEN_KEY,
+      JSON.stringify({ t: accessToken, e: tokenExpiresAt })
+    );
+  } catch (e) {
+    /* storage unavailable — session just won't survive reloads */
+  }
+}
+
+// Returns true and sets `accessToken` if a still-valid cached token exists.
+function loadCachedToken() {
+  try {
+    const raw = localStorage.getItem(TOKEN_KEY);
+    if (!raw) return false;
+    const { t, e } = JSON.parse(raw);
+    if (t && e && Date.now() < e) {
+      accessToken = t;
+      tokenExpiresAt = e;
+      return true;
+    }
+  } catch (e) {
+    /* ignore */
+  }
+  return false;
+}
+
+function clearCachedToken() {
+  accessToken = null;
+  tokenExpiresAt = 0;
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+  } catch (e) {
+    /* ignore */
+  }
+}
 
 function gisReady() {
   return (
@@ -60,7 +109,7 @@ function getToken(prompt) {
         reject(resp);
         return;
       }
-      accessToken = resp.access_token;
+      storeToken(resp);
       resolve(resp.access_token);
     };
     // Fires when the user closes the popup or it cannot be shown.
@@ -134,22 +183,40 @@ function initAuth(handlers) {
     /* One Tap unavailable — the button still works. */
   }
 
-  // Attempt a silent restore for users who synced before.
+  // Restore a previous session.
   if (localStorage.getItem(INTENT_KEY) === "1") {
-    getToken("")
-      .then(async () => {
-        currentProfile = await fetchProfile();
-        authHandlers.onSignedIn(currentProfile);
-      })
-      .catch(() => {
-        // Couldn't restore silently — show the One Tap nudge instead.
-        authHandlers.onSignedOut();
-        promptOneTap();
-      });
+    if (loadCachedToken()) {
+      // Valid token cached → restore instantly, no sign-in UI at all.
+      fetchProfile()
+        .then((p) => {
+          currentProfile = p;
+          authHandlers.onSignedIn(p);
+        })
+        .catch(() => restoreViaRefresh());
+    } else {
+      // Token lapsed → try a silent refresh once. No One Tap nag.
+      restoreViaRefresh();
+    }
   } else {
+    // Genuinely new visitor — One Tap is the gentle first-time entry point.
     authHandlers.onSignedOut();
     promptOneTap();
   }
+}
+
+// Returning user whose cached token expired: try to refresh silently.
+// If it can't be done without UI, fall back to the quiet "Sign in to sync"
+// button rather than popping One Tap on every load.
+function restoreViaRefresh() {
+  getToken("")
+    .then(async () => {
+      currentProfile = await fetchProfile();
+      authHandlers.onSignedIn(currentProfile);
+    })
+    .catch(() => {
+      clearCachedToken();
+      authHandlers.onSignedOut();
+    });
 }
 
 // Show the One Tap prompt (no-op if unavailable or already signed in).
@@ -179,7 +246,7 @@ function signOut() {
       /* ignore */
     }
   }
-  accessToken = null;
+  clearCachedToken();
   currentProfile = null;
   localStorage.removeItem(INTENT_KEY);
   authHandlers.onSignedOut();
