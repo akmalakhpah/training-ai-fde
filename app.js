@@ -679,7 +679,7 @@ function renderHome() {
     </div>
 
     <div class="glass-card lg" style="margin-top: var(--space-xl);">
-      <h2 class="section-title">Three muscles, every week</h2>
+      <h2 class="section-title">Four muscles, every week</h2>
       <ol class="numbered-list">
         ${courseData.philosophy.muscles
           .map(
@@ -710,7 +710,7 @@ function renderPhilosophy() {
     <div class="glass-card lg content-block" style="margin-bottom: var(--space-lg);">
       ${courseData.philosophy.body.map((p) => `<p>${esc(p)}</p>`).join("")}
 
-      <h3 class="subhead">Three muscles run through every single week</h3>
+      <h3 class="subhead">Four muscles run through every single week</h3>
       <ol class="numbered-list">
         ${courseData.philosophy.muscles
           .map(

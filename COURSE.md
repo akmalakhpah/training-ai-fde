@@ -12,13 +12,14 @@ Most software fails in deployment, not in development. The product works in the 
 
 For a fresh graduate, the technical gap is closable in weeks. The harder gap is the FDE craft: staying calm inside broken systems, turning a vague business problem into a concrete plan, owning delivery end to end, and talking to customers without hiding behind a screen. This course weights heavily toward that craft, because it is what degrees and bootcamps skip.
 
-Three muscles run through every single week:
+Four muscles run through every single week:
 
 1. Ship production code, not coursework.
 2. Stay functional inside ambiguous, broken, incomplete systems.
-3. Translate between human problems and technical plans.
+3. Translate between human problems and technical plans, then defend the call to a customer.
+4. Supervise the AI agents that do the work — brief them, review their output, guardrail them, and never blindly trust them.
 
-If a trainee finishes the course strong on muscle one but weak on two and three, they are not ready. The whole design exists to build all three at once.
+If a trainee finishes the course strong on muscle one but weak on the rest, they are not ready. The whole design exists to build all four at once.
 
 ---
 

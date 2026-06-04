@@ -8,13 +8,14 @@ A **12-week hybrid program** that takes fresh computer science and engineering g
 
 Most software fails in deployment, not in development. The product works in the demo and breaks inside the customer's real, messy environment. The Forward Deployed Engineer exists to close that gap by embedding with the customer, building production-grade solutions in place, and staying until they work.
 
-For a fresh graduate the technical gap is closable in weeks. The harder gap is the FDE craft: staying calm inside broken systems, turning a vague business problem into a concrete plan, owning delivery end to end, and talking to customers without hiding behind a screen. Three muscles run through every week:
+For a fresh graduate the technical gap is closable in weeks. The harder gap is the FDE craft: staying calm inside broken systems, turning a vague business problem into a concrete plan, owning delivery end to end, talking to customers without hiding behind a screen, and supervising the AI agents that now do much of the work. Four muscles run through every week:
 
 1. **Ship production code, not coursework.**
 2. **Stay functional inside ambiguous, broken, incomplete systems.**
-3. **Translate between human problems and technical plans.**
+3. **Translate between human problems and technical plans, then defend the call to a customer.**
+4. **Supervise the AI agents that do the work — brief them, review their output, guardrail them, and never blindly trust them.**
 
-A trainee strong on the first but weak on the other two is not ready. The whole design builds all three at once.
+A trainee strong on the first but weak on the rest is not ready. The whole design builds all four at once.
 
 ## Who it's for
 

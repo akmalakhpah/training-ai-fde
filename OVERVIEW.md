@@ -14,15 +14,16 @@ Most software does not fail in development. It fails in deployment. The demo wor
 
 The Forward Deployed Engineer exists to close that gap. The FDE embeds with the customer, builds production-grade solutions in place, and stays until they actually work. The role is three jobs in one: part engineer, part consultant, part product manager.
 
-For a fresh graduate, the technical gap is closable in weeks. The harder gap is the FDE craft. Staying calm inside broken systems. Turning a vague business problem into a concrete plan. Owning delivery end to end. Talking to a customer without hiding behind a screen. This course weights heavily toward that craft, because it is what degrees and bootcamps skip.
+For a fresh graduate, the technical gap is closable in weeks. The harder gap is the FDE craft. Staying calm inside broken systems. Turning a vague business problem into a concrete plan. Owning delivery end to end. Talking to a customer without hiding behind a screen. Supervising the AI agents that now do much of the building. This course weights heavily toward that craft, because it is what degrees and bootcamps skip.
 
-Three muscles run through every single week.
+Four muscles run through every single week.
 
 1. Ship production work, not coursework.
 2. Stay functional inside ambiguous, broken, incomplete systems.
-3. Translate between human problems and technical plans.
+3. Translate between human problems and technical plans, then defend the call to a customer.
+4. Supervise the AI agents that do the work — brief them, review their output, guardrail them, and never blindly trust them.
 
-An intern who finishes strong on muscle one but weak on two and three is not field-ready. The whole design builds all three at once.
+An intern who finishes strong on muscle one but weak on the rest is not field-ready. The whole design builds all four at once.
 
 ---
 

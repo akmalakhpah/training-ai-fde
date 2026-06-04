@@ -18,9 +18,10 @@ const courseData = {
     muscles: [
       "Ship production code, not coursework.",
       "Stay functional inside ambiguous, broken, incomplete systems.",
-      "Translate between human problems and technical plans.",
+      "Translate between human problems and technical plans, then defend the call to a customer.",
+      "Supervise the AI agents that do the work — brief them, review their output, guardrail them, and never blindly trust them.",
     ],
-    closer: "If you finish the course strong on muscle one but weak on two and three, you are not ready. The whole design exists to build all three at once.",
+    closer: "If you finish the course strong on muscle one but weak on the rest, you are not ready. The whole design exists to build all four at once.",
   },
 
   audience: {
@@ -212,7 +213,7 @@ const courseData = {
         "Fix one bug by hand, without the agent, reading the code and the stack trace yourself.",
         "Follow a real branching, review, and merge workflow on GitHub, including a CI pipeline.",
       ],
-      taughtClass: "This week is your jump from coursework to production, and the class opens on the three muscles this whole programme builds — shipping real work, staying functional inside broken systems, and translating between human problems and technical plans — with this week leaning hardest on the first. The 90-minute session is a guided tour of every move you will make alone in the project, so nothing is first seen solo.\n\nYou will watch a real internal Pandai service get opened and walked through — where config, source, tests, the README, and the CI workflow live — then learn the method for reading an unfamiliar codebase: find the entry point, follow one request from entry to database to response, and ignore error handling on the first pass. From there it is GitHub for real (feature branches, rebase vs merge, and resolving a deliberate conflict live), the full pull request lifecycle, a GitHub Actions pipeline made to fail and then pass, and writing a test for code nobody on the call wrote.\n\nTwo demos anchor the session: driving a single Claude Code agent — briefing it, scoping it narrowly, and catching it being confidently wrong — and the reason your first bug this week is fixed by hand with no agent at all, because you cannot supervise a machine doing something you have never done yourself. Use the self-paced track below for the step-by-step reps — rebase, codebase reading, Claude Code, and testing — that turn this tour into muscle.",
+      taughtClass: "This week is your jump from coursework to production, and the class opens on the four muscles this whole programme builds — shipping real work, staying functional inside broken systems, translating between human problems and technical plans, and supervising the AI agents that do the work — with this week leaning hardest on the first while giving you your first real rep at the fourth. The 90-minute session is a guided tour of every move you will make alone in the project, so nothing is first seen solo.\n\nYou will watch a real internal Pandai service get opened and walked through — where config, source, tests, the README, and the CI workflow live — then learn the method for reading an unfamiliar codebase: find the entry point, follow one request from entry to database to response, and ignore error handling on the first pass. From there it is GitHub for real (feature branches, rebase vs merge, and resolving a deliberate conflict live), the full pull request lifecycle, a GitHub Actions pipeline made to fail and then pass, and writing a test for code nobody on the call wrote.\n\nTwo demos anchor the session: driving a single Claude Code agent — briefing it, scoping it narrowly, and catching it being confidently wrong — and the reason your first bug this week is fixed by hand with no agent at all, because you cannot supervise a machine doing something you have never done yourself. Use the self-paced track below for the step-by-step reps — rebase, codebase reading, Claude Code, and testing — that turn this tour into muscle.",
       selfPaced: [
         {
           title: "Topic A — GitHub beyond commit and push (1.5–2 hrs)",
@@ -830,7 +831,7 @@ const courseData = {
     // --- The role and the craft ---
     { term: "FDE", def: "Forward Deployed Engineer. An engineer who embeds with a customer to build, deploy, and operate production-grade solutions in place — and stays until they work." },
     { term: "FDE craft", def: "The non-technical skills that separate field-ready engineers from pure coders: scoping vague problems, staying calm in broken systems, owning delivery end to end, and communicating with customers." },
-    { term: "The three muscles", def: "The course's core competencies: (1) ship production code, not coursework; (2) stay functional inside ambiguous, broken, or incomplete systems; (3) translate between human problems and technical plans." },
+    { term: "The four muscles", def: "The course's core competencies: (1) ship production code, not coursework; (2) stay functional inside ambiguous, broken, or incomplete systems; (3) translate between human problems and technical plans, then defend the call to a customer; (4) supervise the AI agents that do the work — brief them, review their output, guardrail them, and never blindly trust them." },
     { term: "Discovery", def: "The investigative phase where an FDE learns a customer's real needs, constraints, and context before proposing any solution." },
     { term: "Scoping", def: "Turning a vague business problem into a concrete technical plan with explicit assumptions, boundaries, and a clear 'what we will not build.'" },
     { term: "Stakeholder", def: "A customer, product manager, or decision-maker affected by a deployment; FDEs must present technical tradeoffs to mixed, often non-technical, audiences." },
