@@ -28,6 +28,7 @@ const SCOPES = "https://www.googleapis.com/auth/drive.appdata email profile";
 // Shared with drive-sync.js via the common global script scope.
 let accessToken = null;
 let tokenExpiresAt = 0; // ms epoch when the current access token lapses
+let grantedScopes = ""; // space-delimited scopes the user actually granted
 let tokenClient = null;
 
 let currentProfile = null;
@@ -109,6 +110,7 @@ function getToken(prompt) {
         reject(resp);
         return;
       }
+      grantedScopes = resp.scope || ""; // space-delimited granted scopes
       storeToken(resp);
       resolve(resp.access_token);
     };
@@ -135,13 +137,19 @@ async function fetchProfile() {
   return r.json(); // { email, name, picture, ... }
 }
 
-// Shared completion path for every sign-in entry point. Tries silent
-// first (returning, already-consented users), falls back to an explicit
-// consent prompt the first time.
+function hasDriveScope() {
+  return grantedScopes.indexOf("drive.appdata") !== -1;
+}
+
+// Shared completion path for every sign-in entry point. Tries silent first
+// (returning, already-consented users); if that yields a token WITHOUT the
+// Drive scope (a stale partial grant) or fails outright, escalate to an
+// explicit consent prompt so `drive.appdata` is actually requested.
 async function completeSignIn() {
   try {
     try {
       await getToken("");
+      if (!hasDriveScope()) await getToken("consent");
     } catch {
       await getToken("consent");
     }

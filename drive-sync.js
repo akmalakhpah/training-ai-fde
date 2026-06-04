@@ -25,6 +25,24 @@ async function driveFetch(url, opts = {}) {
   return r;
 }
 
+// Build an Error that includes Google's actual reason/message from the
+// response body, so 403s are diagnosable (insufficientPermissions vs
+// accessNotConfigured, etc.) instead of an empty "403 ()".
+async function driveError(label, r) {
+  let detail = "";
+  try {
+    const body = await r.json();
+    const e = body && body.error;
+    if (e) {
+      const reason = e.errors && e.errors[0] && e.errors[0].reason;
+      detail = " — " + (reason ? reason + ": " : "") + (e.message || "");
+    }
+  } catch (_) {
+    /* non-JSON body */
+  }
+  return new Error(label + ": " + r.status + detail);
+}
+
 async function findFileId() {
   const url =
     "https://www.googleapis.com/drive/v3/files" +
@@ -34,7 +52,7 @@ async function findFileId() {
     "'" +
     "&fields=files(id,name,modifiedTime)";
   const r = await driveFetch(url);
-  if (!r.ok) throw new Error("Drive list failed: " + r.status);
+  if (!r.ok) throw await driveError("Drive list failed", r);
   const d = await r.json();
   return d.files && d.files[0] ? d.files[0].id : null;
 }
@@ -45,7 +63,7 @@ async function pullRemote() {
   const r = await driveFetch(
     "https://www.googleapis.com/drive/v3/files/" + id + "?alt=media"
   );
-  if (!r.ok) throw new Error("Drive get failed: " + r.status);
+  if (!r.ok) throw await driveError("Drive get failed", r);
   return r.json();
 }
 
@@ -66,6 +84,6 @@ async function pushRemote(progress) {
     ? base + "/" + id + "?uploadType=multipart"
     : base + "?uploadType=multipart";
   const r = await driveFetch(url, { method: id ? "PATCH" : "POST", body });
-  if (!r.ok) throw new Error("Drive upload failed: " + r.status);
+  if (!r.ok) throw await driveError("Drive upload failed", r);
   return r.json();
 }
