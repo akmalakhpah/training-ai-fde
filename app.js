@@ -153,7 +153,7 @@ function linkifyTextNodes(root) {
     while ((m = LINK_RE.exec(text))) {
       let url = m[0];
       let trail = "";
-      const tm = url.match(/[).,!?:]+$/); // keep trailing punctuation out of the link
+      const tm = url.match(/[).,;!?:]+$/); // keep trailing punctuation out of the link
       if (tm) {
         trail = tm[0];
         url = url.slice(0, -trail.length);
