@@ -777,6 +777,143 @@ details.collapsible[open] .chevron {
   flex-shrink: 0;
 }
 
+/* ---------- Cloud sync panel ---------- */
+
+.sync-panel {
+  margin-bottom: var(--space-md);
+}
+
+.sync-panel:empty {
+  display: none;
+}
+
+.sync-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 10px var(--space-md);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-strong);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.sync-signin:hover {
+  background: #fff;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.sync-signin:active {
+  transform: translateY(1px);
+}
+
+.sync-signin svg {
+  flex-shrink: 0;
+}
+
+.sync-account {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 10px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-soft);
+}
+
+.sync-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  object-fit: cover;
+  background: var(--color-primary-soft);
+}
+
+.sync-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.sync-account-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.sync-who {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sync-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  color: var(--color-text-subtle);
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  background: var(--color-text-subtle);
+}
+
+.sync-dot.synced {
+  background: var(--color-success);
+}
+
+.sync-dot.syncing {
+  background: var(--color-warning);
+  animation: sync-pulse 1s ease-in-out infinite;
+}
+
+.sync-dot.error {
+  background: var(--color-danger);
+}
+
+@keyframes sync-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.sync-signout {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-subtle);
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.sync-signout:hover {
+  color: var(--color-danger);
+  background: rgba(234, 33, 67, 0.08);
+}
+
 .nav-link.locked {
   opacity: 0.55;
 }

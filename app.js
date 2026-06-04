@@ -15,16 +15,15 @@ const state = {
 // ---------- Storage ----------
 
 function loadCompleted() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? new Set(JSON.parse(raw)) : new Set();
-  } catch {
-    return new Set();
-  }
+  // Reads synchronously from localStorage via the progress store (the
+  // single storage interface). Drive sync, if any, happens behind it.
+  return new Set(window.progressStore.readCompleted());
 }
 
 function saveCompleted() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...state.completed]));
+  // Writes locally and instantly, then schedules a debounced Drive push
+  // when signed in. Never blocks the UI.
+  window.progressStore.writeCompleted([...state.completed]);
 }
 
 function loadFilter() {
@@ -91,6 +90,7 @@ const icons = {
   lock: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
   lockLarge: `<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
   calendar: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  cloud: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
 };
 
 // ---------- Schedule helpers ----------
@@ -380,6 +380,8 @@ function renderSidebar() {
       ${icons.lock} Instructor mode — all weeks unlocked
     </div>` : ""}
 
+    <div class="sync-panel" id="sync-panel"></div>
+
     <div class="progress-card">
       <div class="progress-header">
         <span class="progress-label">Your progress</span>
@@ -494,6 +496,114 @@ function renderSidebar() {
       renderSidebar();
     });
   });
+
+  updateSyncPanel();
+}
+
+// ---------- Cloud sync UI ----------
+
+// Renders the sign-in / sync-status panel into #sync-panel. Safe to call
+// any time the auth or sync state changes; no-ops if the node isn't
+// mounted yet. The app works fully without any of this.
+function updateSyncPanel() {
+  const el = document.getElementById("sync-panel");
+  if (!el) return;
+
+  const auth = window.fdeAuth;
+  if (!auth) {
+    el.innerHTML = "";
+    return;
+  }
+
+  if (!auth.isSignedIn()) {
+    // Hide the affordance entirely when sync isn't configured/available, so
+    // there's no dead button. The app just runs in localStorage-only mode.
+    if (!auth.isAvailable()) {
+      el.innerHTML = "";
+      return;
+    }
+    el.innerHTML = `
+      <button class="sync-signin" id="sync-signin" title="Sync your progress across devices with Google">
+        ${icons.cloud} Sign in to sync
+      </button>
+    `;
+    const btn = document.getElementById("sync-signin");
+    if (btn) btn.addEventListener("click", () => auth.signIn());
+    return;
+  }
+
+  const profile = auth.getProfile() || {};
+  const who = esc(profile.name || profile.email || "Signed in");
+  const status = window.progressStore.getStatus();
+  const statusMap = {
+    syncing: { cls: "syncing", label: "Syncing…" },
+    synced: { cls: "synced", label: "Synced" },
+    error: { cls: "error", label: "Sync error — will retry" },
+    offline: { cls: "error", label: "Offline — saved locally" },
+    idle: { cls: "synced", label: "Synced" },
+  };
+  const s = statusMap[status] || statusMap.idle;
+  const avatar = profile.picture
+    ? `<img class="sync-avatar" src="${esc(profile.picture)}" alt="" referrerpolicy="no-referrer" />`
+    : `<span class="sync-avatar sync-avatar-fallback">${icons.cloud}</span>`;
+
+  el.innerHTML = `
+    <div class="sync-account">
+      ${avatar}
+      <div class="sync-account-text">
+        <span class="sync-who" title="${who}">${who}</span>
+        <span class="sync-status">
+          <span class="sync-dot ${s.cls}"></span>${s.label}
+        </span>
+      </div>
+      <button class="sync-signout" id="sync-signout" title="Sign out (progress stays on this device)">Sign out</button>
+    </div>
+  `;
+  const out = document.getElementById("sync-signout");
+  if (out) out.addEventListener("click", () => auth.signOut());
+}
+
+// Wire the auth + sync modules to the app. Called once at startup.
+function setupCloudSync() {
+  if (!window.fdeAuth || !window.progressStore) return;
+
+  // When a sign-in merge pulls in weeks completed elsewhere, adopt them
+  // and re-render from localStorage.
+  window.progressStore.setOnRemoteUpdate((completedArr) => {
+    state.completed = new Set(completedArr);
+    render();
+  });
+
+  // Reflect every sync-state change in the small status indicator.
+  window.progressStore.setOnStatusChange(() => updateSyncPanel());
+
+  const handlers = {
+    onSignedIn: () => {
+      updateSyncPanel();
+      window.progressStore.syncOnSignIn();
+    },
+    onSignedOut: () => updateSyncPanel(),
+    onError: (err) => {
+      console.warn("[auth]", err);
+      updateSyncPanel();
+    },
+  };
+
+  // The GIS client loads async so it never blocks offline rendering. Wait
+  // for it (up to ~8s), then init. If it never arrives (offline / blocked),
+  // initAuth falls back to signed-out, localStorage-only mode.
+  const start = Date.now();
+  (function waitForGis() {
+    const ready =
+      typeof google !== "undefined" &&
+      google.accounts &&
+      google.accounts.oauth2;
+    if (ready || Date.now() - start > 8000) {
+      window.fdeAuth.initAuth(handlers);
+    } else {
+      setTimeout(waitForGis, 200);
+    }
+  })();
 }
 
 // ---------- Render: pages ----------
@@ -1104,4 +1214,5 @@ function closeMobileSidebar() {
 document.addEventListener("DOMContentLoaded", () => {
   state.route = parseHash();
   render();
+  setupCloudSync();
 });

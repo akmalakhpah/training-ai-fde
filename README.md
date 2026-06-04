@@ -83,6 +83,47 @@ Ambiguity, communication, and ownership together outweigh raw technical executio
 
 ---
 
+## Cross-device progress sync (Google Drive)
+
+Progress (which weeks a trainee has completed) is stored in the browser's `localStorage`, so by default it stays on one device. The site can **optionally** sync that progress to each user's own **hidden Google Drive appData folder**, so the same Google account sees the same progress on any device.
+
+This is fully optional and fully client-side:
+
+- The site stays **static** — no server, no database, no build step. The Drive calls run directly from the browser against Google's REST API (which supports CORS).
+- When **signed out or offline**, the app behaves exactly as before, using `localStorage` alone. Nothing breaks.
+- `localStorage` remains the instant, local source of truth. Drive is a background sync layer that never blocks the UI.
+- Only a **public OAuth client ID** is used — there is **no client secret** in the codebase.
+
+### One-time setup (a human does this once)
+
+To turn the feature on, create a Google OAuth client ID and paste it into the config constant. **No client secret is needed** for the browser token flow.
+
+1. Create a project in the [Google Cloud Console](https://console.cloud.google.com/).
+2. Enable the **Google Drive API** (APIs & Services → Library → "Google Drive API" → Enable).
+3. Configure the **OAuth consent screen**:
+   - User type: **External**.
+   - Add scopes: `.../auth/drive.appdata`, `.../auth/userinfo.email`, `.../auth/userinfo.profile`.
+   - While the app is in **Testing**, add the Google accounts that should be allowed under **Test users**.
+4. Create an **OAuth Client ID** of type **Web application**:
+   - Under **Authorized JavaScript origins**, add every origin the site is served from, e.g. `http://localhost:8000` (local dev) and your production domain `https://akmalakhpah.github.io` (GitHub Pages).
+   - No redirect URI is required for the token model.
+5. Copy the generated **Client ID** into the `GOOGLE_CLIENT_ID` constant at the top of [auth.js](auth.js) (replacing `PUT_CLIENT_ID_HERE`).
+
+Until a real client ID is set, the sync UI stays dormant and the app runs in plain `localStorage` mode — so it's safe to ship without configuring this.
+
+> Note: Google **One Tap** and the Drive token popup require the page to be served over `http(s)` from an origin you registered above — they do **not** work when opening `index.html` from the `file://` scheme. Use `python3 -m http.server 8000` for local testing.
+
+### How sync behaves
+
+- Signing in shows the Google account chooser (One Tap on load, plus a **"Sign in to sync"** button in the sidebar) and then displays the user's identity with a small sync-status dot.
+- On sign-in, local and remote progress are **merged by union** — a week marked complete on *any* device stays complete; you never lose a checkmark.
+- After that, each change is debounced (~2s) and pushed to Drive in the background. Network failures are logged and retried, never surfaced as UI errors.
+- Signing out keeps your progress on the current device (it just stops syncing).
+
+The sync layer lives in three small, additive modules: [auth.js](auth.js) (Google Identity Services), [drive-sync.js](drive-sync.js) (the Drive appData file), and [progress-store.js](progress-store.js) (the single storage interface the app reads/writes through).
+
+---
+
 ### About this repository
 
 The site is a static, dependency-free website (hand-written HTML/CSS/vanilla JS — no build step, no framework). It has two surfaces: the course reader ([index.html](index.html)) and per-week slide decks ([slides/](slides/)). Contributor and maintenance guidance lives in [CLAUDE.md](CLAUDE.md); the full course specification is in [COURSE.md](COURSE.md).
