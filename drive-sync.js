@@ -2,14 +2,23 @@
 // AI FDE Training — Google Drive appData sync (drive-sync.js)
 // =========================================================
 //
-// Stores a single hidden file, `progress.json`, in the per-user
-// appDataFolder. The user never sees it in their normal Drive view.
-// Drive's REST endpoints support CORS, so these calls run directly
-// from the static page — no backend, no proxy.
+// Stores a single hidden file in the per-user appDataFolder. The user
+// never sees it in their normal Drive view. Drive's REST endpoints support
+// CORS, so these calls run directly from the static page — no backend.
+//
+// NOTE: the appDataFolder is already ISOLATED PER OAuth client ID, so this
+// app can never see or collide with another app's appData. The app-scoped
+// filename below is belt-and-suspenders: it keeps this app's file distinct
+// even if the same client ID is ever reused across multiple surfaces.
 //
 // Depends on the global `accessToken` and `refreshToken()` from auth.js.
 
-const FILE_NAME = "progress.json";
+// Identifies this app's data file. Keep in sync with the repo name.
+const APP_ID = "training-ai-fde";
+const FILE_NAME = APP_ID + ".progress.json";
+// Earlier builds used a generic name; read it as a fallback so any data
+// already synced under the old name is still picked up (never orphaned).
+const LEGACY_FILE_NAME = "progress.json";
 
 // Wrapper that adds the auth header and retries once on token expiry (401).
 async function driveFetch(url, opts = {}) {
@@ -43,18 +52,27 @@ async function driveError(label, r) {
   return new Error(label + ": " + r.status + detail);
 }
 
-async function findFileId() {
+async function findFileIdByName(name) {
   const url =
     "https://www.googleapis.com/drive/v3/files" +
     "?spaces=appDataFolder" +
     "&q=name='" +
-    FILE_NAME +
+    name +
     "'" +
     "&fields=files(id,name,modifiedTime)";
   const r = await driveFetch(url);
   if (!r.ok) throw await driveError("Drive list failed", r);
   const d = await r.json();
   return d.files && d.files[0] ? d.files[0].id : null;
+}
+
+async function findFileId() {
+  // Prefer this app's namespaced file; fall back to the legacy generic
+  // name so previously-synced progress is adopted rather than orphaned.
+  return (
+    (await findFileIdByName(FILE_NAME)) ||
+    (await findFileIdByName(LEGACY_FILE_NAME))
+  );
 }
 
 async function pullRemote() {
