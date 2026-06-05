@@ -177,9 +177,8 @@ const courseData = {
           ],
         },
         {
-          title: "Internal training repo",
+          title: "Provisioned later — not in Week 0",
           points: [
-            "Confirm you can 'git clone' the Week 1 training repo (you won't work in it yet) so access problems surface now, not on Day 1.",
             "Provisioned later, on purpose: vector store before Week 5, Conductor + MCP SDK before Week 6, N8N before Week 7 — don't install these in Week 0.",
           ],
         },
@@ -195,7 +194,6 @@ const courseData = {
             "Claude Code extension signed in with the Claude Pro account, answering about your repo.",
             "Your own Google account signed in; Docs, Sheets, Slides, Gemini reachable.",
             "Your own free-tier AWS and Cloudflare logins confirmed.",
-            "Week 1 training repo clones successfully.",
             "(Later, when a week needs the Claude API) your own Anthropic API key set as an env var, not committed.",
           ],
         },
