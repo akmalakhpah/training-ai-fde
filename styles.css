@@ -763,14 +763,14 @@ details.collapsible[open] .chevron {
   margin-bottom: var(--space-md);
   padding: 10px var(--space-md);
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, var(--color-warning), #f1ad7c);
+  background: linear-gradient(135deg, #7f1d1d, #a31515);
   color: #fff;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  box-shadow: 0 4px 12px rgba(232, 149, 88, 0.4);
+  box-shadow: 0 4px 12px rgba(127, 29, 29, 0.4);
 }
 
 .instructor-banner svg {
