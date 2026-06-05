@@ -1,4 +1,4 @@
-# AI Forward Deployed Engineer (FDE) Training
+# AI Forward Deployed Engineer (FDE) Course
 
 A **12-week hybrid program** that takes fresh computer science and engineering graduates and turns them into deployable AI Forward Deployed Engineers. Claude is the primary model used throughout, with one dedicated session for self-learning the wider model landscape.
 
