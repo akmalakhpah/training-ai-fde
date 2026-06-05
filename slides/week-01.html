@@ -72,10 +72,11 @@
           <li>Anatomy of a production repo — live tour (10 min)</li>
           <li>Reading an unfamiliar codebase — the method (12 min)</li>
           <li>GitHub for real — branching, rebase, conflicts (12 min)</li>
-          <li>The pull request lifecycle — live PR walkthrough (12 min)</li>
+          <li>The pull request lifecycle — live PR walkthrough (10 min)</li>
           <li>CI/CD with GitHub Actions (8 min)</li>
           <li>Testing code you did not write (8 min)</li>
           <li>Driving one Claude Code agent — live demo (12 min)</li>
+          <li>Context files that steer the agent — CLAUDE.md &amp; friends (5 min)</li>
           <li>The no-agent bug rep and the project brief (5 min)</li>
         </ol>
       </div>
@@ -266,6 +267,29 @@
       </div>
     </section>
 
+    <!-- SLIDE 13b: Context files that steer the agent -->
+    <section class="slide" data-notes="You just watched the agent need briefing every single time. Context files are how you stop repeating yourself. The key distinction: a README is written for humans — what the project is and how to run it; a CLAUDE.md is written for the agent — how to actually work in this repo: the install/run/test commands, the architecture in a few lines, and the conventions and gotchas it would otherwise guess wrong. AGENTS.md is the same idea as a tool-neutral standard that other coding agents read, and a Skill packages a reusable procedure the agent can invoke on demand — both are the same instinct: put the context in a file, not in every prompt. The fast way to start is /init, which drafts a CLAUDE.md from your repo — but treat that draft as a first pass, not the truth. The agent guesses; you verify. A wrong command in a CLAUDE.md is worse than none, because the agent now trusts it. So the rep this week: run /init, then read every line and confirm each command runs and each claim matches the code before you commit it. This is muscle four again — you are programming how the agent behaves, in plain markdown.">
+      <div class="slide-content">
+        <span class="eyebrow">Stop repeating yourself</span>
+        <h2>Context files that steer the agent</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>README — for humans</h3>
+            <p>What the project is, why it exists, how to run it. The first file a person opens.</p>
+            <h3>CLAUDE.md — for the agent</h3>
+            <p>How to work in <em>this</em> repo: install/run/test commands, the architecture in a few lines, the conventions and gotchas it would guess wrong.</p>
+          </div>
+          <div class="col">
+            <h3>AGENTS.md — the open standard</h3>
+            <p>Same idea as CLAUDE.md, tool-neutral, so other coding agents read it too.</p>
+            <h3>Skills — reusable procedures</h3>
+            <p>A packaged routine the agent can invoke on demand. Same instinct: context in a file, not in every prompt.</p>
+          </div>
+        </div>
+        <p><span class="code-inline">/init</span> drafts a CLAUDE.md from your repo — then <strong>verify every line</strong>. A wrong command the agent trusts is worse than none.</p>
+      </div>
+    </section>
+
     <!-- SLIDE 14: The No-Agent Bug Rep -->
     <section class="slide" data-notes="This is the most important beat of the week, so do not rush it. The question to sit with: why are you being asked to fix the first bug by hand, with no agent, right after seeing how powerful Claude Code is? Here is the real answer: you cannot supervise a machine doing something you have never done yourself. If you have never read a stack trace and traced an error back to its root cause, you will not know when the agent is reading the trace wrong and giving you a plausible but incorrect fix. The by-hand bug is not busywork — it is calibration. It builds the reference point you need to catch the agent when it is wrong. The by-hand method: read the full stack trace top to bottom, find the file and line number, open that file, read the surrounding context, form a hypothesis, test it with a minimal change.">
       <div class="slide-content">
@@ -283,22 +307,24 @@
     </section>
 
     <!-- SLIDE 15: Self-Learn -->
-    <section class="slide" data-notes="Here are the four self-learn topics. Topic A is GitHub beyond commit-and-push: branch, rebase, resolve a conflict without panic. Topic B is reading a large unfamiliar codebase: orient in a repo you did not write and answer the three diagnostic questions in writing. Topic C is Claude Code fundamentals: brief, run, and review a single agent and verify its explanation against actual code line by line. Topic D is testing code you did not write: add a happy-path test and an edge-case test. The AI prompts included in each topic are not shortcuts — they are worked examples of how to ask a good question. Adapt those prompts to your specific situation rather than pasting them blindly. Budget 6 to 8 hours of self-learn total.">
+    <section class="slide" data-notes="Here are the five self-learn topics. Topic A is GitHub beyond commit-and-push: branch, rebase, resolve a conflict without panic. Topic B is reading a large unfamiliar codebase: orient in a repo you did not write and answer the three diagnostic questions in writing. Topic C is Claude Code fundamentals: brief, run, and review a single agent and verify its explanation against actual code line by line. Topic D is testing code you did not write: add a happy-path test and an edge-case test. Topic E is steering the agent with context files: write or sharpen a CLAUDE.md and verify every line of it. The AI prompts included in each topic are not shortcuts — they are worked examples of how to ask a good question. Adapt those prompts to your specific situation rather than pasting them blindly. Budget 6 to 8 hours of self-learn total.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn — 6 to 8 hrs</span>
-        <h2>Four topics this week</h2>
+        <h2>Five topics this week</h2>
         <div class="cols">
           <div class="col">
             <h3>A — GitHub beyond commit and push</h3>
             <p>Branch, rebase, and resolve a merge conflict without panic. Video + Atlassian guide + one AI-guided practice session.</p>
             <h3>B — Reading a large codebase</h3>
             <p>Orient in a repo you did not write. Answer the three diagnostic questions in writing: entry, database, response.</p>
-          </div>
-          <div class="col">
             <h3>C — Claude Code fundamentals</h3>
             <p>Brief, run, and review a single agent. Verify its explanation against actual code line by line. Catch at least one mistake.</p>
+          </div>
+          <div class="col">
             <h3>D — Testing code you did not write</h3>
             <p>Add a happy-path test and an edge-case test to an existing function. Make each test meaningful: it must be able to fail.</p>
+            <h3>E — Steering with context files</h3>
+            <p>Write or sharpen a CLAUDE.md so the agent starts with real context. Know README vs CLAUDE.md vs AGENTS.md vs Skills. Verify every line.</p>
           </div>
         </div>
       </div>
@@ -373,6 +399,24 @@
       </div>
     </section>
 
+    <!-- SLIDE 15e: Self-learn E — Steering the agent with context files -->
+    <section class="slide" data-notes="Topic E, 1 to 1.5 hours. Goal: write the markdown files that brief an agent on your repo once, instead of re-explaining context in every prompt. The fast start is /init in Claude Code, which drafts a CLAUDE.md from the repo — but the rep is the verification, not the generation. Read every line the agent wrote and confirm each command actually runs and each architectural claim matches the code, because a wrong command in a CLAUDE.md is worse than none. Keep the README-vs-CLAUDE.md distinction sharp: README is for humans, CLAUDE.md is for the agent. The AGENTS.md and Skills reads are short context-setting — you do not need to ship those this week, just understand where they fit. Commit your verified CLAUDE.md as part of the project PR.">
+      <div class="slide-content">
+        <span class="eyebrow">Self-learn E · 1–1.5 hrs</span>
+        <h2>Steering the agent with context files</h2>
+        <ul class="big-list">
+          <li><strong>Goal:</strong> write the files that brief an agent on your repo once — CLAUDE.md, README, and where it fits AGENTS.md or a Skill.</li>
+          <li><strong>Start here:</strong> run <span class="code-inline">/init</span> in Claude Code to draft a CLAUDE.md, then tighten it by hand — real run/test commands, the architecture in two or three lines, the conventions a newcomer trips on.</li>
+          <li><strong>Then verify:</strong> confirm every command runs and every claim matches the code before you commit. A wrong command the agent trusts is <span class="danger">worse than none</span>.</li>
+          <li><strong>Read:</strong> <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener">CLAUDE.md / memory docs</a> · <a href="https://agents.md" target="_blank" rel="noopener">the AGENTS.md convention</a> · <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Claude Code Skills</a></li>
+        </ul>
+        <div class="demo-card">
+          <span class="eyebrow">Ask AI — paste into Claude Code, inside the repo</span>
+          <p>"Draft a CLAUDE.md for this repository. Base every line on what you can verify in the code: the exact commands to install, run, and test it, the top-level architecture, and the three conventions a new contributor is most likely to get wrong. Keep it short and concrete, and do not invent commands or structure you cannot find. Flag anything you are unsure about so I can confirm it."</p>
+        </div>
+      </div>
+    </section>
+
     <!-- SLIDE 16: Weekly Project -->
     <section class="slide" data-notes="Here is the concrete deliverable — work through it carefully. Three phases: first, clone, install, run the test suite, and confirm it is green before touching anything (if it is already red, write that down). Second, find the first small genuine bug and fix it by hand — no agent. Read the stack trace, trace the root cause, write down what it taught you. Third, find a second genuine issue and brief Claude Code to fix it. Review the diff before accepting. Add at least one test. Then open one clean PR: a title that describes the change, a description that explains the why, the tests included, CI passing. Your deliverables are the merged PR link and a half-page written note. The note is not optional — it is how the assessment judges whether you understood what you did, or just got lucky.">
       <div class="slide-content">
@@ -381,26 +425,28 @@
         <ol class="numbered-list">
           <li>Clone the internal training repo. Install. Run the test suite. Note the baseline.</li>
           <li>Find a real bug. Fix it by hand, no agent. Note what the trace taught you.</li>
-          <li>Find a second issue. Brief Claude Code. Review and accept the diff. Confirm tests pass.</li>
+          <li>Write or sharpen the repo's CLAUDE.md. Verify every command and claim against the code.</li>
+          <li>Find a second issue. Brief Claude Code with that context. Review and accept the diff. Confirm tests pass.</li>
           <li>Add at least one test covering your change.</li>
-          <li>Open one clean PR: clear title, why-focused description, tests, CI green.</li>
+          <li>Open one clean PR (CLAUDE.md included): clear title, why-focused description, tests, CI green.</li>
           <li>Get it through review and merged. Done = merged, not opened.</li>
         </ol>
-        <p>Deliverables: the merged PR link + a half-page written note on what the by-hand bug taught you.</p>
+        <p>Deliverables: the merged PR link (with your CLAUDE.md) + a half-page note on the by-hand bug and what the CLAUDE.md changed.</p>
       </div>
     </section>
 
     <!-- SLIDE 16a: Project requirements checklist -->
-    <section class="slide" data-notes="These six are the non-negotiable must-haves — every one of them has to be true before the project counts as done. Treat them as a checklist, not a suggestion. The two you are most likely to skip under time pressure are the by-hand bug (you reach for the agent immediately) and the test covering your change (you fix and run, but never add a test). Do not skip either. The deliberate split — one bug by hand, one with Claude Code — is the whole point of the week: it forces you to feel the difference between doing it yourself and supervising a machine.">
+    <section class="slide" data-notes="These seven are the non-negotiable must-haves — every one of them has to be true before the project counts as done. Treat them as a checklist, not a suggestion. The ones you are most likely to skip under time pressure are the by-hand bug (you reach for the agent immediately), the test covering your change (you fix and run, but never add a test), and verifying the CLAUDE.md (you let /init draft it and commit it unread). Do not skip any. The deliberate split — one bug by hand, one with Claude Code, briefed by a context file you verified — is the whole point of the week: it forces you to feel the difference between doing it yourself and supervising a machine.">
       <div class="slide-content">
         <span class="eyebrow">Project · must-haves</span>
         <h2>Requirements checklist</h2>
         <ul class="big-list">
           <li>Clone the internal training repo and get it running locally.</li>
           <li>Find a first small, genuine bug and fix it <strong>by hand, no agent</strong>. Note what the stack trace or error told you.</li>
-          <li>Find a second genuine issue and fix it <strong>with Claude Code</strong>, reviewing the diff before accepting.</li>
+          <li>Write or substantially improve a <strong>CLAUDE.md</strong>, verifying every command and claim against the code.</li>
+          <li>Find a second genuine issue and fix it <strong>with Claude Code</strong> (briefed by that CLAUDE.md), reviewing the diff before accepting.</li>
           <li>Add at least one test that covers your change.</li>
-          <li>Open one clean pull request: a clear title, a description of the change, and the tests.</li>
+          <li>Open one clean pull request — CLAUDE.md included: a clear title, a description of the change, and the tests.</li>
           <li>Get the PR through review and merged, with CI passing.</li>
         </ul>
       </div>
@@ -485,7 +531,7 @@
     </section>
 
     <!-- APPENDIX: Instructor live-demo prep (not shown live) -->
-    <section class="slide" data-notes="These are the five things you'll see demonstrated live this week, staged in advance so no segment stalls on setup. The merge conflict and the failing CI pipeline in particular are set up ahead of time — they cannot be manufactured convincingly on the fly. Watch each one closely; you'll reproduce the same moves yourself in the project.">
+    <section class="slide" data-notes="These are the six things you'll see demonstrated live this week, staged in advance so no segment stalls on setup. The merge conflict and the failing CI pipeline in particular are set up ahead of time — they cannot be manufactured convincingly on the fly. Watch each one closely; you'll reproduce the same moves yourself in the project.">
       <div class="slide-content">
         <span class="eyebrow">Appendix · the live demos</span>
         <h2>What you'll see demonstrated live</h2>
@@ -495,6 +541,7 @@
           <li>A PR already open with review comments.</li>
           <li>A CI pipeline made to fail and pass on demand.</li>
           <li>Claude Code authenticated inside VS Code.</li>
+          <li>A CLAUDE.md drafted with <span class="code-inline">/init</span> and corrected line by line against the real repo.</li>
         </ul>
       </div>
     </section>

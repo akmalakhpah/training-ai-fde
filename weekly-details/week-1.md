@@ -11,6 +11,7 @@ By the end of the week you can:
 - Explain what separates a student repo from a production system.
 - Work inside a large codebase written by other people without freezing.
 - Drive a single Claude Code agent well: brief it, review its diff, and catch it when it is wrong.
+- Write the context files that steer an AI agent — a CLAUDE.md, a clear README, and where it fits an AGENTS.md or a Skill — and use them to brief Claude Code before it touches the code.
 - Fix one bug by hand, without the agent, reading the code and the stack trace themselves.
 - Follow a real branching, review, and merge workflow on GitHub, including a CI pipeline.
 
@@ -67,7 +68,13 @@ By the end of the week you can:
 - You'll see it being confidently wrong on purpose, and how to catch it: read the diff, run the test, ask it to justify a change.
 - The agent is fast, not trustworthy. Your job is supervision.
 
-**Block 10: The "no agent" rep and the project**
+**Block 10: Context files that steer the agent**
+- The agent needed briefing every time in the last demo. Context files are how you stop repeating yourself.
+- The distinction: a README is for humans (what the project is, how to run it); a CLAUDE.md is for the agent (install/run/test commands, the architecture in a few lines, the conventions and gotchas it would guess wrong). AGENTS.md is the same idea as a tool-neutral standard other agents read; a Skill packages a reusable procedure the agent invokes on demand.
+- `/init` drafts a CLAUDE.md from the repo — but that draft is a first pass, not the truth. The agent guesses; you verify. A wrong command in a CLAUDE.md is worse than none, because the agent now trusts it.
+- The rep: run `/init`, read every line, confirm each command runs and each claim matches the code before committing. This is muscle four — you are programming how the agent behaves, in plain markdown.
+
+**Block 11: The "no agent" rep and the project**
 - Why you fix the first bug this week by hand: you cannot supervise an agent if you have never debugged without one.
 - You'll walk through the project brief and the assessment, with time for your questions.
 
@@ -77,6 +84,7 @@ By the end of the week you can:
 - A PR already open with review comments.
 - A CI pipeline made to fail and pass on demand.
 - Claude Code authenticated inside VS Code.
+- A CLAUDE.md drafted with `/init` and then corrected line by line against the real repo.
 
 ---
 
@@ -109,6 +117,13 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 - **Read:** the testing section of the repo's README, plus your language's standard test runner docs (for example pytest or Jest).
 - **Ask AI (paste into Claude):** "Here is a function I did not write: [paste]. Help me understand its behaviour, then propose a happy-path test and one edge-case test. Do not write code that just mirrors the implementation. Explain what each test actually proves and what would make it fail."
 
+### Topic E: Steering the agent with context files (1 to 1.5 hrs)
+- **Goal:** write the markdown files that brief an AI agent on your repo once — a CLAUDE.md, a clear README, and where it fits an AGENTS.md or a Skill — instead of re-explaining the same context in every prompt.
+- **Know the difference:** a README is for humans (what the project is, how to run it); a CLAUDE.md is for the agent (install/run/test commands, the architecture in a few lines, conventions and gotchas); AGENTS.md is the same idea as a tool-neutral standard other coding agents read; a Skill packages a reusable procedure the agent can invoke on demand.
+- **Start here:** inside the training repo, run `/init` in Claude Code to generate a draft CLAUDE.md, then read it critically and tighten it by hand — correct anything wrong, add the real run and test commands, the top-level architecture in two or three lines, and the conventions a newcomer would most likely trip on. Verify every command and claim against the code before committing.
+- **Read:** Claude Code memory / CLAUDE.md docs - https://code.claude.com/docs/en/memory ; the AGENTS.md convention - https://agents.md ; and skim Claude Code Skills - https://code.claude.com/docs/en/skills (fallback search: "Claude Code CLAUDE.md memory", "agents.md standard").
+- **Ask AI (paste into Claude Code, inside the repo):** "Draft a CLAUDE.md for this repository. Base every line on what you can verify in the code: the exact commands to install, run, and test it, the top-level architecture, and the three conventions a new contributor is most likely to get wrong. Keep it short and concrete, and do not invent commands or structure you cannot find. Flag anything you are unsure about so I can confirm it."
+
 ---
 
 ## 3. Weekly Project
@@ -119,21 +134,23 @@ Take a real internal training repo from clone to a clean, merged pull request, w
 ### Requirements (checklist)
 - [ ] Clone the internal training repo and get it running locally.
 - [ ] Find a first small, genuine bug and fix it **by hand, no agent**. Note what the stack trace or error told you.
-- [ ] Find a second genuine issue and fix it **with Claude Code**, reviewing the diff before accepting.
+- [ ] Write or substantially improve a **CLAUDE.md** for the repo, verifying every command and claim against the code.
+- [ ] Find a second genuine issue and fix it **with Claude Code** (briefed by that CLAUDE.md), reviewing the diff before accepting.
 - [ ] Add at least one test that covers your change.
-- [ ] Open one clean pull request: a clear title, a description of the change, and the tests.
+- [ ] Open one clean pull request (CLAUDE.md included): a clear title, a description of the change, and the tests.
 - [ ] Get the PR through review and merged, with CI passing.
 
 ### Suggested steps
 1. Clone, install, run the test suite, confirm it is green before you touch anything.
 2. Orient using the Topic B method. Write the three-question answer.
 3. Reproduce the first bug, read the trace, fix it by hand, add or update a test.
-4. Pick the second issue, brief Claude Code, review and accept its diff, confirm tests pass.
-5. Branch, commit with clean messages, push, open the PR, respond to review, merge.
+4. Write or sharpen the repo's CLAUDE.md so the agent starts with real context; verify every line.
+5. Pick the second issue, brief Claude Code, review and accept its diff, confirm tests pass.
+6. Branch, commit with clean messages, push, open the PR, respond to review, merge.
 
 ### Deliverables
-- The merged pull request link.
-- A short written note (half a page) covering: how you navigated the codebase, what the by-hand bug taught you, and where Claude Code helped or got in the way.
+- The merged pull request link (including the CLAUDE.md you wrote or improved).
+- A short written note (half a page) covering: how you navigated the codebase, what the by-hand bug taught you, where Claude Code helped or got in the way, and one line on what you put in the CLAUDE.md and whether it changed how the agent behaved.
 
 ### Stretch (optional)
 - Add a second test that would have caught the bug before it shipped.
@@ -151,7 +168,7 @@ Take a real internal training repo from clone to a clean, merged pull request, w
 - A 3 minute walkthrough (recorded or live in the next class) of your change: what was wrong, how you fixed it, and one thing the by-hand bug taught you about reading code.
 
 ### How it is judged (maps to the course rubric)
-- **Technical execution (30%):** does the fix work, are the tests meaningful, is the PR clean, did CI pass.
+- **Technical execution (30%):** does the fix work, are the tests meaningful, is the PR clean, did CI pass, is the CLAUDE.md accurate and useful.
 - **Handling ambiguity and failure (30%):** how you navigated an unfamiliar repo and a real bug without freezing.
 - **Communication (25%):** can a non-author follow your PR description and your walkthrough.
 - **Ownership (15%):** did you drive it to merged, or stall waiting for help.

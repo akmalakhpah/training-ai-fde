@@ -97,8 +97,7 @@ You download **two apps by hand — VS Code and Claude Desktop.** Everything els
   - Cloudflare dashboard: https://dash.cloudflare.com (free tier; Wrangler later via `npm install -g wrangler`).
 - You build on only one for Week 3 (your choice), but create and log into both now.
 
-### 2.10 Internal training repo and sandbox
-- Confirm you can `git clone` the Week 1 training repo (you will not work in it yet) so access problems surface now, not on Day 1.
+### 2.10 Provisioned later — not in Week 0
 
 > **Provisioned later, on purpose:** the vector store before Week 5, Conductor and the MCP SDK before Week 6, N8N before Week 7. Do not install these in Week 0.
 
@@ -115,7 +114,6 @@ You download **two apps by hand — VS Code and Claude Desktop.** Everything els
 - [ ] Claude Code extension signed in with the Claude Pro account, answering about your repo.
 - [ ] Your own Google account signed in; Docs, Sheets, Slides, Gemini reachable.
 - [ ] Your own free-tier AWS and Cloudflare accounts created and logins confirmed.
-- [ ] Week 1 training repo clones successfully.
 - [ ] (Later, when a week needs the Claude API) your own Anthropic API key set as an environment variable, not committed.
 
 ---
