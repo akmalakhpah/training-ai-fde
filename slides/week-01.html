@@ -355,7 +355,7 @@
         <h2>GitHub beyond commit and push</h2>
         <ul class="big-list">
           <li><strong>Goal:</strong> branch, rebase, and resolve a merge conflict without panic.</li>
-          <li><strong>Start here:</strong> in your fork of the AI Anki repo, create a branch, make two commits, then manufacture a merge conflict against the pre-made conflict branch and resolve it from the command line.</li>
+          <li><strong>Start here:</strong> in your fork of the AI Anki repo, create a branch and make two commits, then create a second branch that edits the same lines, merge one into the other to force a conflict, and resolve it from the command line.</li>
           <li><strong>Watch:</strong> <a href="https://www.youtube.com/watch?v=6FUqOswIags" target="_blank" rel="noopener">Git Branching Strategy &amp; Git REBASE to fix Merge Conflicts</a> (fallback search: "git rebase resolve merge conflicts tutorial").</li>
           <li><strong>Read:</strong> Atlassian <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing" target="_blank" rel="noopener">Merging vs Rebasing</a> · <a href="https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts" target="_blank" rel="noopener">Resolve merge conflicts</a></li>
         </ul>
@@ -459,7 +459,7 @@
         <span class="eyebrow">Project · must-haves</span>
         <h2>Requirements checklist</h2>
         <ul class="big-list">
-          <li>Fork <span class="code-inline">akmalakhpah/training-ai-fde-anki</span>, clone your fork, and get it running locally.</li>
+          <li>Fork <span class="code-inline">akmalakhpah/training-ai-fde-anki</span>, clone your fork, and get it running locally — <span class="code-inline">uvicorn app.main:app</span>, then open <span class="code-inline">localhost:8000</span> for the flashcard UI (or <span class="code-inline">/docs</span>).</li>
           <li>Find a first small, genuine bug and fix it <strong>by hand, no agent</strong>. Note what the stack trace or error told you.</li>
           <li>Write or substantially improve a <strong>CLAUDE.md</strong>, verifying every command and claim against the code.</li>
           <li>Find a second genuine issue and fix it <strong>with Claude Code</strong> (briefed by that CLAUDE.md), reviewing the diff before accepting.</li>
@@ -555,8 +555,8 @@
         <h2>What you'll see demonstrated live</h2>
         <ul class="big-list">
           <li>The AI Anki repo (<span class="code-inline">akmalakhpah/training-ai-fde-anki</span>) forked, cloned, and ready.</li>
-          <li>A pre-made branch with a deliberate merge conflict.</li>
-          <li>A PR already open with review comments.</li>
+          <li>A merge conflict created and resolved live (two branches editing the same lines).</li>
+          <li>A PR with review comments, walked through live.</li>
           <li>A CI pipeline made to fail and pass on demand.</li>
           <li>Claude Code authenticated inside VS Code.</li>
           <li>A CLAUDE.md drafted with <span class="code-inline">/init</span> and corrected line by line against the real repo.</li>

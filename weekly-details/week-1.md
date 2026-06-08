@@ -80,8 +80,8 @@ By the end of the week you can:
 
 ### What you'll see demonstrated live
 - The AI Anki repo (`akmalakhpah/training-ai-fde-anki`) forked and cloned, ready to run.
-- A pre-made branch with a deliberate merge conflict.
-- A PR already open with review comments.
+- A merge conflict created and resolved live (two branches editing the same lines).
+- A PR with review comments, walked through live.
 - A CI pipeline made to fail and pass on demand.
 - Claude Code authenticated inside VS Code.
 - A CLAUDE.md drafted with `/init` and then corrected line by line against the real repo.
@@ -94,7 +94,7 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 
 ### Topic A: GitHub beyond commit and push (1.5 to 2 hrs)
 - **Goal:** branch, rebase, and resolve a merge conflict without panic.
-- **Start here:** in your fork of the AI Anki repo (`akmalakhpah/training-ai-fde-anki`), create a branch, make two commits, then create a merge conflict against the pre-made conflict branch and resolve it from the command line.
+- **Start here:** in your fork of the AI Anki repo (`akmalakhpah/training-ai-fde-anki`), create a branch and make two commits, then create a second branch that edits the same lines of a file, merge one into the other to force a conflict, and resolve it from the command line.
 - **Watch:** "Git Branching Strategy & Git REBASE to fix Merge Conflicts" - https://www.youtube.com/watch?v=6FUqOswIags (fallback search: "git rebase resolve merge conflicts tutorial").
 - **Read:** Atlassian, "Merging vs Rebasing" - https://www.atlassian.com/git/tutorials/merging-vs-rebasing and "Resolve merge conflicts" - https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts
 - **Ask AI (paste into Claude):** "I am new to git rebase. Walk me through, step by step, how to rebase my feature branch onto main, what to do when I hit a conflict, and how to tell whether I should rebase or merge in a shared repo. Then give me three practice exercises I can run locally to build the muscle."
@@ -132,7 +132,7 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 Take **AI Anki** (`akmalakhpah/training-ai-fde-anki`) — a small FastAPI flashcard study app with a Claude-powered card generator — from fork to a clean, merged pull request, with one bug fixed by hand and one fixed with Claude Code.
 
 ### Requirements (checklist)
-- [ ] Fork `akmalakhpah/training-ai-fde-anki` to your own GitHub account, clone your fork, and get it running locally.
+- [ ] Fork `akmalakhpah/training-ai-fde-anki` to your own GitHub account, clone your fork, and get it running locally (`uvicorn app.main:app`, then open http://127.0.0.1:8000 for the flashcard web UI or `/docs` for the API).
 - [ ] Find a first small, genuine bug and fix it **by hand, no agent**. Note what the stack trace or error told you.
 - [ ] Write or substantially improve a **CLAUDE.md** for the repo (it ships without one), verifying every command and claim against the code.
 - [ ] Find a second genuine issue and fix it **with Claude Code** (briefed by that CLAUDE.md), reviewing the diff before accepting.
