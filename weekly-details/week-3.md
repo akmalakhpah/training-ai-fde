@@ -132,6 +132,7 @@ Deploy a small service that exposes an API endpoint, break it on purpose, and re
 
 ### Stretch (optional)
 - Add a basic health-check endpoint and a metric or alert that would have caught the break.
+- **AI Anki option:** deploy your Week 1 AI Anki fork as the service for this exercise instead of a hello-world.
 
 ---
 

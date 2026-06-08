@@ -34,14 +34,14 @@ By the end of the week you can:
 - Your degree optimized for getting it working once. The field optimizes for it staying working while others change it.
 
 **Block 3: Anatomy of a production repo**
-- You'll see a real internal Pandai service opened in VS Code.
-- Walk the top-level structure: where config lives, where source lives, where tests live, the README, the CI config.
-- The signals of a healthy repo to look for: a CLAUDE.md or README, a tests folder, a CI workflow file, a clear module boundary.
+- You'll see **AI Anki** — the repo you fork and work on this week (a small FastAPI flashcard study app with a Claude-powered card generator) — opened in VS Code.
+- Walk the top-level structure: where config lives (`pyproject.toml`, `.env.example`), where source lives (`app/`), where tests live (`tests/`), the README, the CI config (`.github/workflows/`).
+- The signals of a healthy repo to look for: a README, a tests folder, a CI workflow file, a clear module boundary — and note this repo deliberately ships *without* a CLAUDE.md, which is the gap you'll fill.
 
 **Block 4: Reading an unfamiliar codebase**
 - The method: find the entry point, follow one request through to the data and back, ignore error handling and edge cases on the first pass.
 - You'll watch one user-facing action get traced. Use "jump to definition" to drill down the call stack.
-- The three questions you must answer about the project repo this week: where does a request enter, where does it hit the database, where does the response leave.
+- The three questions you must answer about AI Anki this week: where does a request enter (`app/routes.py`), where does it hit the database (`app/db.py`), where does the response leave.
 - You understand a codebase by changing it, not just reading it. Reading gets you to your first change faster.
 
 **Block 5: GitHub for real**
@@ -79,7 +79,7 @@ By the end of the week you can:
 - You'll walk through the project brief and the assessment, with time for your questions.
 
 ### What you'll see demonstrated live
-- A real repo cloned and ready.
+- The AI Anki repo (`akmalakhpah/training-ai-fde-anki`) forked and cloned, ready to run.
 - A pre-made branch with a deliberate merge conflict.
 - A PR already open with review comments.
 - A CI pipeline made to fail and pass on demand.
@@ -94,14 +94,14 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 
 ### Topic A: GitHub beyond commit and push (1.5 to 2 hrs)
 - **Goal:** branch, rebase, and resolve a merge conflict without panic.
-- **Start here:** in the training repo, create a branch, make two commits, then create a merge conflict against another branch and resolve it from the command line.
+- **Start here:** in your fork of the AI Anki repo (`akmalakhpah/training-ai-fde-anki`), create a branch, make two commits, then create a merge conflict against the pre-made conflict branch and resolve it from the command line.
 - **Watch:** "Git Branching Strategy & Git REBASE to fix Merge Conflicts" - https://www.youtube.com/watch?v=6FUqOswIags (fallback search: "git rebase resolve merge conflicts tutorial").
 - **Read:** Atlassian, "Merging vs Rebasing" - https://www.atlassian.com/git/tutorials/merging-vs-rebasing and "Resolve merge conflicts" - https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts
 - **Ask AI (paste into Claude):** "I am new to git rebase. Walk me through, step by step, how to rebase my feature branch onto main, what to do when I hit a conflict, and how to tell whether I should rebase or merge in a shared repo. Then give me three practice exercises I can run locally to build the muscle."
 
 ### Topic B: Reading a large unfamiliar codebase (1.5 to 2 hrs)
 - **Goal:** orient in a repo you did not write and find where to make a change.
-- **Start here:** open the training repo and answer in writing: where does a request enter, where does it hit the database, where does the response leave.
+- **Start here:** open your fork of the AI Anki repo and answer in writing: where does a request enter (`app/routes.py`), where does it hit the database (`app/db.py`), where does the response leave.
 - **Read:** Sparkbox, "How to Understand a Large Codebase" - https://sparkbox.com/foundry/how_to_understand_a_large_codebase and DEV, "How to Learn Unfamiliar Codebases" - https://dev.to/sammytran/how-to-learn-unfamiliar-codebases-1mi1
 - **Ask AI (paste into Claude Code, inside the repo):** "You are helping me onboard to this codebase. Without changing any files, give me a map: the entry points, the main modules and what each is responsible for, where data is read and written, and the path a single user request takes from entry to response. Then point me at three small, low-risk files I could read first to understand the conventions."
 
@@ -113,14 +113,14 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 
 ### Topic D: Writing tests for code you did not write (1 to 1.5 hrs)
 - **Goal:** add a happy-path test and an edge-case test to existing code.
-- **Start here:** pick one untested function in the repo and write two tests for it.
+- **Start here:** pick the one untested function in the repo (the spaced-repetition scheduler in `app/services.py`) and write two tests for it.
 - **Read:** the testing section of the repo's README, plus your language's standard test runner docs (for example pytest or Jest).
 - **Ask AI (paste into Claude):** "Here is a function I did not write: [paste]. Help me understand its behaviour, then propose a happy-path test and one edge-case test. Do not write code that just mirrors the implementation. Explain what each test actually proves and what would make it fail."
 
 ### Topic E: Steering the agent with context files (1 to 1.5 hrs)
 - **Goal:** write the markdown files that brief an AI agent on your repo once — a CLAUDE.md, a clear README, and where it fits an AGENTS.md or a Skill — instead of re-explaining the same context in every prompt.
 - **Know the difference:** a README is for humans (what the project is, how to run it); a CLAUDE.md is for the agent (install/run/test commands, the architecture in a few lines, conventions and gotchas); AGENTS.md is the same idea as a tool-neutral standard other coding agents read; a Skill packages a reusable procedure the agent can invoke on demand.
-- **Start here:** inside the training repo, run `/init` in Claude Code to generate a draft CLAUDE.md, then read it critically and tighten it by hand — correct anything wrong, add the real run and test commands, the top-level architecture in two or three lines, and the conventions a newcomer would most likely trip on. Verify every command and claim against the code before committing.
+- **Start here:** inside your fork of the AI Anki repo (which ships with no CLAUDE.md on purpose), run `/init` in Claude Code to generate a draft CLAUDE.md, then read it critically and tighten it by hand — correct anything wrong, add the real run and test commands, the top-level architecture in two or three lines, and the conventions a newcomer would most likely trip on. Verify every command and claim against the code before committing.
 - **Read:** Claude Code memory / CLAUDE.md docs - https://code.claude.com/docs/en/memory ; the AGENTS.md convention - https://agents.md ; and skim Claude Code Skills - https://code.claude.com/docs/en/skills (fallback search: "Claude Code CLAUDE.md memory", "agents.md standard").
 - **Ask AI (paste into Claude Code, inside the repo):** "Draft a CLAUDE.md for this repository. Base every line on what you can verify in the code: the exact commands to install, run, and test it, the top-level architecture, and the three conventions a new contributor is most likely to get wrong. Keep it short and concrete, and do not invent commands or structure you cannot find. Flag anything you are unsure about so I can confirm it."
 
@@ -129,19 +129,19 @@ Each topic has a goal, a concrete starting action, something to watch or read, a
 ## 3. Weekly Project
 
 ### Brief
-Take a real internal training repo from clone to a clean, merged pull request, with one bug fixed by hand and one fixed with Claude Code.
+Take **AI Anki** (`akmalakhpah/training-ai-fde-anki`) — a small FastAPI flashcard study app with a Claude-powered card generator — from fork to a clean, merged pull request, with one bug fixed by hand and one fixed with Claude Code.
 
 ### Requirements (checklist)
-- [ ] Clone the internal training repo and get it running locally.
+- [ ] Fork `akmalakhpah/training-ai-fde-anki` to your own GitHub account, clone your fork, and get it running locally.
 - [ ] Find a first small, genuine bug and fix it **by hand, no agent**. Note what the stack trace or error told you.
-- [ ] Write or substantially improve a **CLAUDE.md** for the repo, verifying every command and claim against the code.
+- [ ] Write or substantially improve a **CLAUDE.md** for the repo (it ships without one), verifying every command and claim against the code.
 - [ ] Find a second genuine issue and fix it **with Claude Code** (briefed by that CLAUDE.md), reviewing the diff before accepting.
 - [ ] Add at least one test that covers your change.
-- [ ] Open one clean pull request (CLAUDE.md included): a clear title, a description of the change, and the tests.
+- [ ] Open one clean pull request into your fork's `main` (CLAUDE.md included): a clear title, a description of the change, and the tests.
 - [ ] Get the PR through review and merged, with CI passing.
 
 ### Suggested steps
-1. Clone, install, run the test suite, confirm it is green before you touch anything.
+1. Fork, clone, install, run the test suite, confirm it is green before you touch anything.
 2. Orient using the Topic B method. Write the three-question answer.
 3. Reproduce the first bug, read the trace, fix it by hand, add or update a test.
 4. Write or sharpen the repo's CLAUDE.md so the agent starts with real context; verify every line.

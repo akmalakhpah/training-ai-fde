@@ -124,6 +124,7 @@ Build a custom MCP server that exposes at least two tools a model can call to co
 
 ### Stretch (optional)
 - Expose a resource (read-only data) in addition to your tools.
+- **AI Anki option:** make your MCP tools act on your Week 1 AI Anki fork — for example, `add-card` and `generate-cards` tools.
 
 ---
 

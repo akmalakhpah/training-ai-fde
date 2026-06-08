@@ -121,6 +121,7 @@ Build a small LLM feature on the Claude API that returns reliable structured JSO
 
 ### Stretch (optional)
 - Add prompt caching or a smaller model for part of the work and measure the cost difference.
+- **AI Anki option:** build this feature into your Week 1 AI Anki fork by hardening its `/generate` endpoint — structured outputs, cost per call, and retries.
 
 ---
 

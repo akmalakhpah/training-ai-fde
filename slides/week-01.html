@@ -133,7 +133,7 @@
     </section>
 
     <!-- SLIDE 6: Anatomy of a Production Repo -->
-    <section class="slide" data-notes="This is the first live segment, in a real internal Pandai service repo. Do not focus on the code itself; focus on the structure. Look at the top-level folders one by one: config, source, tests, README, the CI workflow file (.github/workflows). Notice the signals of a healthy repo: a CLAUDE.md or README that explains how to run the thing, a tests folder with meaningful coverage, a CI config that is not empty, clear module boundaries. Ask yourself: what is the first file you would open if you joined this project tomorrow? Usually it is the README and the entry point. The goal here is to give you a method for any repo, not just this one.">
+    <section class="slide" data-notes="This is the first live segment, in the AI Anki repo (akmalakhpah/training-ai-fde-anki) — the same repo students fork and work on this week. Do not focus on the code itself; focus on the structure. Look at the top-level folders one by one: config, source, tests, README, the CI workflow file (.github/workflows). Notice the signals of a healthy repo: a CLAUDE.md or README that explains how to run the thing, a tests folder with meaningful coverage, a CI config that is not empty, clear module boundaries. Ask yourself: what is the first file you would open if you joined this project tomorrow? Usually it is the README and the entry point. The goal here is to give you a method for any repo, not just this one.">
       <div class="slide-content">
         <span class="eyebrow">Live tour</span>
         <h2>Anatomy of a production repo</h2>
@@ -149,7 +149,7 @@
     </section>
 
     <!-- SLIDE 7: Reading an Unfamiliar Codebase -->
-    <section class="slide" data-notes="The most common stuck point for new hires is opening a large repo and freezing. Here is the method, explicitly. Entry point first — where does this thing actually run? For a web service it is usually app.py, server.js, main.go, or similar. Then follow one user-facing action all the way through: HTTP handler to business logic to database query to response. Use jump-to-definition in VS Code, not search. Ignore error handling and edge cases on the first pass — they are noise until you understand the happy path. This leaves you with the three diagnostic questions you must answer about the training repo this week: where does a request enter, where does it hit the database, where does the response leave. Write them down — they are your orientation compass for the project.">
+    <section class="slide" data-notes="The most common stuck point for new hires is opening a large repo and freezing. Here is the method, explicitly. Entry point first — where does this thing actually run? For a web service it is usually app.py, server.js, main.go, or similar. Then follow one user-facing action all the way through: HTTP handler to business logic to database query to response. Use jump-to-definition in VS Code, not search. Ignore error handling and edge cases on the first pass — they are noise until you understand the happy path. This leaves you with the three diagnostic questions you must answer about the AI Anki repo this week: where does a request enter (app/routes.py), where does it hit the database (app/db.py), where does the response leave. Write them down — they are your orientation compass for the project.">
       <div class="slide-content">
         <span class="eyebrow">Survival skill</span>
         <h2>Reading a codebase you did not write</h2>
@@ -203,13 +203,13 @@
     </section>
 
     <!-- SLIDE 10: Demo — Live PR Walkthrough -->
-    <section class="slide demo" data-notes="This is a live walkthrough of a real PR on the training repo in the browser. Go through it in order: the title and description (is the why clear?), the diff tab (one concern or scattered changes?), the review thread (how did the author respond to comments?), the CI checks panel (which checks run, which failed, why). Notice a PR that needed two or three rounds of review — that is normal, not a failure, and worth seeing as normal. Look at a broken CI log too: find the actual error line, not just the red X. Then ask yourself: what would you have written differently in this description?">
+    <section class="slide demo" data-notes="This is a live walkthrough of a real PR on the AI Anki repo in the browser. Go through it in order: the title and description (is the why clear?), the diff tab (one concern or scattered changes?), the review thread (how did the author respond to comments?), the CI checks panel (which checks run, which failed, why). Notice a PR that needed two or three rounds of review — that is normal, not a failure, and worth seeing as normal. Look at a broken CI log too: find the actual error line, not just the red X. Then ask yourself: what would you have written differently in this description?">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
         <h2>Walking through a real PR</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>Open a real PR on the training repo — what is this change and why does it exist?</li>
+            <li>Open a real PR on the AI Anki repo — what is this change and why does it exist?</li>
             <li>Read the description: why now, what changed, how was it tested?</li>
             <li>Read the review thread — multiple rounds of comments, author responding well.</li>
             <li>Open the diff tab: is this one concern or three different things?</li>
@@ -250,7 +250,7 @@
     </section>
 
     <!-- SLIDE 12: Testing Code You Did Not Write -->
-    <section class="slide" data-notes="Tests matter more in shared code than anywhere else. In a solo student project, you can hold the whole system in your head. In a shared production codebase you cannot — tests are how you change things without fear. Practical point: before touching anything in the training repo this week, run the test suite first. If it is already broken, that is important information. Then pick one untested function and write two tests for it. A happy-path test (the function does what the docstring says when inputs are valid) and an edge-case test (empty input, zero, null, boundary). Open a real function in the repo and write one test for it. Then ask: what would make this test fail? If the answer is 'nothing obvious', the test is probably not worth much.">
+    <section class="slide" data-notes="Tests matter more in shared code than anywhere else. In a solo student project, you can hold the whole system in your head. In a shared production codebase you cannot — tests are how you change things without fear. Practical point: before touching anything in the AI Anki repo this week, run the test suite first. If it is already broken, that is important information. Then pick one untested function and write two tests for it. A happy-path test (the function does what the docstring says when inputs are valid) and an edge-case test (empty input, zero, null, boundary). Open a real function in the repo and write one test for it. Then ask: what would make this test fail? If the answer is 'nothing obvious', the test is probably not worth much.">
       <div class="slide-content">
         <span class="eyebrow">Shared code needs tests</span>
         <h2>Testing code you did not write</h2>
@@ -349,13 +349,13 @@
     </section>
 
     <!-- SLIDE 15a: Self-learn A — GitHub beyond commit and push -->
-    <section class="slide" data-notes="Topic A, 1.5 to 2 hours. The goal is muscle memory: branch, rebase, and resolve a merge conflict without panic. Actually manufacture a conflict in the training repo and resolve it from the command line — reading about conflicts does not build the reflex, hitting one does. The video and the two Atlassian guides are the canonical references. The AI prompt is a worked example of how to ask for a guided walkthrough plus practice reps; adapt it, do not paste it blindly.">
+    <section class="slide" data-notes="Topic A, 1.5 to 2 hours. The goal is muscle memory: branch, rebase, and resolve a merge conflict without panic. Actually manufacture a conflict in your fork of the AI Anki repo and resolve it from the command line — reading about conflicts does not build the reflex, hitting one does. The video and the two Atlassian guides are the canonical references. The AI prompt is a worked example of how to ask for a guided walkthrough plus practice reps; adapt it, do not paste it blindly.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn A · 1.5–2 hrs</span>
         <h2>GitHub beyond commit and push</h2>
         <ul class="big-list">
           <li><strong>Goal:</strong> branch, rebase, and resolve a merge conflict without panic.</li>
-          <li><strong>Start here:</strong> in the training repo, create a branch, make two commits, then manufacture a merge conflict against another branch and resolve it from the command line.</li>
+          <li><strong>Start here:</strong> in your fork of the AI Anki repo, create a branch, make two commits, then manufacture a merge conflict against the pre-made conflict branch and resolve it from the command line.</li>
           <li><strong>Watch:</strong> <a href="https://www.youtube.com/watch?v=6FUqOswIags" target="_blank" rel="noopener">Git Branching Strategy &amp; Git REBASE to fix Merge Conflicts</a> (fallback search: "git rebase resolve merge conflicts tutorial").</li>
           <li><strong>Read:</strong> Atlassian <a href="https://www.atlassian.com/git/tutorials/merging-vs-rebasing" target="_blank" rel="noopener">Merging vs Rebasing</a> · <a href="https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts" target="_blank" rel="noopener">Resolve merge conflicts</a></li>
         </ul>
@@ -373,7 +373,7 @@
         <h2>Reading a large unfamiliar codebase</h2>
         <ul class="big-list">
           <li><strong>Goal:</strong> orient in a repo you did not write and find where to make a change.</li>
-          <li><strong>Start here:</strong> open the training repo and answer in writing — where does a request enter, where does it hit the database, where does the response leave.</li>
+          <li><strong>Start here:</strong> open your fork of the AI Anki repo and answer in writing — where does a request enter (<span class="code-inline">app/routes.py</span>), where does it hit the database (<span class="code-inline">app/db.py</span>), where does the response leave.</li>
           <li><strong>Read:</strong> Sparkbox <a href="https://sparkbox.com/foundry/how_to_understand_a_large_codebase" target="_blank" rel="noopener">How to Understand a Large Codebase</a> · DEV <a href="https://dev.to/sammytran/how-to-learn-unfamiliar-codebases-1mi1" target="_blank" rel="noopener">How to Learn Unfamiliar Codebases</a></li>
         </ul>
         <div class="demo-card">
@@ -441,12 +441,12 @@
         <span class="eyebrow">This week's ship</span>
         <h2>The weekly project</h2>
         <ol class="numbered-list">
-          <li>Clone the internal training repo. Install. Run the test suite. Note the baseline.</li>
+          <li>Fork <span class="code-inline">akmalakhpah/training-ai-fde-anki</span> to your account. Clone your fork. Install. Run the test suite. Note the baseline.</li>
           <li>Find a real bug. Fix it by hand, no agent. Note what the trace taught you.</li>
           <li>Write or sharpen the repo's CLAUDE.md. Verify every command and claim against the code.</li>
           <li>Find a second issue. Brief Claude Code with that context. Review and accept the diff. Confirm tests pass.</li>
           <li>Add at least one test covering your change.</li>
-          <li>Open one clean PR (CLAUDE.md included): clear title, why-focused description, tests, CI green.</li>
+          <li>Open one clean PR into your fork's main (CLAUDE.md included): clear title, why-focused description, tests, CI green.</li>
           <li>Get it through review and merged. Done = merged, not opened.</li>
         </ol>
         <p>Deliverables: the merged PR link (with your CLAUDE.md) + a half-page note on the by-hand bug and what the CLAUDE.md changed.</p>
@@ -459,12 +459,12 @@
         <span class="eyebrow">Project · must-haves</span>
         <h2>Requirements checklist</h2>
         <ul class="big-list">
-          <li>Clone the internal training repo and get it running locally.</li>
+          <li>Fork <span class="code-inline">akmalakhpah/training-ai-fde-anki</span>, clone your fork, and get it running locally.</li>
           <li>Find a first small, genuine bug and fix it <strong>by hand, no agent</strong>. Note what the stack trace or error told you.</li>
           <li>Write or substantially improve a <strong>CLAUDE.md</strong>, verifying every command and claim against the code.</li>
           <li>Find a second genuine issue and fix it <strong>with Claude Code</strong> (briefed by that CLAUDE.md), reviewing the diff before accepting.</li>
           <li>Add at least one test that covers your change.</li>
-          <li>Open one clean pull request — CLAUDE.md included: a clear title, a description of the change, and the tests.</li>
+          <li>Open one clean pull request into your fork's main — CLAUDE.md included: a clear title, a description of the change, and the tests.</li>
           <li>Get the PR through review and merged, with CI passing.</li>
         </ul>
       </div>
@@ -476,7 +476,7 @@
         <span class="eyebrow">Project · how to approach it</span>
         <h2>Suggested steps &amp; stretch</h2>
         <ol class="numbered-list">
-          <li>Clone, install, run the test suite, confirm it is green before you touch anything.</li>
+          <li>Fork, clone, install, run the test suite, confirm it is green before you touch anything.</li>
           <li>Orient using the Topic B method. Write the three-question answer.</li>
           <li>Reproduce the first bug, read the trace, fix it by hand, add or update a test.</li>
           <li>Pick the second issue, brief Claude Code, review and accept its diff, confirm tests pass.</li>
@@ -528,7 +528,7 @@
     </section>
 
     <!-- SLIDE 19: Recap -->
-    <section class="slide recap" data-notes="Final slide. Sit with the three recap points — they are deliberately short enough to remember without notes, so write them down or screenshot the slide. Next up is Week 2: data fluency and SQL, where you start touching real customer data, which raises the stakes. The project is live and the training repo link is in the channel; if you get stuck, help is available. Remember: the goal this week is not perfect code — it is experiencing the full loop from clone to merged PR, twice.">
+    <section class="slide recap" data-notes="Final slide. Sit with the three recap points — they are deliberately short enough to remember without notes, so write them down or screenshot the slide. Next up is Week 2: data fluency and SQL, where you start touching real customer data, which raises the stakes. The project is live and the AI Anki repo link (akmalakhpah/training-ai-fde-anki) is in the channel; if you get stuck, help is available. Remember: the goal this week is not perfect code — it is experiencing the full loop from clone to merged PR, twice.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
         <h2>If you remember three things</h2>
@@ -554,7 +554,7 @@
         <span class="eyebrow">Appendix · the live demos</span>
         <h2>What you'll see demonstrated live</h2>
         <ul class="big-list">
-          <li>A real repo cloned and ready.</li>
+          <li>The AI Anki repo (<span class="code-inline">akmalakhpah/training-ai-fde-anki</span>) forked, cloned, and ready.</li>
           <li>A pre-made branch with a deliberate merge conflict.</li>
           <li>A PR already open with review comments.</li>
           <li>A CI pipeline made to fail and pass on demand.</li>

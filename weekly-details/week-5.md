@@ -126,6 +126,7 @@ Build a RAG system over a real document corpus, for example a set of past papers
 
 ### Stretch (optional)
 - Add a confidence signal (for example a similarity threshold) that flags low-confidence answers instead of guessing.
+- **AI Anki option:** point the RAG pipeline at a study corpus and have it generate grounded flashcards into your Week 1 AI Anki fork instead of just answering questions.
 
 ---
 

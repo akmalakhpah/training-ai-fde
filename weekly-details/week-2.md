@@ -121,6 +121,7 @@ Broken rows, wrong types, missing values, and duplicate keys. Expect at least on
 ### Stretch (optional)
 - Add a validation query that would fail loudly if the same problem reappeared in a future export.
 - Produce the Gemini and Sheets non-technical summary of one finding.
+- **AI Anki option:** run your SQL against your Week 1 AI Anki fork's SQLite database (the `decks`, `cards`, and `reviews` tables) — for example, retention per deck or the most-failed cards.
 
 ---
 
