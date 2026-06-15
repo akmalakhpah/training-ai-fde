@@ -335,15 +335,17 @@ FROM orders;</div>
         <h2>Detect · Fix · Load — and explain it</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li><strong>Detect:</strong> profile the messy export — catalogue every data-quality problem before touching anything.</li>
-            <li><strong>Fix:</strong> clean with SQL — decide fix vs drop vs flag for each problem, justify every choice.</li>
-            <li><strong>Load:</strong> INSERT INTO a fresh, queryable table — confirm row counts match before and after.</li>
+            <li><strong>Setup:</strong> download DB Browser for SQLite (sqlitebrowser.org/dl), run demo/week-02/setup.sql to build the practice DB; demo_01–demo_04 are your reference patterns.</li>
+            <li><strong>The export:</strong> demo/week-02/messy_export.csv — 30 review rows from the AI Anki app. Import it into DB Browser as a raw staging table, then leave it untouched.</li>
+            <li><strong>Detect:</strong> profile the raw table — catalogue every data-quality problem before touching anything.</li>
+            <li><strong>Fix:</strong> clean with SQL — decide fix vs drop vs flag for each problem, justify every choice (yours may differ from the demo's).</li>
+            <li><strong>Load:</strong> INSERT INTO a fresh table, reviews_clean — reconcile the counts so raw = clean + dropped.</li>
             <li><strong>Write:</strong> one paragraph explaining what was wrong, how you detected it, and what you decided.</li>
-            <li>Keep the raw data intact — someone must be able to reproduce your clean table from scratch.</li>
-            <li>The export includes broken rows, wrong types, missing values, and duplicate keys — plus at least one problem with no clean answer you must choose and justify.</li>
-            <li>Deliverables: the cleaned dataset (or fresh table), the SQL (readable and commented), and the one-paragraph note.</li>
+            <li>Keep the raw staging table intact — someone must be able to reproduce reviews_clean from the CSV.</li>
+            <li>The export has broken rows, wrong types ('Y'/'true'/'5', 'June 12 2026'), missing values, inconsistent ratings ('Good'/'GOOD'/'g'/'gud'), and duplicate keys — plus the no-clean-answer row (card_id 'C3') you must choose and justify.</li>
+            <li>Deliverables: the cleaned reviews_clean table (or its CSV export), the SQL (readable and commented), and the one-paragraph note.</li>
             <li><strong>Stretch:</strong> a validation query that fails loudly if the same problem appears in a future export.</li>
-            <li><strong>Stretch:</strong> a Gemini + Sheets non-technical summary of one finding.</li>
+            <li><strong>Stretch:</strong> a Gemini + Sheets non-technical summary of one finding (retention per deck, most-failed cards).</li>
           </ul>
         </div>
       </div>
@@ -373,8 +375,9 @@ FROM orders;</div>
           </div>
         </div>
         <ul class="big-list">
-          <li><strong>Submit:</strong> the cleaned dataset or table, the SQL, and the written note.</li>
-          <li class="success"><strong>Definition of done:</strong> someone can run your SQL against the raw export, reproduce your clean table, and learn what was wrong and what you decided from the note alone — without reading the queries.</li>
+          <li><strong>Tools:</strong> DB Browser for SQLite (sqlitebrowser.org/dl) + the demo/week-02 kit — setup.sql, messy_export.csv, and demo_01–demo_04.</li>
+          <li><strong>Submit:</strong> the cleaned reviews_clean table (or its CSV export), the SQL, and the written note.</li>
+          <li class="success"><strong>Definition of done:</strong> someone can re-import messy_export.csv, run your SQL, reproduce your reviews_clean table, and learn what was wrong and what you decided from the note alone — without reading the queries.</li>
         </ul>
       </div>
     </section>

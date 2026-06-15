@@ -101,40 +101,54 @@ By the end of the week you can:
 ## 3. Weekly Project
 
 ### Brief
-Given a deliberately messy export, produce a clean result loaded into a fresh, queryable table, and explain what was wrong and how you fixed it.
+Clean the messy review export from the AI Anki app and load it into a fresh, queryable table — the same detect → fix → load workflow from the live demo, now done yourself and justified.
+
+The export is provided as [`demo/week-02/messy_export.csv`](../demo/week-02/messy_export.csv): 30 review records (`id`, `card_id`, `rating`, `correct`, `reviewed_at`) from the `decks`/`cards`/`reviews` schema of your Week 1 AI Anki fork.
+
+### Setup (do this first)
+1. **Download DB Browser for SQLite** — <https://sqlitebrowser.org/dl/> (free; Windows/Mac/Linux). This is the interface for the whole project.
+2. **Build the practice database** — open DB Browser, *New Database* → `anki_demo.db`, then *Execute SQL* → paste and run [`demo/week-02/setup.sql`](../demo/week-02/setup.sql) (creates `decks`, `cards`, `reviews`, and the messy `reviews_raw`).
+3. **Study the worked references** — the demo files are the techniques you will reuse:
+   - [`demo_01_queries.sql`](../demo/week-02/demo_01_queries.sql) — joins, CTEs, and window functions.
+   - [`demo_02_profiling.sql`](../demo/week-02/demo_02_profiling.sql) — the profiling pass.
+   - [`demo_03_cleaning.sql`](../demo/week-02/demo_03_cleaning.sql) — the detect → fix → load cleaning pattern.
+   - [`demo_04_indexing.sql`](../demo/week-02/demo_04_indexing.sql) — `EXPLAIN QUERY PLAN` and indexing.
 
 ### Requirements (checklist)
-- [ ] Profile the export: detect and catalogue the data-quality problems (the **detect** step).
-- [ ] Clean the data with SQL, deciding fix vs drop vs flag for each problem (the **fix** step).
-- [ ] Load the cleaned result into a fresh, queryable table (the **load** step).
-- [ ] Write a one-paragraph note explaining what was wrong, how you detected it, and how you fixed it.
-- [ ] Do not clean in place; keep the raw data intact so the work is reproducible.
+- [ ] Import `messy_export.csv` into a **raw staging table** (DB Browser → File → Import → Table from CSV file), then leave it untouched.
+- [ ] Profile the raw table: detect and catalogue every data-quality problem (the **detect** step).
+- [ ] Clean the data with SQL, deciding fix vs drop vs flag for each problem and justifying the choice — your decisions may differ from the demo's, which is fine if you defend them (the **fix** step).
+- [ ] `INSERT` the cleaned result into a fresh table, `reviews_clean` (the **load** step), and reconcile the counts so **raw = clean + dropped**.
+- [ ] Write a one-paragraph note explaining what was wrong, how you detected it, and what you decided.
+- [ ] Do not clean in place; leave the raw staging table intact so the work is reproducible from the CSV.
 
-### The messy export will include
-Broken rows, wrong types, missing values, and duplicate keys. Expect at least one problem that has no clean answer, where you must choose and justify.
+### What the export contains
+Broken rows, wrong types (`correct` as `'Y'`/`'true'`/`'5'`, dates like `'June 12 2026'`), missing values, inconsistent rating spellings (`'Good'`/`'GOOD'`/`'g'`/`'gud'`), and duplicate keys. The **no-clean-answer** problem is the row whose `card_id` is `'C3'` (is it card 3, or unknown?) — you must choose and justify.
 
 ### Deliverables
-- The cleaned dataset (or the fresh table).
+- The cleaned `reviews_clean` table (or its CSV export).
 - The SQL you used, readable and commented.
 - The one-paragraph written note.
 
 ### Stretch (optional)
 - Add a validation query that would fail loudly if the same problem reappeared in a future export.
-- Produce the Gemini and Sheets non-technical summary of one finding.
-- **AI Anki option:** run your SQL against your Week 1 AI Anki fork's SQLite database (the `decks`, `cards`, and `reviews` tables) — for example, retention per deck or the most-failed cards.
+- Produce a Gemini + Google Sheets non-technical summary of one finding — for example retention per deck or the most-failed cards.
 
 ---
 
 ## 4. Submittable Assessment
 
+### Tools
+Done in **DB Browser for SQLite** (<https://sqlitebrowser.org/dl/>) against the [`demo/week-02/`](../demo/week-02/) kit: `setup.sql` builds the database, `messy_export.csv` is the export to clean, and `demo_01`–`demo_04` are your reference patterns.
+
 ### What to submit
-- The cleaned dataset or table, the SQL, and the written note.
+- The cleaned `reviews_clean` table (or its CSV export), the SQL, and the written note.
 
 ### How it is judged (maps to the course rubric)
 - **Technical execution (30%):** correctness of the cleaned data and the quality of the SQL.
-- **Handling ambiguity and failure (30%):** how you handled the problem with no clean answer.
+- **Handling ambiguity and failure (30%):** how you handled the no-clean-answer row (the `'C3'` `card_id`).
 - **Communication (25%):** clarity of the note. The note matters as much as the query.
 - **Ownership (15%):** did you profile thoroughly or stop at the first obvious issue.
 
 ### Definition of done
-Someone can run your SQL against the raw export and reproduce your clean table, and your note tells them what was wrong and what you decided, without them having to read the queries.
+Someone can re-import `messy_export.csv`, run your SQL, and reproduce your `reviews_clean` table exactly, and your note tells them what was wrong and what you decided, without them having to read the queries.
