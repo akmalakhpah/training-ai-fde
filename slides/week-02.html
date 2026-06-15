@@ -229,7 +229,7 @@ FROM orders;</div>
     </section>
 
     <!-- Slide 12: Indexing a Slow Query -->
-    <section class="slide" data-notes="Open the slow query on the training dataset — a query that takes several seconds on an unindexed table, like a WHERE clause on a non-indexed column or a JOIN on two large tables with no index on the join key. Run EXPLAIN ANALYZE before adding the index and look at the full-scan row count and estimated cost. Add the index with CREATE INDEX, then run EXPLAIN ANALYZE again. The stat numbers on this slide are what you want to remember viscerally. The conceptual point is the mental image: a full scan reads every row in sequence, an index lookup jumps straight to the matching page. That's the entire story — everything else is details. One warning: indexes cost on writes, so don't add them blindly to every column.">
+    <section class="slide" data-notes="Open the slow query on the training dataset — a query that takes several seconds on an unindexed table, like a WHERE clause on a non-indexed column or a JOIN on two large tables with no index on the join key. In SQLite, run EXPLAIN QUERY PLAN before adding the index: it prints 'SCAN reviews', meaning it reads every row. Add the index with CREATE INDEX, then run EXPLAIN QUERY PLAN again: now it prints 'SEARCH reviews USING INDEX', meaning it jumps straight to the matching rows. (MySQL and Postgres call this EXPLAIN ANALYZE and report a time estimate too; SQLite reports the access method, and you turn on .timer in the shell to feel the wall-clock difference on a large table.) The stat numbers on this slide are what you want to remember viscerally. The conceptual point is the mental image: a full scan reads every row in sequence, an index lookup jumps straight to the matching page. That's the entire story — everything else is details. One warning: indexes cost on writes, so don't add them blindly to every column.">
       <div class="slide-content">
         <span class="eyebrow">Block 5 · Performance</span>
         <h2>Indexing a slow query — before and after</h2>
@@ -248,7 +248,7 @@ FROM orders;</div>
           </div>
         </div>
         <ul class="big-list">
-          <li>Run EXPLAIN ANALYZE before and after — read the actual cost, not just the wall-clock time.</li>
+          <li>Run EXPLAIN QUERY PLAN before and after — watch SCAN become SEARCH USING INDEX (use .timer for the wall-clock).</li>
           <li>Index columns used in WHERE, JOIN ON, and ORDER BY clauses.</li>
           <li>Indexes cost on every INSERT and UPDATE — index with evidence, not instinct.</li>
         </ul>
