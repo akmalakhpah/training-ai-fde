@@ -310,6 +310,12 @@ function formatMarkdownLinks(root) {
       if (url.startsWith("#")) {
         a.href = url;
         a.setAttribute("data-link", "");
+      } else if (/^(\.\.?\/|\/)/.test(url)) {
+        // Relative or root-relative repo path (e.g. ./demo/week-02/setup.sql) —
+        // link to the file as-is; don't force an https:// host onto it.
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
       } else {
         a.href = /^(https?:\/\/|mailto:)/i.test(url)
           ? url
