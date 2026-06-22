@@ -31,7 +31,7 @@
 <body data-week-num="3" data-deck-title="Week 03 · Slides">
   <div class="deck">
 
-    <section class="slide title" data-notes="Welcome to the heaviest week of Phase 1. Here are the stakes up front: shipping is not the finish line — keeping a service alive and knowing the instant it breaks is the real job. One path, AWS or Cloudflare, is all you need for the project; you'll see the other this week so you understand the tradeoffs before choosing. Have you deployed something beyond a local machine before? Wherever you're starting from, the first few blocks build the scaffolding you need.">
+    <section class="slide title" data-notes="Welcome to the heaviest week of Phase 1. Here are the stakes up front: shipping is not the finish line — keeping a service alive and knowing the instant it breaks is the real job. Today we deploy a real app live — AI Anki, the repo you fixed in Week 1 — to AWS, then break it and recover it together. You'll self-learn the other platform, Cloudflare, on your own time so you understand the tradeoff between heavy managed compute and the edge. Have you deployed something beyond a local machine before? Wherever you're starting from, the first few blocks build the scaffolding you need.">
       <div class="slide-content">
         <span class="eyebrow"><span class="eyebrow-dot"></span> Week 03 · Phase 1 — Production Foundations</span>
         <h1>Deploy, Observe, Recover</h1>
@@ -68,7 +68,7 @@
           <li>What 'live' actually means — anatomy of a running service (8 min)</li>
           <li>Containers and environments (10 min)</li>
           <li>Configuration and secrets (10 min)</li>
-          <li>Two paths to live — AWS vs Cloudflare, pick one (14 min)</li>
+          <li>Two platforms — deploy AI Anki to AWS live; Cloudflare is yours to self-learn (14 min)</li>
           <li>Observability — logs, metrics, and the difference (12 min)</li>
           <li>The live incident — class diagnoses a broken service (14 min)</li>
           <li>API design in one slide (5 min)</li>
@@ -91,7 +91,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="The core promise of a container is reproducibility: the same image produces the same behaviour on a laptop, in CI, and in production. Without containers, 'it works on my machine' is a real and expensive problem that costs teams days. Dev, staging, and prod are not copies of each other — they exist to catch problems before they reach users. A bug found in staging is a near-miss; the same bug in production is an incident with real users affected. Keep this framing: environments are a safety net, not bureaucracy.">
+    <section class="slide" data-notes="The core promise of a container is reproducibility: the same image produces the same behaviour on a laptop, in CI, and in production. Without containers, 'it works on my machine' is a real and expensive problem that costs teams days. AI Anki ships as a container image — we'll glance at its deploy/Dockerfile, which packages the FastAPI app plus the AWS Lambda Web Adapter so the unmodified app runs on Lambda with no code changes. Dev, staging, and prod are not copies of each other — they exist to catch problems before they reach users. A bug found in staging is a near-miss; the same bug in production is an incident with real users affected. Keep this framing: environments are a safety net, not bureaucracy.">
       <div class="slide-content">
         <span class="eyebrow">Block 2 — Containers and environments</span>
         <h2>The same thing, everywhere</h2>
@@ -102,7 +102,7 @@
               <li>Package code, runtime, and dependencies together.</li>
               <li>Runs identically on every machine and platform.</li>
               <li>Solves 'works on my machine' permanently.</li>
-              <li>The image is the build artifact you ship.</li>
+              <li>AI Anki's image is the build artifact we push to AWS.</li>
             </ul>
           </div>
           <div class="col">
@@ -127,41 +127,41 @@
           <li>Use environment variables for values that change between environments.</li>
           <li>Use a secret store (AWS Secrets Manager, Cloudflare Secrets) for credentials and keys.</li>
           <li>A secret in git history is a secret forever — treat it as already leaked the moment it is pushed.</li>
-          <li>Live: move one hardcoded value to an env var and redeploy — watch the whole cycle.</li>
+          <li>Live with AI Anki: its ANTHROPIC_API_KEY is injected as a Lambda env var, never in the image (.dockerignore keeps .env out of the build).</li>
         </ul>
       </div>
     </section>
 
-    <section class="slide two-col" data-notes="You pick one of these paths for the project, not both. You'll see both this week so you can make an informed choice rather than an arbitrary one. AWS gives a deeper compute model — good for anything stateful, long-running, or resource-intensive, with the full AWS ecosystem behind it. Cloudflare Workers run at the edge in over 300 locations with near-zero cold start — ideal for lightweight, latency-sensitive, stateless APIs. Choosing a path is itself a real engineering decision: justify your choice briefly in the incident report. You'll see the hello-world live deploy on both paths so you understand the mechanics before deciding.">
+    <section class="slide two-col" data-notes="The choice of platform IS the engineering decision — match it to the workload. AI Anki is a Python FastAPI server with a SQLite file: stateful, long-running compute. That's why the live deploy goes to AWS and not to the edge — a Cloudflare Worker has no Python server and no local filesystem. We deploy AI Anki to Lambda as a container image behind a public Function URL, using the Lambda Web Adapter so the unmodified app runs as-is, all inside the AWS free tier. Cloudflare is the opposite end of the spectrum — code running at the edge in 330+ cities with no cold starts (it uses V8 isolates rather than containers, so there's no process or container to spin up), perfect for light, stateless, latency-sensitive work. You'll deploy a Worker yourself in the self-learn track. For the project you pick whichever fits your service and justify the choice in one line.">
       <div class="slide-content">
-        <span class="eyebrow">Block 4 — Two paths to live</span>
-        <h2>Pick one for the build</h2>
+        <span class="eyebrow">Block 4 — Two platforms, pick the right one</span>
+        <h2>The platform is the decision</h2>
         <div class="cols">
           <div class="col">
-            <h3>Path A · AWS</h3>
+            <h3 class="success">AWS · demonstrated live</h3>
             <ul>
-              <li>Managed compute: Lambda or App Runner.</li>
+              <li>Managed compute: Lambda (container image) + a public Function URL.</li>
               <li>Full AWS ecosystem — IAM, CloudWatch, Secrets Manager.</li>
-              <li>Better for stateful, heavy, or long-running workloads.</li>
-              <li>Deploy with the AWS CLI or console.</li>
-              <li class="success">Pick this if you need more control or heavier compute.</li>
+              <li>Fits stateful, heavy, or long-running work — like AI Anki.</li>
+              <li>Lambda Web Adapter runs the unmodified FastAPI app, free tier.</li>
+              <li class="success">This is where AI Anki goes live today.</li>
             </ul>
           </div>
           <div class="col">
-            <h3>Path B · Cloudflare Worker</h3>
+            <h3>Cloudflare · you'll self-learn</h3>
             <ul>
-              <li>Runs at the edge — 300+ locations, sub-millisecond cold start.</li>
+              <li>Runs at the edge — 330+ cities, no cold starts (V8 isolates, not containers).</li>
               <li>Deploy with the Wrangler CLI in a few minutes.</li>
               <li>Secrets via wrangler secret put, no console required.</li>
               <li>Best for lightweight, latency-sensitive, stateless APIs.</li>
-              <li class="success">Pick this for global reach and fast iteration.</li>
+              <li>No Python server, no local filesystem — wrong fit for AI Anki.</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" data-notes="Logs and metrics are complementary, not substitutes for each other. A log entry tells you exactly what happened at a specific moment — request received, error thrown, value returned. A metric tells you the shape of behaviour over time — how often errors occur, how long requests take, how many are in flight. The critical safety rule: never log secrets, tokens, passwords, or personal data; in regulated industries this is a compliance issue and everywhere else it is sound practice. You'll see a real log stream from the deployed service so you know what a healthy request looks like before anything is broken.">
+    <section class="slide" data-notes="Logs and metrics are complementary, not substitutes for each other. A log entry tells you exactly what happened at a specific moment — request received, error thrown, value returned. A metric tells you the shape of behaviour over time — how often errors occur, how long requests take, how many are in flight. The critical safety rule: never log secrets, tokens, passwords, or personal data; in regulated industries this is a compliance issue and everywhere else it is sound practice. We'll open AI Anki's CloudWatch logs and read a real request, then look at the Lambda Monitor tab — invocations, errors, duration — for the metrics view, so you know what a healthy request looks like before anything is broken.">
       <div class="slide-content">
         <span class="eyebrow">Block 5 — Observability</span>
         <h2>Logs vs metrics — know the difference</h2>
@@ -188,15 +188,15 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="This is the centrepiece and the most valuable part of the week. The service breaks live — a missing env var, a bad config value, or a deliberately thrown error — and you're not told what changed. You get only the logs and metrics. Work through it: what does the error message say, what timestamp did things go wrong, what changed around that time, what's your hypothesis? Walk the full recovery cycle: hypothesis, evidence check, fix, redeploy, confirm. The key lesson: stay calm and read. The logs almost always told you already. The skill is reading them without panicking.">
+    <section class="slide demo" data-notes="This is the centrepiece and the most valuable part of the week. AI Anki breaks live — we remove its ANTHROPIC_API_KEY env var, as if a secret got lost in a redeploy — and you're not told what changed. Then we call its Claude-powered /generate endpoint and it fails. You get only the CloudWatch logs and the HTTP status. Work through it: what does the response say, what does the log line at that timestamp say, what changed, what's your hypothesis? AI Anki turns the missing key into a clean 503 with an AINotConfigured signal that points straight at configuration, not code. Walk the full recovery cycle: hypothesis, evidence check, re-add the env var, redeploy, confirm a 200. The key lesson: stay calm and read. The logs almost always told you already.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~14 min</span>
         <h2>The live incident</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>The deployed service is broken on purpose — bad config, missing env var, or thrown error.</li>
-            <li>You diagnose using only logs and metrics. Source code is off limits.</li>
-            <li>Work the recovery cycle: form a hypothesis, check the logs, fix, redeploy, confirm.</li>
+            <li>AI Anki is broken on purpose — its ANTHROPIC_API_KEY env var is removed on a redeploy.</li>
+            <li>Call /generate, watch it fail. You diagnose from CloudWatch logs and the status code only — source is off limits.</li>
+            <li>Work the recovery cycle: form a hypothesis, check the logs, re-add the secret, redeploy, confirm.</li>
             <li>Key lesson: stay calm and read. The logs almost always told you already.</li>
           </ul>
         </div>
@@ -217,26 +217,26 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Here's how to spend your 6 to 8 hours of self-learn. Topic A is the core hands-on work and must be done first — deploying and confirming a public URL is the foundation everything else builds on. Topic B adds the endpoint the project requires. Topic C is the log-reading practice that mirrors the live incident, now done alone under a failure you choose. Topic D locks in the config and secrets habit the project will assess. The AI prompts listed in the week detail are designed to paste verbatim and get production-grade answers — actually use them rather than just reading docs.">
+    <section class="slide" data-notes="Here's how to spend your 6 to 8 hours of self-learn. You watched AWS today; now you do the hands-on yourself on Cloudflare, the edge platform, so you've touched both. Topic A is the core work and must be done first — deploying a Worker and confirming a public URL is the foundation everything else builds on. Topic B adds the endpoint the project requires. Topic C is the log-reading practice that mirrors the live incident, now done alone with wrangler tail under a failure you choose. Topic D locks in the config and secrets habit the project will assess. The AI prompts listed in the week detail are designed to paste verbatim and get production-grade answers — actually use them rather than just reading docs.">
       <div class="slide-content">
-        <span class="eyebrow">Self-learn (6–8 hours)</span>
+        <span class="eyebrow">Self-learn (6–8 hours) · on Cloudflare</span>
         <h2>How to use your week</h2>
         <ol class="numbered-list">
-          <li>Topic A (2 hrs) — Deploy the hello-world to your chosen platform and confirm the public URL from a browser.</li>
+          <li>Topic A (2 hrs) — Deploy a hello-world Worker to Cloudflare and confirm the public URL from a browser.</li>
           <li>Topic B (1–1.5 hrs) — Add one clean endpoint: structured input, structured output, correct status codes.</li>
-          <li>Topic C (1.5 hrs) — Trigger an error on purpose and find the root cause using only the logs.</li>
-          <li>Topic D (1 hr) — Move every hardcoded value to an env var; confirm the service still runs cleanly.</li>
+          <li>Topic C (1.5 hrs) — Trigger an error on purpose and find the root cause with wrangler tail and the dashboard.</li>
+          <li>Topic D (1 hr) — Move every hardcoded value to a Worker secret; confirm the service still runs cleanly.</li>
         </ol>
       </div>
     </section>
 
-    <section class="slide" data-notes="Go through the checklist item by item. Every requirement maps directly to a learning objective. The most important requirement is item 5: diagnosing and fixing using only logs and metrics, not by re-reading the source first. That constraint is what makes this a real exercise rather than a trivial debugging session. The incident report is the written artefact that proves you can communicate a failure clearly — it carries 25% of the assessment weighting and matters as much as the fix itself. One stretch goal worth doing: a health-check endpoint is the simplest form of automated observability and a genuinely useful addition.">
+    <section class="slide" data-notes="Go through the checklist item by item. Every requirement maps directly to a learning objective. The most important requirement is item 5: diagnosing and fixing using only logs and metrics, not by re-reading the source first. That constraint is what makes this a real exercise rather than a trivial debugging session. The incident report is the written artefact that proves you can communicate a failure clearly — it carries 25% of the assessment weighting and matters as much as the fix itself. The strongest submission is the recommended AI Anki path: deploy your Week 1 fork to AWS using the repo's DEPLOY.md and deploy/aws-deploy.sh, which reproduce exactly what you saw in class — the same break and recovery, on your own service. One stretch goal worth doing: a health-check endpoint is the simplest form of automated observability and a genuinely useful addition.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
         <h2>Deploy, break, recover, document</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>Deploy a small service to AWS or Cloudflare with a public URL.</li>
+            <li>Deploy a small service to AWS or Cloudflare with a public URL — state why that platform fits.</li>
             <li>Expose at least one API endpoint with clean inputs, outputs, and status codes.</li>
             <li>Keep config and secrets out of the code — use env vars or a secret store.</li>
             <li>Break it intentionally: bad config, missing variable, or a thrown error.</li>
@@ -255,7 +255,7 @@
           <li>Hardcoding a secret 'just for now' — one push makes it permanent in git history.</li>
           <li>Moving on before confirming the deployed service is actually healthy and reachable.</li>
           <li>Skimming logs — slow down and read every line around the failure timestamp.</li>
-          <li>Attempting both deployment paths — pick one and go deep on it.</li>
+          <li>For the project, trying to master both platforms — pick the one that fits your service and go deep.</li>
           <li>Guessing at the fix without first forming a hypothesis from the evidence in the logs.</li>
         </ul>
       </div>
