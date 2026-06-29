@@ -915,6 +915,202 @@ body.notes-visible .notes-panel {
   color: white;
 }
 
+/* =========================================================
+   Token cost calculator (Week 4)
+   ========================================================= */
+
+.token-calc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  margin-top: clamp(0.75rem, 1.6vw, 1.25rem);
+}
+
+.tc-panel {
+  padding: clamp(1rem, 1.8vw, 1.5rem);
+  border-radius: var(--radius-xl);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.tc-field { margin-bottom: clamp(0.6rem, 1.3vw, 1rem); }
+.tc-field:last-child { margin-bottom: 0; }
+
+.tc-label {
+  display: block;
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-subtle);
+  margin-bottom: 0.4rem;
+}
+
+.tc-presets,
+.tc-models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tc-preset,
+.tc-model {
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background: var(--glass-bg-soft);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out), color 0.15s var(--ease-out);
+}
+
+.tc-model {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+  border-radius: var(--radius-lg);
+  flex: 1;
+}
+
+.tc-model span {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+}
+
+.tc-preset:hover,
+.tc-model:hover { background: var(--glass-bg); }
+
+.tc-preset.active,
+.tc-model.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.tc-model.active span { color: rgba(255, 255, 255, 0.85); }
+
+.tc-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.tc-input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.3vw, 1.1rem);
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 0.5rem 0.6rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--glass-border);
+}
+
+.tc-results { display: flex; flex-direction: column; gap: clamp(0.6rem, 1.3vw, 1rem); }
+
+.tc-headline {
+  text-align: center;
+  padding: clamp(0.5rem, 1.4vw, 1rem) 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.tc-big {
+  font-family: var(--font-mono);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.tc-big-label {
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+}
+
+.tc-result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.tc-result {
+  text-align: center;
+  padding: 0.6rem 0.4rem;
+  border-radius: var(--radius-md);
+  background: var(--glass-bg-soft);
+  border: 1px solid var(--glass-border);
+}
+
+.tc-result-value {
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.tc-result-label {
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+.tc-compare-title {
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-subtle);
+  margin-bottom: 0.5rem;
+}
+
+.tc-bar {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.tc-bar-name {
+  font-size: clamp(0.72rem, 1.05vw, 0.9rem);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.tc-bar-fill {
+  height: 0.7rem;
+  border-radius: var(--radius-pill);
+  background: rgba(24, 86, 255, 0.25);
+  transition: width 0.3s var(--ease-out);
+  min-width: 2px;
+}
+
+.tc-bar.active .tc-bar-fill { background: var(--color-primary); }
+
+.tc-bar-value {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 1.05vw, 0.92rem);
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: right;
+  min-width: 4.5rem;
+}
+
+@media (max-width: 768px) {
+  .token-calc { grid-template-columns: 1fr; }
+}
+
 /* Focus visible */
 :focus-visible {
   outline: 2px solid var(--color-primary);

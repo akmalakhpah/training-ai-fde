@@ -70,9 +70,10 @@
           <li>Structured output — constraining the model to a schema</li>
           <li>Error handling and non-determinism</li>
           <li>Streaming — when and why it changes the experience</li>
-          <li>Token economics and cost at Pandai scale</li>
+          <li>Token economics and cost at Pandai scale — with a live calculator</li>
           <li>Live build — classification feature end to end on the Claude API</li>
-          <li>Project brief and the reliability check</li>
+          <li>Plan in markdown, build with AI tools (Claude Code, Claude Cowork)</li>
+          <li>Project brief — harden your Week 1 AI Anki feature — and the reliability check</li>
         </ol>
       </div>
     </section>
@@ -151,6 +152,44 @@
       </div>
     </section>
 
+    <section class="slide" data-notes="Here is prompt iteration made concrete — the same Anki tagging task across three versions. Version 1 is what everyone writes first: a one-line ask. On an easy question it works; on 'Solve for x: 2x + 5 = 13' it might answer 'Mathematics' as a sentence, or 'algebra (medium difficulty)', or wrap it in a paragraph — unusable for code. Version 2 adds the three things that matter most: a role, an explicit output format, and the exact allowed values. The output stabilises but is still free text you have to parse. Version 3 adds one example and pins the allowed values down — now the model has a concrete pattern to follow. This is the engineering loop: you do not write a prompt once, you write it, run it against your awkward inputs, see where it wobbles, and add the specific constraint that fixes that wobble. Each line you add should earn its place by fixing a real failure you saw. Notice we have not touched structured outputs yet — that is the next slide, and it is what finally makes the format a guarantee instead of a strong request.">
+      <div class="slide-content">
+        <span class="eyebrow">Prompting as engineering · a real example</span>
+        <h2>One Anki task, three prompt versions</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="danger">v1 — a wish</h3>
+            <div class="code-block">Tag this question:
+"{question}"</div>
+            <p style="font-size: clamp(0.8rem, 1.2vw, 1rem); color: var(--color-text-muted); margin: 0.6rem 0 0;">Returns a sentence, sometimes the wrong shape. Breaks your parser on edge cases.</p>
+          </div>
+          <div class="col">
+            <h3>v2 — role + format</h3>
+            <div class="code-block">You are a question tagger.
+Classify the question below.
+Reply as JSON:
+{"topic": ..., "difficulty": ...}
+topic in: Math, Science,
+English, History.
+difficulty in: easy, medium, hard.
+
+"{question}"</div>
+          </div>
+          <div class="col">
+            <h3 class="success">v3 — + example</h3>
+            <div class="code-block">...same as v2, plus:
+
+Example:
+Q: "What is 7 x 8?"
+{"topic":"Math",
+ "difficulty":"easy"}
+
+Now tag: "{question}"</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-notes="The problem is simple and painful: 'please return JSON' is a polite request, not a contract. The model might return JSON with a preamble sentence ('Here is the JSON you requested:'), JSON wrapped in a markdown code fence, JSON with trailing commas that fail to parse, or valid-looking JSON where a field has the wrong type. The solution is structured outputs: you pass a JSON schema to the API and the model is constrained at the decoding level — it literally cannot produce a token sequence that does not conform. The point to hold onto: never parse free text when you can constrain the shape. This is the single biggest reliability improvement you can make to an LLM feature.">
       <div class="slide-content">
         <span class="eyebrow">Structured output</span>
@@ -166,6 +205,45 @@
       </div>
     </section>
 
+    <section class="slide demo" data-notes="This is the whole structured-output idea in real code, on the Claude API. On the left is the schema — a contract with two fields, both enums, and additionalProperties false so the model cannot invent extra keys. On the right is the actual call: you pass that schema through output_config.format, and the first text block of the response is guaranteed to be valid JSON matching the schema. There is no parsing-and-praying, no regex, no markdown-fence stripping. Walk through it line by line in class: messages.create with model claude-haiku-4-5 — Haiku because tagging is a classification task and Haiku is plenty; max_tokens small because the output is tiny; output_config carries the schema. Then json.loads on response.content[0].text is safe because the shape is guaranteed. Point out usage.input_tokens and usage.output_tokens on the response object — that is exactly what the cost counter reads. The takeaway: the difference between v3 of the prompt and this is the difference between 'very likely valid' and 'guaranteed valid', and that guarantee is one parameter.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Structured output · real code</span>
+        <h2>A schema the model cannot break — on the Claude API</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>The schema (the contract)</h3>
+            <div class="code-block">SCHEMA = {
+  "type": "object",
+  "properties": {
+    "topic": {"type": "string",
+      "enum": ["Math", "Science",
+               "English", "History"]},
+    "difficulty": {"type": "string",
+      "enum": ["easy", "medium", "hard"]}
+  },
+  "required": ["topic", "difficulty"],
+  "additionalProperties": False
+}</div>
+          </div>
+          <div class="col">
+            <h3 class="success">The call (guaranteed JSON)</h3>
+            <div class="code-block">resp = client.messages.create(
+  model="claude-haiku-4-5",
+  max_tokens=128,
+  messages=[{"role": "user",
+             "content": prompt}],
+  output_config={"format": {
+    "type": "json_schema",
+    "schema": SCHEMA}},
+)
+tag = json.loads(resp.content[0].text)
+# tag == {"topic": "Math",
+#         "difficulty": "easy"}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-notes="Non-determinism is not a bug — it is a property of probabilistic models. But it means the same prompt, on the same input, on different calls, can return different things. See it concretely: call the same classification prompt five times and look at the distribution of outputs. The design lesson is: code for the bad response, not the demo response. Retries should use exponential backoff and should feed the validation error back into the retry prompt so the model can self-correct. Fallbacks must be explicit: if the model returns something unusable after N retries, the feature must have a defined behaviour — log the failure, return a safe default, and alert. Never silently return garbage.">
       <div class="slide-content">
         <span class="eyebrow">Error handling</span>
@@ -177,6 +255,38 @@
           <li><strong>Fallbacks</strong> — always explicit: if unusable after retries, return a safe default and log the raw response clearly.</li>
           <li><strong>Logging</strong> — always log input tokens, output tokens, and the raw response when something goes wrong; you cannot debug what you did not record.</li>
         </ul>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="These are the four ways a naive 'give me JSON' prompt actually breaks in production — real responses, not hypotheticals. The preamble: the model helpfully says 'Here is the JSON:' before the JSON, so json.loads fails on the first character. The markdown fence: the model wraps the JSON in triple-backtick json, which again is not parseable until you strip it. The wrong type: difficulty comes back as the number 2 instead of the string 'medium', so your code that does difficulty.upper() crashes downstream, far from the cause. The hallucinated enum: the model returns a topic of 'Algebra' when your four allowed topics are Math, Science, English, History — valid JSON, valid string, wrong value, and now your database has a category that does not exist. Every one of these passes 'looks like JSON' and fails 'is the data I can trust'. Structured outputs kill the first three outright. The fourth — the out-of-enum value — is exactly why your validation step and your reliability check matter: a schema enum rejects 'Algebra', and your code falls back to 'Other' and logs it. This slide is the argument for why the project rubric weights handling awkward input so heavily.">
+      <div class="slide-content">
+        <span class="eyebrow">Error handling · what the model actually returns</span>
+        <h2>Four ways "give me JSON" breaks</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="danger">Looks fine, isn't</h3>
+            <div class="code-block">Here is the JSON:
+{"topic": "Math", ...}     # preamble
+
+```json
+{"topic": "Math", ...}     # fenced
+```
+
+{"topic":"Math",
+ "difficulty": 2}          # number, not
+                           # the enum string</div>
+          </div>
+          <div class="col">
+            <h3>The sneaky one</h3>
+            <div class="code-block">{"topic": "Algebra",
+ "difficulty": "medium"}</div>
+            <ul>
+              <li>Valid JSON. Valid string. <strong>Wrong value</strong> — "Algebra" is not one of your four topics.</li>
+              <li>Structured outputs stop the first three. The schema <span class="success">enum</span> rejects this one.</li>
+              <li>Your code falls back to <span class="code-inline">"Other"</span> and logs the raw response. That is your reliability check.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -207,26 +317,85 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Token economics is one of the most neglected skills in early LLM engineering. Every call has a cost: input tokens multiplied by the input price plus output tokens multiplied by the output price. The numbers look tiny — fractions of a cent — until you multiply by Pandai scale. Look at the stat grid and let the million-call number sink in. Model tier choice matters enormously: Haiku is roughly 25x cheaper than Opus per million tokens. If the task is classification or tagging, Haiku is almost always enough. Opus is for tasks that require genuine deep reasoning. The question every customer will ask: 'can you run this cheaply at scale?' You need to be able to answer it with a number before you deploy.">
+    <section class="slide" data-notes="Token economics is one of the most neglected skills in early LLM engineering. Every call has a cost: input tokens times the input price plus output tokens times the output price, billed per million tokens. The numbers look tiny — fractions of a cent — until you multiply by Pandai scale. Take a concrete example: tagging one question is about 350 input tokens (the prompt plus the question) and 30 output tokens (the JSON result). On Claude Haiku 4.5 ($1 per million input, $5 per million output) that is 350/1e6*1 + 30/1e6*5 = $0.0005 per call. A million of those is $500. The same call on Claude Opus 4.8 ($5 / $25) is $0.0025 — five times more. Note: output tokens are five times the price of input tokens on every tier, so a chatty model that pads its JSON with explanation costs you twice — once in tokens, once in latency. The rule of thumb: Haiku for classification and tagging, Sonnet for generation and grading that needs more reasoning, Opus only when the task genuinely needs deep reasoning. Every customer asks 'can you run this cheaply at scale?' — you need a number before you deploy. The next slide is a live calculator so you can put in your own numbers.">
       <div class="slide-content">
         <span class="eyebrow">Token economics</span>
         <h2>Cost per call — then multiply to Pandai scale</h2>
+        <p class="subtitle" style="margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);">Example: tag one question — ~350 input tokens + ~30 output tokens, on Claude Haiku 4.5 ($1 / $5 per million in / out).</p>
         <div class="stat-grid">
           <div class="stat">
-            <div class="stat-value">~500</div>
-            <div class="stat-label">tokens per classification call (input + output combined)</div>
+            <div class="stat-value">~380</div>
+            <div class="stat-label">tokens per tag call (≈350 in + 30 out)</div>
           </div>
           <div class="stat">
-            <div class="stat-value">~$0.0004</div>
-            <div class="stat-label">approximate cost per call on Haiku</div>
+            <div class="stat-value">$0.0005</div>
+            <div class="stat-label">cost per call on Claude Haiku 4.5</div>
           </div>
           <div class="stat">
-            <div class="stat-value">$400</div>
+            <div class="stat-value">$500</div>
             <div class="stat-label">cost for 1 million calls — one day at Pandai scale</div>
           </div>
           <div class="stat">
-            <div class="stat-value">25×</div>
-            <div class="stat-label">Haiku vs Opus price ratio — choose your model tier deliberately</div>
+            <div class="stat-value">5×</div>
+            <div class="stat-label">same call on Opus 4.8 costs $0.0025 — pick your tier deliberately</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This is a live calculator — use it during class and tell students it is on the slide so they can open it themselves. Pick a scenario button to load realistic token counts for a real Anki feature, or type your own. Switch the model with the three buttons and watch every number move at once: the 'Generate 5 flashcards' scenario at 20,000 calls a day costs about $2,100 a month on Haiku, $6,300 on Sonnet, and $10,500 on Opus — same work, same volume, 5× spread end to end. The comparison strip at the bottom shows all three tiers side by side so the cost of choosing the wrong tier is impossible to miss. Two things to point out: output tokens cost 5× input on every tier, so the output-heavy flashcard scenario is far pricier than the tiny tagging call; and the right model is a business decision with a dollar figure attached. Encourage students to plug in the real token counts from their own Week 4 Anki feature once they have measured them with the cost counter.">
+      <div class="slide-content">
+        <span class="eyebrow">Token economics · live</span>
+        <h2>Token cost calculator — change the model, watch the bill</h2>
+        <div class="token-calc" id="token-calc">
+          <div class="tc-panel tc-controls">
+            <div class="tc-field">
+              <label class="tc-label">Scenario (Anki features)</label>
+              <div class="tc-presets" id="tc-presets">
+                <button type="button" class="tc-preset" data-in="350" data-out="30" data-calls="50000">Tag a question</button>
+                <button type="button" class="tc-preset" data-in="500" data-out="600" data-calls="20000">Generate 5 flashcards</button>
+                <button type="button" class="tc-preset" data-in="700" data-out="300" data-calls="30000">Grade an answer + feedback</button>
+              </div>
+            </div>
+            <div class="tc-field">
+              <label class="tc-label">Model</label>
+              <div class="tc-models" id="tc-models">
+                <button type="button" class="tc-model active" data-model="haiku">Haiku 4.5<span>$1 / $5</span></button>
+                <button type="button" class="tc-model" data-model="sonnet">Sonnet 4.6<span>$3 / $15</span></button>
+                <button type="button" class="tc-model" data-model="opus">Opus 4.8<span>$5 / $25</span></button>
+              </div>
+            </div>
+            <div class="tc-inputs">
+              <div class="tc-field">
+                <label class="tc-label" for="tc-in">Input tokens / call</label>
+                <input class="tc-input" id="tc-in" type="number" min="0" step="10" value="350" />
+              </div>
+              <div class="tc-field">
+                <label class="tc-label" for="tc-out">Output tokens / call</label>
+                <input class="tc-input" id="tc-out" type="number" min="0" step="10" value="30" />
+              </div>
+              <div class="tc-field">
+                <label class="tc-label" for="tc-calls">Calls / day</label>
+                <input class="tc-input" id="tc-calls" type="number" min="0" step="1000" value="50000" />
+              </div>
+            </div>
+          </div>
+          <div class="tc-panel tc-results">
+            <div class="tc-headline">
+              <div class="tc-big" id="tc-percall">$0.0005</div>
+              <div class="tc-big-label">per call · <span id="tc-model-name">Claude Haiku 4.5</span></div>
+            </div>
+            <div class="tc-result-grid">
+              <div class="tc-result"><div class="tc-result-value" id="tc-perday">$25</div><div class="tc-result-label">per day</div></div>
+              <div class="tc-result"><div class="tc-result-value" id="tc-permonth">$750</div><div class="tc-result-label">per month (×30)</div></div>
+              <div class="tc-result"><div class="tc-result-value" id="tc-peryear">$9,131</div><div class="tc-result-label">per year (×365)</div></div>
+            </div>
+            <div class="tc-compare" id="tc-compare">
+              <div class="tc-compare-title">Monthly cost, all tiers, at this volume</div>
+              <div class="tc-bar" data-model="haiku"><span class="tc-bar-name">Haiku 4.5</span><span class="tc-bar-fill"></span><span class="tc-bar-value"></span></div>
+              <div class="tc-bar" data-model="sonnet"><span class="tc-bar-name">Sonnet 4.6</span><span class="tc-bar-fill"></span><span class="tc-bar-value"></span></div>
+              <div class="tc-bar" data-model="opus"><span class="tc-bar-name">Opus 4.8</span><span class="tc-bar-fill"></span><span class="tc-bar-value"></span></div>
+            </div>
           </div>
         </div>
       </div>
@@ -248,30 +417,58 @@
       </div>
     </section>
 
+    <section class="slide" data-notes="One habit ties this whole week together and it is not about the model at all: plan your AI work in markdown. Markdown is the shared language between you and your AI tools. You already met three .md files in Week 1 — CLAUDE.md briefs the agent, README.md briefs humans, AGENTS.md is the tool-neutral version. Add a fourth: a plan.md you write before you code. For this week's Anki feature, that plan.md has five short sections — Goal, Output schema, Prompt versions to try, Failure modes to handle, and Cost target. Why bother? Because a plan in markdown is versionable, it shows up in your PR for review, and — the key part — it is directly readable by Claude Code, so the plan literally becomes the brief you hand the agent. You write the thinking down once, in a format both you and the machine read. This is the difference between steering an agent and hoping it guesses right. The right column is the other half: Claude Cowork is Anthropic's collaborative workspace — a shared document you and Claude edit together, not a throwaway chat. Use it to understand the feature before you build: paste your code and prompt, ask Cowork to map them onto the seven-step loop, draft the JSON schema, and list the inputs most likely to break it — then co-edit the plan.md so the understanding becomes a written artifact you keep. The contrast to hold onto: a chat is something you lose; a markdown plan in your repo is something you keep, version, and hand to the next tool.">
+      <div class="slide-content">
+        <span class="eyebrow">How you build · markdown + AI tools</span>
+        <h2>Plan in markdown — the language your AI tools read</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="success">Write a plan.md first</h3>
+            <ul>
+              <li><strong>.md is the AI lingua franca</strong> — CLAUDE.md briefs the agent, README.md briefs humans, plan.md is where you think.</li>
+              <li>Five sections for the Anki feature: <strong>Goal · Output schema · Prompt versions · Failure modes · Cost target</strong>.</li>
+              <li>Commit it. It is versionable, reviewable in the PR, and <strong>directly readable by Claude Code</strong> — the plan becomes the brief.</li>
+              <li>You write the thinking down once, in a format both you and the agent read.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3>Understand with Claude Cowork</h3>
+            <ul>
+              <li><strong>Claude Cowork</strong> — Anthropic's collaborative workspace: a shared doc you and Claude edit together, not a throwaway chat.</li>
+              <li>Paste your feature's code and prompt; ask it to map them onto the <strong>seven-step loop</strong>, draft the schema, and list the inputs most likely to break it.</li>
+              <li>Co-edit the <span class="code-inline">plan.md</span> with it so the understanding becomes a kept artifact.</li>
+              <li>A chat you lose; a markdown plan in your repo you keep, version, and hand to the next tool.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-notes="Here's exactly what to do after class. Topic A is hands-on prompt iteration — you improve the classification prompt across three versions and keep notes on what changed the output; the AI prompt in the markdown is designed to be pasted directly into Claude. Topic B is structured output practice — you break naive JSON prompting with odd inputs and then see how a schema protects you. Topic C is cost arithmetic — you compute your own cost-per-call and scale it up to a million calls. Topic D is defensive coding — you call the same prompt five times and write handling code that survives the variation. Use the AI prompts from the markdown; that's the self-learn format for Phase 2.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn · 6–8 hrs</span>
-        <h2>Four topics to work through</h2>
+        <h2>Four topics — all on your Anki feature</h2>
         <ol class="numbered-list">
-          <li><strong>Prompt design and iteration (1.5–2 hrs)</strong> — iterate the classification prompt across three versions; measure and document the output change at each step.</li>
-          <li><strong>Reliable structured output (1.5–2 hrs)</strong> — break naive JSON prompting with three odd inputs; then fix it with a schema and see what the schema catches.</li>
-          <li><strong>Token economics and cost (1–1.5 hrs)</strong> — compute cost per call for your feature; multiply to a million calls a day and identify the single biggest cost lever.</li>
+          <li><strong>Prompt design and iteration (1.5–2 hrs)</strong> — iterate your Anki feature's prompt across three versions; measure and document the output change at each step.</li>
+          <li><strong>Reliable structured output (1.5–2 hrs)</strong> — break the naive JSON path with three odd Anki inputs; then fix it with a schema and see what the schema catches.</li>
+          <li><strong>Token economics and cost (1–1.5 hrs)</strong> — measure cost per call for your feature from <span class="code-inline">response.usage</span>; multiply to a million calls and find the biggest cost lever.</li>
           <li><strong>Handling non-determinism (1 hr)</strong> — call the same prompt five times; write the validation, retry, and fallback code that survives the variation.</li>
         </ol>
       </div>
     </section>
 
-    <section class="slide" data-notes="Read the brief carefully. The task is intentionally open: you pick any Pandai-flavoured input and define your own schema, as long as it has at least two fields with meaningful types. The four checklist items map directly to the rubric columns. Cost reporting is not optional — it's a first-class requirement listed in the checklist, not a stretch goal. The suggested steps in the markdown are the recommended build order: define schema first, then prompt, then structured output, then error handling, then test against awkward inputs. The stretch item — prompt caching or a smaller model for part of the work — is genuinely valuable and worth doing if you have the time.">
+    <section class="slide" data-notes="The project comes back to the AI Anki repo you forked in Week 1 — the FastAPI flashcard app with the Claude-powered card generator. This week you harden one of its AI features into something production-shaped. The default is the /generate endpoint: right now it asks Claude for cards and hopes the response parses. You make it bullet-proof — a schema the model cannot break, error handling that survives a bad response, a cost counter on every call, and a retry. Or add a new /tag endpoint that classifies a question by topic and difficulty, which is the exact example we built live. Either way the four checklist items map straight to the rubric columns, and cost reporting is a first-class requirement, not a stretch. This is the same repo, the same branching-and-PR workflow from Week 1 — you are not starting a new project, you are making an existing one reliable. The suggested build order is in the detail doc: schema first, then prompt, then structured outputs, then error handling and the cost counter, then test against awkward inputs.">
       <div class="slide-content">
-        <span class="eyebrow">Weekly project</span>
-        <h2>Build a small LLM feature on the Claude API</h2>
+        <span class="eyebrow">Weekly project · back to AI Anki</span>
+        <h2>Harden an AI feature in your Week 1 Anki fork</h2>
         <div class="demo-card">
-          <p style="font-size: clamp(1rem, 1.6vw, 1.35rem); margin-bottom: 1rem;">Pick a Pandai-flavoured task — for example, tagging a question by topic and difficulty. Build it so it returns reliable structured JSON, handles errors, and reports its own cost per call.</p>
+          <p style="font-size: clamp(1rem, 1.6vw, 1.35rem); margin-bottom: 1rem;">Take your fork of <span class="code-inline">training-ai-fde-anki</span> and make one Claude-powered feature production-grade — harden the existing <span class="code-inline">/generate</span> card generator, or add a <span class="code-inline">/tag</span> endpoint that classifies a question by topic and difficulty.</p>
           <ul class="big-list">
             <li>Returns structured JSON that conforms to a schema you define — not free text.</li>
-            <li>Handles bad or surprising input without crashing — empty strings, wrong language, malformed input.</li>
-            <li>Reports its own cost per call: tokens in, tokens out, dollars — on every invocation.</li>
-            <li>Includes basic retry or fallback logic for a failed or malformed model response.</li>
+            <li>Handles bad or surprising input without crashing — empty strings, wrong language, a malformed model response.</li>
+            <li>Reports its own cost per call: tokens in, tokens out, dollars — on every invocation, read from <span class="code-inline">response.usage</span>.</li>
+            <li>Includes a retry or fallback for a failed or malformed model response.</li>
+            <li>Ships as a clean PR into your fork, with a test for the new behaviour — the Week 1 workflow.</li>
           </ul>
         </div>
       </div>
@@ -292,7 +489,7 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Each of these pitfalls is a real failure mode from past cohorts or production LLM features. Stopping at the first working call is the most common: the demo worked on the happy path, so it got submitted. Remember the rubric explicitly rewards testing failure paths, and the reliability check requires naming a failure. Parsing free text instead of using structured outputs is the most brittle decision and the easiest to fix with one API parameter. Ignoring cost until the end means you can't answer the cost question in the rubric. Treating retries as optional means the feature crashes on the first transient API error. Using Opus for a task that Haiku handles equally well costs 25x more.">
+    <section class="slide" data-notes="Each of these pitfalls is a real failure mode from past cohorts or production LLM features. Stopping at the first working call is the most common: the demo worked on the happy path, so it got submitted. Remember the rubric explicitly rewards testing failure paths, and the reliability check requires naming a failure. Parsing free text instead of using structured outputs is the most brittle decision and the easiest to fix with one API parameter. Ignoring cost until the end means you can't answer the cost question in the rubric. Treating retries as optional means the feature crashes on the first transient API error. Using Opus for a task that Haiku handles equally well costs 5x more.">
       <div class="slide-content">
         <span class="eyebrow">Don't</span>
         <h2>Common pitfalls this week</h2>
@@ -301,7 +498,7 @@
           <li>Parsing free-text JSON with a regex instead of using structured outputs.</li>
           <li>Ignoring cost until the end — build the cost counter on call one, not after the feature is done.</li>
           <li>Treating retry logic as a stretch goal — it is on the checklist and on the rubric.</li>
-          <li>Using Opus for a task that Haiku handles just as well at 25x the cost.</li>
+          <li>Using Opus for a task that Haiku handles just as well at 5× the cost.</li>
           <li>Writing a reliability check that names no specific input and no specific catch — it will not pass.</li>
         </ul>
       </div>
@@ -333,6 +530,100 @@
     ['../config.js','slides.js'].forEach(function (s) {
       document.write('<script src="' + s + '?v=' + ASSET_V + '"><\/script>');
     });
+  </script>
+  <script>
+    // ---- Token cost calculator (Week 4) -------------------------------------
+    // Prices are $ per 1,000,000 tokens. Source of truth: Claude API pricing.
+    (function () {
+      var root = document.getElementById("token-calc");
+      if (!root) return;
+
+      var PRICING = {
+        haiku:  { name: "Claude Haiku 4.5",  in: 1, out: 5  },
+        sonnet: { name: "Claude Sonnet 4.6", in: 3, out: 15 },
+        opus:   { name: "Claude Opus 4.8",   in: 5, out: 25 },
+      };
+
+      var elIn   = document.getElementById("tc-in");
+      var elOut  = document.getElementById("tc-out");
+      var elCall = document.getElementById("tc-calls");
+      var model  = "haiku";
+
+      function num(el) { var n = parseFloat(el.value); return isFinite(n) && n >= 0 ? n : 0; }
+
+      function money(v) {
+        if (v === 0) return "$0";
+        if (v < 0.01) return "$" + v.toFixed(4);
+        if (v < 1)    return "$" + v.toFixed(3);
+        if (v < 100)  return "$" + v.toFixed(2);
+        return "$" + Math.round(v).toLocaleString("en-US");
+      }
+
+      function perCall(m) {
+        var p = PRICING[m];
+        return (num(elIn) * p.in + num(elOut) * p.out) / 1e6;
+      }
+
+      function render() {
+        var calls = num(elCall);
+        var pc = perCall(model);
+        document.getElementById("tc-percall").textContent = money(pc);
+        document.getElementById("tc-model-name").textContent = PRICING[model].name;
+        document.getElementById("tc-perday").textContent   = money(pc * calls);
+        document.getElementById("tc-permonth").textContent = money(pc * calls * 30);
+        document.getElementById("tc-peryear").textContent  = money(pc * calls * 365);
+
+        // Comparison bars — monthly cost per tier, scaled to the most expensive.
+        var monthly = {};
+        var max = 0;
+        ["haiku", "sonnet", "opus"].forEach(function (m) {
+          monthly[m] = perCall(m) * calls * 30;
+          if (monthly[m] > max) max = monthly[m];
+        });
+        root.querySelectorAll(".tc-bar").forEach(function (bar) {
+          var m = bar.getAttribute("data-model");
+          var pct = max > 0 ? (monthly[m] / max) * 100 : 0;
+          bar.querySelector(".tc-bar-fill").style.width = pct.toFixed(1) + "%";
+          bar.querySelector(".tc-bar-value").textContent = money(monthly[m]) + "/mo";
+          bar.classList.toggle("active", m === model);
+        });
+      }
+
+      // Model buttons
+      root.querySelectorAll(".tc-model").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          model = btn.getAttribute("data-model");
+          root.querySelectorAll(".tc-model").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          render();
+        });
+      });
+
+      // Preset scenario buttons
+      root.querySelectorAll(".tc-preset").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          elIn.value   = btn.getAttribute("data-in");
+          elOut.value  = btn.getAttribute("data-out");
+          elCall.value = btn.getAttribute("data-calls");
+          root.querySelectorAll(".tc-preset").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          render();
+        });
+      });
+
+      [elIn, elOut, elCall].forEach(function (el) {
+        el.addEventListener("input", function () {
+          root.querySelectorAll(".tc-preset").forEach(function (b) { b.classList.remove("active"); });
+          render();
+        });
+      });
+
+      // Keep the deck engine from hijacking clicks/keys while using the calculator.
+      root.addEventListener("click", function (e) { e.stopPropagation(); });
+      root.addEventListener("keydown", function (e) { e.stopPropagation(); });
+
+      render();
+    })();
   </script>
 </body>
 </html>
