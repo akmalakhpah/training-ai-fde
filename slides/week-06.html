@@ -88,6 +88,27 @@
       </div>
     </section>
 
+    <section class="slide" data-notes="This is the whole picture in one diagram — keep it in your head all week. There are three parts. The MCP host is the AI application: Claude Code, Claude Desktop, Cursor, even an n8n workflow. Inside the host sits an MCP client that actually speaks the protocol. The MCP server is the adapter you either run yourself or connect to — it exposes three kinds of capability: tools (actions the model can take), resources (data the model can read), and prompts (reusable templates). Behind the server is your real world: APIs, databases, files, SaaS products like Flowyteam and Pandai, or your own AI Anki app from Week 1. Host and server talk MCP over JSON-RPC — locally over stdio, or remotely over HTTP with a token. Trace one request end to end: the model asks to call a tool, the client sends the request to the server, the server does the real work against your systems, and the result travels back into the model's context. Everything else this week is a detail of this one diagram.">
+      <div class="slide-content">
+        <span class="eyebrow">The anatomy of MCP</span>
+        <h2>Host, server, and your world — one picture</h2>
+        <div class="code-block">┌──────────────────┐           ┌────────────────────────┐           ┌─────────────────┐
+│  Claude Code     │           │  exposes 3 things:     │           │  APIs / SaaS    │
+│  Claude Desktop  │  ──req─▶  │  • tools     (act)     │  ──call─▶ │  databases      │
+│  Cursor · n8n    │           │  • resources (read)    │           │  files          │
+│                  │  ◀─res──  │  • prompts   (reuse)   │  ◀─res──  │  Flowyteam ·    │
+│  = MCP client    │           │                        │           │  Pandai · Anki  │
+└──────────────────┘           └────────────────────────┘           └─────────────────┘
+      the model                 speaks MCP over                 the actual
+      asks to act                JSON-RPC (stdio / HTTP)         data &amp; actions</div>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-value">Tools</div><div class="stat-label">Actions the model can take</div></div>
+          <div class="stat"><div class="stat-value">Resources</div><div class="stat-label">Data the model can read</div></div>
+          <div class="stat"><div class="stat-value">Prompts</div><div class="stat-label">Reusable templates</div></div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-notes="This slide explains the actual mechanics of a tool call at the protocol level. The model does not run code. It outputs a structured request: 'I want to call this tool with these arguments.' Your code intercepts that request, runs the real function, and returns the result. The model then continues reasoning with the result in its context. The description on the tool definition is a prompt: the model reads it to decide when and how to call the tool, so a vague description leads to wrong calls.">
       <div class="slide-content">
         <span class="eyebrow">The mechanics</span>
@@ -103,18 +124,74 @@
       </div>
     </section>
 
-    <section class="slide demo" data-notes="You will connect to an existing MCP server — the filesystem server or a sample database server. The point is that you do not always build: the fastest integration is often a server that already exists. You will see the server installed, configured in Claude, one real task run end to end, then an explanation of what happened at the protocol level. Ask yourself: what did the model actually send? Look at the raw tool call in the logs.">
+    <section class="slide two-col" data-notes="This is the question everyone asks once they have seen both: is MCP just RAG? No — they solve different problems, and good agents use both. RAG, retrieval-augmented generation, gives the model knowledge: you search a corpus, pull the most relevant chunks of text, and paste them into the prompt so the model can answer from them. It is read-only — it informs the answer but changes nothing in the world. MCP gives the model hands: typed tools it can call to read live data and to act — query a database, add a card, send a message, trigger a workflow. The one-line test: reach for RAG when the model needs to KNOW something it was not trained on; reach for MCP when it needs to DO something or read something live. And they are not rivals — the cleanest pattern is to expose a RAG search as an MCP tool, for example a search_docs tool that retrieves under the hood, so one server both informs and acts. You built RAG in Week 5 for grounding answers; MCP is what turns a grounded chatbot into an agent.">
       <div class="slide-content">
-        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
-        <h2>Connecting to an existing MCP server</h2>
+        <span class="eyebrow">MCP vs RAG</span>
+        <h2>Two ways to give a model more — and when to use each</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>RAG — give it knowledge</h3>
+            <ul>
+              <li>Retrieves relevant text and pastes it into the prompt</li>
+              <li>Read-only: it informs the answer, it does not act</li>
+              <li>Best for: search over docs, policies, knowledge bases</li>
+              <li>Answers "what do we <strong>know</strong> about X?"</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">MCP — give it hands</h3>
+            <ul>
+              <li>Calls typed tools that do real work</li>
+              <li>Reads <strong>and</strong> acts: query, write, send, trigger</li>
+              <li>Best for: live data and multi-step actions</li>
+              <li>Answers "what can I <strong>do</strong> about X?"</li>
+            </ul>
+          </div>
+        </div>
+        <ul class="big-list">
+          <li><strong>Not rivals — use both:</strong> a common pattern is an MCP <span class="code-inline">search_docs</span> tool that runs RAG under the hood, so one server both informs and acts.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="Before installing anything, we look inside a server in the browser. The MCP Playground at mcpplaygroundonline.com is a hosted MCP client — you paste a server URL and it lists that server's tools, their schemas, and lets you call them by hand. We start with the playground's own test server so there are no credentials in the way. Point out the tools list — that is the exact catalogue a model would read. Call one tool, fill in the arguments, and watch the response. Then open the raw view: this is the JSON-RPC request and response travelling between client and server. The takeaway: an MCP server is not magic — it is a list of typed functions you can inspect and call, and the playground makes that visible without writing a line of code.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~10 min</span>
+        <h2>Demo 1 — inspect a server in the MCP Playground</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>Install and configure the filesystem (or database) MCP server — no custom code.</li>
-            <li>Connect Claude to the server with one config change.</li>
-            <li>Give Claude a real task that requires reading or searching the filesystem.</li>
-            <li>Watch the tool call go out, see the result come back, see Claude continue.</li>
-            <li>Open the raw logs: show the exact JSON the model sent and received.</li>
+            <li>Open <span class="code-inline">mcpplaygroundonline.com</span> — a hosted MCP client, nothing to install.</li>
+            <li>Point it at the test server: <span class="code-inline">mcpplaygroundonline.com/mcp-test-server</span>.</li>
+            <li>Read the <strong>tools list</strong> — the exact catalogue a model sees, with each input schema.</li>
+            <li>Call one tool by hand, fill in the arguments, and watch the response come back.</li>
+            <li>Open the raw view: the JSON-RPC request and response moving between client and server.</li>
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide demo" data-notes="Now the same idea, but with Claude Code as the client and two real company servers behind it. Flowyteam exposes HR, OKR, CRM, and helpdesk data over MCP; Pandai exposes internal support tooling. Both are remote HTTP servers that need a token — this is exactly how you connect to a customer's system as an FDE. Show the claude mcp add command: name, the server URL, transport http, and an Authorization header carrying the token. Run claude mcp list to confirm it connected. Then just ask Claude in plain English — list the open Flowyteam projects, or draft a reply to a Pandai support ticket — and watch it pick the right tool, send the call over HTTP, and use the result. The tokens shown are placeholders; each student uses their own. The lesson: you do not always build a server, and connecting to one is one command plus a token.">
+      <div class="slide-content">
+        <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~14 min</span>
+        <h2>Demo 2 — connect Claude Code to real servers (Flowyteam · Pandai)</h2>
+        <div class="demo-card">
+          <ul class="big-list">
+            <li>Add a remote server to Claude Code — one command with the URL and a token header.</li>
+            <li>Confirm it connected with <span class="code-inline">claude mcp list</span>, then ask in plain English.</li>
+            <li>Flowyteam: "list the open projects" / "who is on the sales team" — HR, OKR, CRM, tickets.</li>
+            <li>Pandai: "summarise the latest support request" — internal support tooling over MCP.</li>
+            <li>Watch Claude choose the tool, send the call over HTTP, and reason over the result.</li>
+          </ul>
+          <div class="code-block"># Connect Claude Code to a remote MCP server (token is a placeholder)
+claude mcp add flowyteam https://flowyteam.com/api/mcp/gateway \
+  --transport http \
+  --header "Authorization: Bearer &lt;your-flowyteam-token&gt;"
+
+claude mcp add pandai https://app.pandai.org/mcp/internal/support \
+  --transport http \
+  --header "Authorization: Bearer &lt;your-pandai-token&gt;"
+
+claude mcp list        # verify both connected</div>
         </div>
       </div>
     </section>
@@ -237,9 +314,9 @@ def classify_question(question: str) -> dict:
         <h2>6 to 8 hours across four topics</h2>
         <ol class="numbered-list">
           <li><strong>Topic A (1 hr):</strong> Read the MCP overview at modelcontextprotocol.io. Write three sentences explaining it to a colleague who has never used it.</li>
-          <li><strong>Topic B (1.5 hrs):</strong> Connect to an existing MCP server (filesystem or database) and complete one real task end to end. Follow the DataCamp MCP guide.</li>
-          <li><strong>Topic C (2 to 2.5 hrs):</strong> Build a custom FastMCP server — one tool, strict schema, called from Claude. Follow the Towards Data Science tutorial or the official build-server page.</li>
-          <li><strong>Topic D (1.5 hrs):</strong> Add a guardrail to your tool, provoke it, then run two agents in Conductor against your server and note whether it helped.</li>
+          <li><strong>Topic B (1.5 hrs):</strong> Inspect the test server in the MCP Playground, then connect Claude Code to the Flowyteam and Pandai servers with <span class="code-inline">claude mcp add</span> and complete one real task through each.</li>
+          <li><strong>Topic C (2 to 2.5 hrs):</strong> Build a custom FastMCP server that wraps your Week 1 AI Anki fork — one tool (e.g. <span class="code-inline">add_card</span>) with a strict schema, called from Claude.</li>
+          <li><strong>Topic D (1.5 hrs):</strong> Add a second Anki tool plus a guardrail, provoke it, then run two agents in Conductor against your server and note whether it helped.</li>
         </ol>
       </div>
     </section>
@@ -247,11 +324,11 @@ def classify_question(question: str) -> dict:
     <section class="slide" data-notes="Read the project brief carefully. Two key constraints to understand. First: at least two tools with strict schemas and at least one guardrail that actually holds when provoked. Second, and more important for motivation: this MCP server is what Week 7's automation will trigger. You are not building a throwaway exercise — you are building infrastructure that will be called by something other than yourself. Think now about what that automated caller will need from the server interface.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
-        <h2>Build a custom MCP server for a real multi-step task</h2>
+        <h2>Build an MCP server for your AI Anki app</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>Expose at least two tools with strict input schemas through your MCP server.</li>
-            <li>Drive Claude through a real multi-step task using those tools in an agent loop.</li>
+            <li>Wrap your Week 1 AI Anki fork: expose at least two tools with strict schemas — e.g. <span class="code-inline">add_card</span>, <span class="code-inline">generate_cards</span>, <span class="code-inline">list_decks</span>.</li>
+            <li>Drive Claude through a real multi-step task in an agent loop — e.g. "make a French deck and fill it with 10 cards."</li>
             <li>Add at least one guardrail that blocks a clearly bad action and holds when provoked.</li>
             <li>Use Conductor to build and test in parallel — include one line on whether it saved time.</li>
             <li><strong>This server is what Week 7 will automate — build it to be called by something other than you.</strong></li>
@@ -271,9 +348,9 @@ def classify_question(question: str) -> dict:
           <li>Include this in your submission: one sentence naming the bad input, one confirming it held.</li>
           <li>During the demo you will be asked to provoke it live — if it does not hold, the work is not done.</li>
         </ul>
-        <div class="code-block">Reliability check (example):
-'The guardrail blocks delete_records when where_clause is empty or equals "1=1".
-Confirmed: sending where_clause="" raises ValueError and zero rows are deleted.'</div>
+        <div class="code-block">Reliability check (example, AI Anki):
+'The generate_cards tool blocks any request for more than 20 cards.
+Confirmed: asking for 500 cards raises ValueError and zero cards are created.'</div>
       </div>
     </section>
 
