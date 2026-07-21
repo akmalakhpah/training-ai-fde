@@ -24,7 +24,7 @@ By the end of the week you can:
 
 **Title and framing**
 - "Automation with N8N."
-- The one line to hold onto: an FDE removes manual work. The customer remembers the toil you deleted, not the model you called.
+- The one line to hold onto: an FDE removes manual work. The customer remembers the effort you saved them, not the model you called.
 
 **What N8N is**
 - A visual workflow tool: nodes connected into a flow, data passed between them.
