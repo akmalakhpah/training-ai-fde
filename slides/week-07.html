@@ -61,11 +61,14 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="Here is where you are headed today. Most of this week includes live work in N8N, ending with the project walk. Everything built in the live demo is the skeleton of your weekly project — follow along in your own N8N instance if you can.">
+    <section class="slide" data-notes="Here is where you are headed today. Note the shape deliberately: the first third is about automation as a discipline — the three modes, when AI belongs in a pipeline at all, and the full landscape of tools — before we touch N8N. That ordering is the point. If you learn the tool first you will reach for it reflexively; if you learn the decision first, the tool becomes one option you chose on purpose. The middle is live work in N8N, and everything built in the demo is the skeleton of your weekly project — follow along in your own instance if you can. The last block returns to judgement: where this tool stops being the right answer.">
       <div class="slide-content">
         <span class="eyebrow">Today</span>
         <h2>Agenda</h2>
         <ol class="numbered-list">
+          <li>From "AI I use" to "AI that runs" — the three modes</li>
+          <li>When AI automation, and when not — the decision</li>
+          <li>The landscape: six kinds of automation, and why N8N here</li>
           <li>What N8N is — nodes, triggers, and data flow</li>
           <li>Triggers: webhooks, schedules, and the difference from a script</li>
           <li>A first real flow: webhook to Slack or Google Sheet</li>
@@ -75,6 +78,113 @@
           <li>Where no-code ends and code begins — and the alternatives</li>
           <li>Project brief, reliability check, boundary note, and Q&amp;A</li>
         </ol>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Start here, before any tool. Everything the students have done for six weeks has a human in the loop — they open Claude, they paste, they read the answer, they act on it. That is manual generative AI and it is genuinely useful, but it does not scale past the person doing it. The shift this week is from 'AI I use' to 'AI that runs'. Make the point concrete: in Week 6 they built an MCP server that could fill a deck with cards — and every single time, they had to sit at a terminal and start it. The intelligence was already there. What was missing was everything around it: something to notice an event, decide to act, and deliver the result. That surrounding machinery is what automation means, and it is most of what an FDE actually builds.">
+      <div class="slide-content">
+        <span class="eyebrow">Before we touch a tool</span>
+        <h2>From "AI I use" to "AI that runs"</h2>
+        <div class="cols">
+          <div class="col">
+            <h3>Weeks 1–6: a human in the loop</h3>
+            <ul>
+              <li>You open Claude, you paste, you read, you act</li>
+              <li>Every run costs one person's attention</li>
+              <li>It stops the moment you stop</li>
+              <li>Useful — but it does not scale past you</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="success">Week 7: the loop closes</h3>
+            <ul>
+              <li>Something notices an event and decides to act</li>
+              <li>Runs at 3am, on a weekend, while you are on a call</li>
+              <li>The intelligence was already there in Week 6</li>
+              <li>What was missing is everything <em>around</em> it</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="This is the mental model for the whole week — three modes, and they are not a ladder where agentic is 'best'. Manual generative AI: a human asks, the model answers, the human acts. Judgement is high, but a person is required for every single run. Classic automation: an event fires a fixed sequence of steps. No judgement at all — it does the same thing every time — but it needs nobody. That is a cron job or a Zapier zap, and it has existed for decades. Agentic automation is the new thing and it is the combination: an event fires, and what runs is a model with tools that decides which steps to take based on what it finds. Point at the feedback arrow in the middle box — that is the whole difference. A fixed workflow always walks the same path; an agent picks its path at run time. The trap to name now: agentic is not automatically better. It is slower, costs more per run, and is far harder to predict. If the steps never change, you do not want an agent — you want a workflow.">
+      <div class="slide-content">
+        <span class="eyebrow">The mental model</span>
+        <h2>Three modes — and none of them is "best"</h2>
+        <div class="code-block">MANUAL GEN AI        you ──ask──▶ [  model  ] ──answer──▶ you ──acts
+                     high judgement · a human on every single run
+
+AUTOMATION           event ──▶ [ step · step · step ] ──▶ result
+                     zero judgement · same path every time · needs nobody
+
+AGENTIC AUTOMATION   event ──▶ [  model + tools  ] ──▶ result
+                                  ▲           │
+                                  └─ decides ─┘
+                     judgement AND unattended · picks its path at run time</div>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-value">Manual</div><div class="stat-label">Judgement, but you are the trigger</div></div>
+          <div class="stat"><div class="stat-value">Workflow</div><div class="stat-label">Unattended, but no judgement</div></div>
+          <div class="stat"><div class="stat-value">Agentic</div><div class="stat-label">Both — slower, pricier, less predictable</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Walk the diagram out loud, left to right, because this is the decision they will actually be paid to make. First question: does this task need judgement on input that changes every run? If no, you do not need AI at all — and say this plainly, because the instinct at this stage of the course is to reach for a model for everything. If the steps are fixed, a workflow or a cron job is the correct, cheaper, more reliable answer. If yes it needs judgement, the second question is whether it has to run without a human. If a person is naturally there anyway — a one-off analysis, an exploratory question — just use Claude directly. Manual is the right answer far more often than people expect. Only when you need both judgement AND unattended execution do you get agentic automation, and that is the expensive quadrant. The line to leave them with: reach for the least intelligent thing that solves the problem. Intelligence is a cost, not a feature.">
+      <div class="slide-content">
+        <span class="eyebrow">The decision</span>
+        <h2>When AI automation — and when not</h2>
+        <div class="code-block">              does it need judgement on input
+                 that changes every run?
+                          │
+         ┌────── no ──────┴────── yes ──────┐
+         ▼                                  ▼
+  are the steps fixed?              must it run with
+         │                          no human present?
+   ┌─yes─┴─no──┐                    ┌── no ──┴── yes ──┐
+   ▼           ▼                    ▼                  ▼
+ WORKFLOW    do it by hand      MANUAL GEN AI      AGENTIC
+ or CRON     (it's a one-off)   (just use Claude)  AUTOMATION
+ no AI                                             the pricey one</div>
+        <p class="subtitle" style="margin-top:1.2rem;">Reach for the <strong>least intelligent thing</strong> that solves the problem. Intelligence is a cost, not a feature.</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Now the landscape, so they know N8N is one option among several rather than the answer. Go type by type. Ask-in-the-moment is Claude chat or Projects — no setup, no reliability, right for one-offs. Scheduled assistant is the newest category and worth flagging: Claude's scheduled tasks and Cowork can run a prompt on a cadence with no infrastructure at all, which is genuinely the right answer for low-volume recurring judgement work like a weekly summary. No-code workflow is Zapier, Make, N8N, Activepieces — the SaaS glue category, and where we spend this week. Code-first workflow is Windmill, Trigger.dev, Inngest, Temporal — real durable execution with retries and idempotency, for when it must be tested and versioned. Custom code plus cron is the one people forget and it is often correct: forty lines of Python on a GitHub Action beats a workflow platform for a nightly job. And agent frameworks — the Claude Agent SDK, or an MCP server driven by an agent loop, which is what they built last week. The honest summary: most real deployments are two or three of these together, not one. Their Week 7 project will be a no-code workflow triggering an agent framework.">
+      <div class="slide-content">
+        <span class="eyebrow">The landscape</span>
+        <h2>Six kinds of automation — pick by shape of problem</h2>
+        <div class="cols">
+          <div class="col">
+            <ul>
+              <li><strong>Ask in the moment</strong> — Claude chat, Projects.<br />One-offs. No setup, no reliability.</li>
+              <li><strong>Scheduled assistant</strong> — Claude scheduled tasks, Cowork.<br />Recurring judgement, low volume, zero infra.</li>
+              <li><strong>No-code workflow</strong> — Zapier, Make, <strong>N8N</strong>, Activepieces.<br />SaaS glue, event-driven, demo-able. ← this week</li>
+            </ul>
+          </div>
+          <div class="col">
+            <ul>
+              <li><strong>Code-first workflow</strong> — Windmill, Trigger.dev, Inngest, Temporal.<br />Needs tests, versioning, real volume.</li>
+              <li><strong>Custom code + cron</strong> — a script on GitHub Actions or Lambda.<br />The forgotten answer. Often the right one.</li>
+              <li><strong>Agent framework</strong> — Claude Agent SDK, MCP + agent loop.<br />The task genuinely needs tools and reasoning. ← Week 6</li>
+            </ul>
+          </div>
+        </div>
+        <p class="subtitle" style="margin-top:1.1rem;">Most real deployments are <strong>two or three of these together</strong>. Yours this week: a no-code workflow triggering an agent.</p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="Close the framing and hand off to the tool. Be honest about why N8N is the teaching vehicle rather than pretending it is the best tool in every case. Three reasons. It is visual, so the customer can read the diagram — that matters enormously in a room where the person paying is not an engineer. It is self-hostable, so it can run inside a customer environment where data cannot leave. And it is fast: minutes to a working flow, which is the real constraint on a deployment week. Then set the expectation for the end of the session: every tool has an exit condition, and by the last block today they will be able to say exactly where they would rip N8N out and what they would move it to. That is the difference between an engineer and a tool user, and it is a graded part of the project.">
+      <div class="slide-content">
+        <span class="eyebrow">So why N8N?</span>
+        <h2>Our vehicle for the week — and why</h2>
+        <ul class="big-list">
+          <li><strong>Visual</strong> — the customer can read the diagram. Most people paying for your work are not engineers.</li>
+          <li><strong>Self-hostable</strong> — it runs inside a customer's environment when their data cannot leave it.</li>
+          <li><strong>Fast</strong> — minutes to a working flow. On a deployment, speed to a demo is the real constraint.</li>
+          <li><strong>It has MCP nodes</strong> — so last week's Anki agent plugs straight in.</li>
+          <li class="danger">Every tool has an exit condition. By the end of today you will name N8N's — and it is graded.</li>
+        </ul>
       </div>
     </section>
 
