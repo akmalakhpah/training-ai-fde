@@ -47,15 +47,16 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="These are the four things you should be able to do by Friday — not 'have heard about'. Everything this week anchors to one of these four. Objective 4 is the most important: an automation that fails silently is actively dangerous, and building failure handling is what separates a real production system from a prototype.">
+    <section class="slide" data-notes="These are the five things you should be able to do by Friday — not 'have heard about'. Everything this week anchors to one of these five. Objective 4 is the one that separates a real production system from a prototype: an automation that fails silently is actively dangerous. Objective 5 is the one that separates an engineer from a tool user — knowing when this tool is the wrong answer is as valuable as knowing how to use it.">
       <div class="slide-content">
         <span class="eyebrow">Learning objectives</span>
         <h2>By Friday you can</h2>
         <ul class="big-list">
           <li>Automate a real workflow end to end with N8N.</li>
           <li>Trigger work on events and schedules, not manual clicks.</li>
-          <li>Connect an AI call — and your Week 6 MCP agent — into an automation.</li>
+          <li>Connect an AI call — and your Week 6 <strong>Anki MCP agent</strong> — into an automation.</li>
           <li>Handle failure inside a workflow with retries, error branches, and alerts.</li>
+          <li>Judge where no-code ends and <strong>code begins</strong> — and name what you'd move to.</li>
         </ul>
       </div>
     </section>
@@ -69,9 +70,10 @@
           <li>Triggers: webhooks, schedules, and the difference from a script</li>
           <li>A first real flow: webhook to Slack or Google Sheet</li>
           <li>Adding an AI call: Claude API node inside the flow</li>
-          <li>Wiring in the Week 6 MCP agent — two weeks, one pipeline</li>
+          <li>Wiring in the Week 6 Anki MCP agent — seven weeks, one pipeline</li>
           <li>Failure handling: retries, error branches, and alerts</li>
-          <li>Project brief, reliability check, and Q&A</li>
+          <li>Where no-code ends and code begins — and the alternatives</li>
+          <li>Project brief, reliability check, boundary note, and Q&amp;A</li>
         </ol>
       </div>
     </section>
@@ -161,41 +163,41 @@
       </div>
     </section>
 
-    <section class="slide" data-notes="This is the conceptual bridge between Week 6 and Week 7. In Week 6 you built an MCP server that can execute a multi-step task using tools. This week you learn to trigger that server from an N8N event instead of running it manually from a terminal. The pipeline becomes: external event fires N8N, N8N calls the MCP server via HTTP, the MCP server runs its tools and returns a result, N8N routes that result to a destination. The two weeks compound — one without the other is useful, but together they form a real production pattern worth having in any portfolio.">
+    <section class="slide" data-notes="This is the conceptual bridge between Week 6 and Week 7 — and, really, the whole course. In Week 6 you built an MCP server wrapping AI Anki that can execute a multi-step task using tools. This week you trigger that server from an N8N event instead of running it manually from a terminal. The pipeline becomes: a new row of study topics fires N8N, N8N calls your MCP server via HTTP, the server runs generate_cards and add_card, and a summary lands in Slack. Point out how far back this reaches — it is the same app they forked in Week 1, cleaned data from in Week 2, deployed in Week 3, and hardened in Week 4. This is not a toy exercise; it is seven weeks of work finally running by itself.">
       <div class="slide-content">
-        <span class="eyebrow">The two-week pipeline</span>
-        <h2>Week 6 + Week 7 = one production system</h2>
+        <span class="eyebrow">The seven-week pipeline</span>
+        <h2>AI Anki, finally running without you</h2>
         <div class="cols">
           <div class="col">
-            <h3>What Week 6 gave you</h3>
+            <h3>What you already built</h3>
             <ul>
-              <li>An MCP server that runs a multi-step task using tools</li>
-              <li>Triggered manually from a terminal or client</li>
-              <li>Smart — it calls tools and reasons over results</li>
-              <li>Powerful but still requires a human to start it</li>
+              <li><strong>W1</strong> — forked and fixed the AI Anki app</li>
+              <li><strong>W3</strong> — deployed it live, broke it, recovered it</li>
+              <li><strong>W4</strong> — hardened its Claude feature into real JSON</li>
+              <li><strong>W6</strong> — wrapped it in an MCP server with tools</li>
             </ul>
           </div>
           <div class="col">
             <h3 class="success">What Week 7 adds</h3>
             <ul>
-              <li>An external event fires N8N automatically</li>
-              <li>N8N calls your MCP server via HTTP Request</li>
-              <li>The result is routed to a useful destination</li>
-              <li>No manual step anywhere in the chain</li>
+              <li>A new row of study topics fires N8N automatically</li>
+              <li>N8N calls <span class="code-inline">generate_cards</span> on your MCP server</li>
+              <li>Cards land in a deck; a summary posts to Slack</li>
+              <li>No terminal, no human, no manual step anywhere</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide demo" data-notes="This is the most important part of the week. Get the MCP server from Week 6 running and reachable over HTTP via a webhook endpoint or small wrapper. In N8N add an HTTP Request node that calls it. Fire the full flow: external POST to N8N, N8N calls MCP agent, result delivered to destination. Then — and this contrast is the lesson — break a step on purpose: shut down the MCP server or point to a bad URL. Watch what happens with no error handling: silent failure, no alert, the flow shows red and no one is notified. Then add a retry, an error branch, and a Slack alert. The before-and-after is what you will remember.">
+    <section class="slide demo" data-notes="This is the most important part of the week. Get the Week 6 Anki MCP server running and reachable over HTTP via a webhook endpoint or small wrapper. In N8N add an HTTP Request node that calls it. Fire the full flow: a new row of study topics hits N8N, N8N calls the MCP agent, cards land in the deck, summary posts to Slack. Then — and this contrast is the lesson — break a step on purpose: shut down the MCP server or point to a bad URL. Watch what happens with no error handling: silent failure, no alert, the flow shows red and no one is notified. Then add a retry, an error branch, and a Slack alert. The before-and-after is what you will remember.">
       <div class="slide-content">
         <span class="eyebrow demo-eyebrow"><span class="eyebrow-dot"></span> Live · ~12 min</span>
-        <h2>Wire the Week 6 MCP agent in — then break it on purpose</h2>
+        <h2>Wire the Anki MCP agent in — then break it on purpose</h2>
         <div class="demo-card">
           <ul class="big-list">
-            <li>Add an HTTP Request node that calls the Week 6 MCP server.</li>
-            <li>Fire the full pipeline: external event — N8N — MCP agent — delivery.</li>
+            <li>Add an HTTP Request node that calls the Week 6 Anki MCP server.</li>
+            <li>Fire the full pipeline: new topic row — N8N — <span class="code-inline">generate_cards</span> — deck + Slack.</li>
             <li>Now break it: shut down the MCP server or point to a bad URL. Fire the flow again.</li>
             <li>Show what silent failure looks like — the flow turns red and no one knows.</li>
             <li>Add a retry, an error branch, and a Slack alert. Fire again. See the difference.</li>
@@ -230,6 +232,48 @@
       </div>
     </section>
 
+    <section class="slide" data-notes="Say this part plainly, because it is the honest version of the week. N8N is the fastest path to a working automation and it is genuinely the right first move on a deployment — you can build it in the room with the customer watching, and they can read the diagram. But it is a tool with an exit condition, and a good engineer knows it before they start. The rule is glue versus logic: the trigger, the routing, the field mapping, and the delivery legitimately belong in the workflow. Decisions, prompts, data shaping, and anything that needs tests or version control do not — those belong in your MCP server or your API. The question that decides it: what breaks first if this runs 100 times a minute instead of 10 times a day? Also mention licensing, because a customer will eventually ask: n8n is Sustainable Use License, not open source. Self-hosting and customer deployments are fine; embedding it in a product you sell is not.">
+      <div class="slide-content">
+        <span class="eyebrow">The judgement call</span>
+        <h2>Where no-code ends and code begins</h2>
+        <div class="cols">
+          <div class="col">
+            <h3 class="success">Glue — stays in N8N</h3>
+            <ul>
+              <li>The trigger — webhook, schedule, new row</li>
+              <li>Routing and branching between services</li>
+              <li>Field mapping between systems</li>
+              <li>Delivery — Slack, Sheets, a database write</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h3 class="danger">Logic — moves to code</h3>
+            <ul>
+              <li>Decisions and business rules</li>
+              <li>Prompts and anything schema-shaped</li>
+              <li>Anything that needs tests or version control</li>
+              <li>Anything a Function node grew past ~20 lines to do</li>
+            </ul>
+          </div>
+        </div>
+        <p class="subtitle" style="margin-top:1.2rem;">The question that settles it: <strong>what breaks first if this runs 100×/minute instead of 10×/day?</strong></p>
+      </div>
+    </section>
+
+    <section class="slide" data-notes="You should be able to name these unprompted when a customer asks 'why n8n?'. Being able to say why you did not pick the others is what makes the choice sound like engineering rather than habit. Windmill is the closest true upgrade — open source, self-hostable, scripts-first with a generated UI, so you keep the visual demo but write real code. Trigger.dev and Inngest are code-first durable workflow engines: proper retries, idempotency, and durable execution, but you lose the diagram the customer can point at. Zapier and Make are only worth it if the customer already lives there. And sometimes the right answer is genuinely a cron job and forty lines of Python — do not build a workflow platform for something that runs once a night. One more point worth making out loud: n8n's licence is Sustainable Use, not open source, so self-hosting and customer deployments are fine but embedding it in a product you sell is not.">
+      <div class="slide-content">
+        <span class="eyebrow">Name them when the customer asks 'why N8N?'</span>
+        <h2>What you'd move to — and when</h2>
+        <ul class="big-list">
+          <li><strong>Windmill</strong> — the closest upgrade. Open source, self-hosted, scripts-first with a generated UI. Real code, but you keep the diagram.</li>
+          <li><strong>Trigger.dev / Inngest</strong> — code-first durable workflows. Proper retries and idempotency; you lose the visual the customer can point at.</li>
+          <li><strong>Zapier / Make</strong> — only if the customer already lives there. Weaker for engineers, no self-hosting.</li>
+          <li><strong>A cron job and 40 lines of Python</strong> — often the honest answer. Don't deploy a platform for a nightly task.</li>
+          <li><span class="danger">Licence check:</span> N8N is <em>Sustainable Use License</em>, not open source. Deploy it freely; don't embed it in a product you sell.</li>
+        </ul>
+      </div>
+    </section>
+
     <section class="slide" data-notes="The reliability check is a required part of the project submission and it forces you to think adversarially about your own system before you ship it. The question is deceptively simple but the thinking is not: which single node is most likely to fail, and what does the flow do when it does? Acceptable answers include: the MCP server goes down and the error branch sends a Slack alert; the Claude API returns a 429 and the retry waits 10 seconds before trying again; the Google Sheets API times out and the row is written to a fallback CSV. The only unacceptable answer is 'it will not fail' — every external call can fail.">
       <div class="slide-content">
         <span class="eyebrow">Required submission component</span>
@@ -246,6 +290,22 @@
       </div>
     </section>
 
+    <section class="slide" data-notes="This is the second required note in the submission and it is new this week. The reliability check asks what happens when your flow breaks; the boundary note asks when your flow should stop being a flow. Two or three lines: which single step you would move out of N8N and into code first, what would force the move, and what you would move it to. Good answers sound like: 'the Claude call and its retry logic — the moment I need to test the prompt or version it, it belongs in my MCP server, and it already is one HTTP hop away.' Or: 'the field-cleaning Function node — it is already 30 lines of JavaScript with no tests, and I would move it into the Anki app as a real endpoint.' The unacceptable answer is 'nothing'. Every workflow has a step that outgrows the canvas, and an FDE who cannot name it will keep building on n8n long past the point where it was the right tool.">
+      <div class="slide-content">
+        <span class="eyebrow">Required submission component · new this week</span>
+        <h2>Boundary note</h2>
+        <div class="demo-card">
+          <p style="font-size: clamp(1.1rem, 1.8vw, 1.4rem); margin-bottom: 1.2rem;">Two or three lines. The reliability check asks what happens when it breaks — this asks when it should stop being a flow at all.</p>
+          <ul class="big-list">
+            <li><strong>Which step</strong> would you move out of N8N and into code <em>first</em>?</li>
+            <li><strong>What forces the move</strong> — volume, testing, versioning, or logic that outgrew a node?</li>
+            <li><strong>What would you move it to</strong> — your MCP server, your API, Windmill, a cron job?</li>
+            <li><span class="danger">'Nothing' is not an answer.</span> Every workflow has one. Naming it is the skill.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-notes="Read the project brief carefully — every requirement maps directly to a learning objective. 'External trigger' means a webhook, a new row appearing, or an incoming message — not a manual Execute click. The AI step must be genuine: your Week 6 MCP agent or a real Claude API call that does something useful with the incoming data. The delivery destination must be somewhere real: a Sheet, a Slack channel, or a database. The failure path is non-negotiable — a project without it is incomplete. The stretch goal of adding a schedule trigger turns the system into one that covers both event-driven and time-driven automation.">
       <div class="slide-content">
         <span class="eyebrow">Weekly project</span>
@@ -255,8 +315,8 @@
             <h3>Four requirements</h3>
             <ol class="numbered-list">
               <li>External trigger — webhook, new row, or incoming message (not a manual click)</li>
-              <li>AI step — your Week 6 MCP agent or a Claude API call</li>
-              <li>Useful delivery — Google Sheet, Slack message, or database row</li>
+              <li>AI step — your Week 6 Anki MCP agent or a Claude API call</li>
+              <li>Useful delivery — a deck, a Google Sheet, Slack, or a database row</li>
               <li>At least one failure path handled gracefully, not silently</li>
             </ol>
           </div>
@@ -264,24 +324,26 @@
             <h3>Deliverables</h3>
             <ul>
               <li>Exported N8N workflow file</li>
-              <li>Short note on the manual task removed and why it matters</li>
-              <li>The reliability check (one line, both parts answered)</li>
-              <li>3–5 min demo triggering the automation live and showing the failure path</li>
+              <li>Short note — task removed, failure handling, boundary</li>
+              <li>The reliability check <em>and</em> the boundary note</li>
+              <li>3–5 min demo triggering it live and showing the failure path</li>
             </ul>
           </div>
         </div>
+        <p class="subtitle" style="margin-top:1.2rem;"><span class="success">Recommended path:</span> automate your own AI Anki pipeline — a new topic row fires the flow, your MCP server fills the deck, Slack gets the summary.</p>
       </div>
     </section>
 
-    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four focused topics. Topic A covers N8N fundamentals — the official quickstart doc and the 2025 YouTube quick-start are the two best starting resources. Topic B is connecting an AI call inside a flow — the N8N 'Build an AI workflow' tutorial at docs.n8n.io is the right guide. Topic C is wiring your Week 6 MCP agent into N8N — use the AI prompt in the brief verbatim to explore the three connection options and their trade-offs. Topic D is failure handling — use the AI prompt to get a failure-mode checklist that should directly inform your reliability check submission. Paste the prompts into Claude exactly as written.">
+    <section class="slide" data-notes="Self-learn is 6 to 8 hours this week across four focused topics. Topic A covers N8N fundamentals — the official quickstart doc and the 2025 YouTube quick-start are the two best starting resources. Topic B is connecting an AI call inside a flow — the N8N 'Build an AI workflow' tutorial at docs.n8n.io is the right guide. Topic C is wiring your Week 6 MCP agent into N8N — use the AI prompt in the brief verbatim to explore the three connection options and their trade-offs. Topic D is failure handling — use the AI prompt to get a failure-mode checklist that should directly inform your reliability check submission. Topic E is the judgement topic and it feeds the boundary note directly: mark every node in your own flow as glue or logic, skim the licence so you can answer a customer, and spend twenty minutes looking at one code-first alternative. You are not learning Windmill this week — you are learning that it exists and what it buys you. Paste the prompts into Claude exactly as written.">
       <div class="slide-content">
         <span class="eyebrow">Self-learn · 6 to 8 hrs</span>
-        <h2>Four topics this week</h2>
+        <h2>Five topics this week</h2>
         <ul class="big-list">
           <li><strong>Topic A (1.5–2 hrs):</strong> N8N fundamentals — official quickstart docs + 'n8n Quick Start Tutorial: Build Your First Workflow [2025]' on YouTube.</li>
           <li><strong>Topic B (1.5 hrs):</strong> AI call inside a flow — N8N 'Build an AI workflow' tutorial at docs.n8n.io/advanced-ai/intro-tutorial/.</li>
-          <li><strong>Topic C (1.5 hrs):</strong> Wire your Week 6 MCP agent into N8N — use the AI prompt in the brief to compare webhook, HTTP request, and wrapper options.</li>
+          <li><strong>Topic C (1.5 hrs):</strong> Wire your Week 6 Anki MCP agent into N8N — compare webhook, HTTP request, and wrapper options.</li>
           <li><strong>Topic D (1–1.5 hrs):</strong> Failure handling — retries, error branches, and alerts. Use the AI prompt to get a failure-mode checklist.</li>
+          <li><strong>Topic E (1 hr):</strong> Where no-code ends — mark your nodes glue-or-logic, read the N8N licence, and spend 20 minutes on Windmill, Trigger.dev, or Inngest.</li>
         </ul>
       </div>
     </section>
@@ -296,6 +358,7 @@
           <li>Using a Manual trigger in the final submission — external trigger is non-negotiable.</li>
           <li>Tightly coupling the MCP server address into N8N so it breaks if the server moves.</li>
           <li>Rewriting prompt logic inside the flow when the MCP agent already handles it.</li>
+          <li>Answering the boundary note with 'nothing' — every workflow has a step that outgrows the canvas.</li>
         </ul>
       </div>
     </section>
@@ -316,15 +379,16 @@
       </div>
     </section>
 
-    <section class="slide recap" data-notes="Three things to hold onto, then a look ahead. The trigger is what turns a script into a system that runs itself. Failure handling is not optional — an automation that fails silently is worse than no automation. Week 6 and Week 7 compound into a real production pattern when wired together: event fires N8N, N8N calls the MCP agent, result is delivered, and when something breaks the flow alerts rather than dies quietly. Then Week 8: after the mid-course checkpoint, the focus shifts from building to scoping — how to turn a vague business problem into a concrete, actionable plan.">
+    <section class="slide recap" data-notes="Four things to hold onto, then a look ahead. The trigger is what turns a script into a system that runs itself. Failure handling is not optional — an automation that fails silently is worse than no automation. Weeks 1 through 7 compound into a real production pattern: the Anki app they forked, deployed, hardened, and wrapped now fills its own decks with nobody at a terminal. And the last one is the FDE lesson — N8N is the fastest first move and a tool with an exit condition, and knowing which step leaves first is what separates engineering from habit. Then Week 8: after the mid-course checkpoint, the focus shifts from building to scoping — how to turn a vague business problem into a concrete, actionable plan. Note that this week's boundary note is the first rep at exactly that kind of judgement call.">
       <div class="slide-content">
         <span class="eyebrow recap-eyebrow"><span class="eyebrow-dot"></span> Recap</span>
-        <h2>If you remember three things</h2>
+        <h2>If you remember four things</h2>
         <div class="recap-card">
           <ul class="big-list">
             <li>The trigger is what turns a script into a system that runs itself.</li>
             <li>An automation that fails silently is worse than no automation — design the unhappy path on purpose.</li>
-            <li>Week 6 + Week 7 = event — MCP agent — delivery. Two weeks, one real production pipeline.</li>
+            <li>Seven weeks, one pipeline: the Anki app you forked now fills its own decks, unattended.</li>
+            <li>N8N is the fastest first move <em>and</em> a tool with an exit condition. Know which step leaves first.</li>
           </ul>
           <div class="next-up">
             <div>
